@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:id="@+id/progressBar_cyclic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:minWidth="50dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:visibility="invisible"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scheme Selection"
+                android:fontFamily="Open Sans"
+                android:textColor="#50c2b4"
+                android:textSize="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tv_dashboard"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <View
+                    android:layout_width="35dp"
+                    android:layout_height="5dp"
+                    android:background="@drawable/btn_style"
+                    android:layout_gravity="center_horizontal|center"
+
+                    />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

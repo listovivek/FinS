@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <!--<RelativeLayout
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="#4a285b"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>-->
+
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progressBar_cyclic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:minWidth="50dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:visibility="invisible"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Registration"
+                    android:fontFamily="Open Sans"
+                    android:textColor="#50c2b4"
+                    android:textSize="24dp"
+                    android:layout_gravity="center_horizontal|center"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/tv_dashboard"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <View
+                        android:layout_width="35dp"
+                        android:layout_height="5dp"
+                        android:background="@drawable/btn_style"
+                        android:layout_gravity="center_horizontal|center"
+                        android:layout_marginTop="10dp"
+
+                        />
+
+
+                </LinearLayout>
+
+
+
+                <!--<EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reg_username"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:layout_marginTop="20dp"
+                    android:inputType="textPersonName|textCapSentences"
+                    android:hint="User Name"
+                    android:background="@drawable/edittext_border"
+                    android:textSize="16dp"
+                    android:textColorHint="#fff"
+                    android:theme="@style/MyEditTextTheme"
+                    android:textColor="#ffffff"
+                    />-->
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reg_firstname"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:background="@drawable/edittext_border"
+                    android:layout_marginTop="8dp"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:hint="First Name"
+                    android:inputType="textPersonName|textCapSentences"
+                    android:textSize="16dp"
+                    android:textColorHint="#000000"
+                    android:theme="@style/MyEditTextTheme"
+                    android:textColor="#000000"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reg_lastname"
+                    android:inputType="textPersonName|textCapSentences"
+                    android:hint="Last Name"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:textColorHint="#000000"
+                    android:theme="@style/MyEditTextTheme"
+                    android:textColor="#000000"
+                    />
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reg_emailid"
+                    android:padding="10dp"
+                    android:hint="Email"
+                    android:background="@drawable/edittext_border"
+                    android:layout_marginTop="8dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textSize="16dp"
+                    android:textColorHint="#000000"
+                    android:theme="@style/MyEditTextTheme"
+                    android:textColor="#000000"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reg_password"
+                    android:hint="Password"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:inputType="textPassword"
+                    android:background="@drawable/edittext_border"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16dp"
+                    android:textColorHint="#000000"
+                    android:theme="@style/MyEditTextTheme"
+                    android:textColor="#000000"/>
+
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reg_mobilenumber"
+                    android:hint="Mobile Number"
+                    android:background="@drawable/edittext_border"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="1"
+                    android:maxLength="11"
+                    android:padding="10dp"
+                    android:inputType="phone"
+                    android:textSize="16dp"
+                    android:textColorHint="#000000"
+                    android:singleLine="true"
+                    android:theme="@style/MyEditTextTheme"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reg_couponcode"
+                    android:singleLine="true"
+                    android:hint="If you have a coupon code, enter here"
+                    android:padding="10dp"
+                    android:textSize="16dp"
+                    android:background="@drawable/edittext_border"
+                    android:layout_marginTop="8dp"
+                    android:textColorHint="#000000"
+                    android:theme="@style/MyEditTextTheme"
+                    android:textColor="#000000"/>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp">
+
+
+
+
+                    <Button
+                        android:id="@+id/reg_submit"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="Submit"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/btn_download_play"
+                        android:textAllCaps="true"
+                        android:textColor="#ffffff"
+                        android:layout_marginTop="20dp"
+                        android:textSize="18dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        />
+
+
+
+                </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

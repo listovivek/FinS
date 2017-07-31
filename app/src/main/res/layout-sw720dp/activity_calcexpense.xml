@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp">
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expense Calculator"
+            android:fontFamily="Open Sans"
+            android:textColor="#50c2b4"
+            android:textSize="35sp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/text_dreams"/>
+        <View
+            android:layout_width="35dp"
+            android:layout_height="5dp"
+            android:background="@drawable/btn_style"
+            android:layout_gravity="center_horizontal|center"
+
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/visiblitychk">
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Amount Per Month"
+            android:textColor="#50c2b4"
+            android:id="@+id/text_fundscar"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:textSize="18dp"
+            android:visibility="gone"
+              />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Savings Per Month"
+                    android:textColor="#50c2b4"
+                    android:id="@+id/text_yearcar"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:textSize="18dp"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you change your gadget every year? ( annual cost of the gadget/12 )"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="24sp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_smartamt"
+                android:background="@drawable/feedback_border"
+                android:padding="12dp"
+                android:inputType="number"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:hint="Amount per month"
+                android:textSize="22sp"
+
+
+                />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_smartsave"
+                    android:padding="12dp"
+                    android:background="@drawable/feedback_border"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+
+                    android:hint="Savings per month"
+                    android:textSize="22sp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How much do you spend on restaurants and eateries?"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="24sp"
+                />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_restamt"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:hint="Amount per month"
+                    />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_restsave"
+            android:background="@drawable/feedback_border"
+            android:padding="12dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:hint="Savings per month"
+
+            />
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What are your expenses on movies and personal entertainment?"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="24sp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_movamt"
+                android:background="@drawable/feedback_border"
+                android:padding="12dp"
+                android:inputType="number"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:textSize="22sp"
+                android:hint="Amount per month"
+                />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_movsave"
+            android:background="@drawable/feedback_border"
+            android:padding="12dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:hint="Savings per month"
+           />
+            </LinearLayout>
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What is your shopping expense?"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="24sp"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_shopamt"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                   android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:hint="Amount per month"
+                    />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_shoptsave"
+            android:background="@drawable/feedback_border"
+            android:padding="12dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:hint="Savings per month"
+           />
+                </LinearLayout>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_calcret"
+            android:text="Calculate"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="22dp"
+            android:background="@drawable/btn_taketest"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+          />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How much do you spend on personal care?"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="24sp"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_personalamt"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:hint="Amount per month"
+                    />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_personalsave"
+            android:background="@drawable/feedback_border"
+            android:padding="12dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:hint="Savings per month"
+           />
+                </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How much do you pay for credit card interests?"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="24sp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_creditamt"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:hint="Amount per month"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_creditsave"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:textSize="22sp"
+                    android:hint="Savings per month"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other expenses"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="24sp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_otheramt"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:hint="Amount per month"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_othersave"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:textSize="22sp"
+                    android:hint="Savings per month"
+                    />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_calculateexpense"
+                android:text="Calculate"
+                android:textColor="#ffffff"
+                android:textAllCaps="true"
+                android:textSize="18dp"
+                android:background="@drawable/btn_taketest"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/expense_calculation">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Total expenses per month:"
+                android:textColor="#333"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="2"
+                android:gravity="left"
+                android:textSize="24dp"
+
+                />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_totexpense"
+
+        android:inputType="number"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:textColor="#50c2b4"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="24dp"
+        />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Total savings:"
+                    android:textColor="#333"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:textSize="24dp"
+                    />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_totsave"
+
+                android:inputType="number"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                />
+
+</LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Number of years of investment:"
+        android:textColor="#333"
+        android:id="@+id/text_futhome"
+        android:layout_marginBottom="5dp"
+        android:gravity="left"
+        android:layout_weight="2"
+        android:textSize="24dp"
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_totyears"
+
+        android:textColor="#50c2b4"
+        android:inputType="number"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="24dp"
+        />
+
+</LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Rate Per Annum:"
+        android:textColor="#333"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="2"
+        android:gravity="left"
+        android:textSize="24dp"
+        />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_rateannum"
+                android:textColor="#50c2b4"
+
+                android:inputType="number"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="24dp"
+                />
+</LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+                <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Savings:"
+                android:textColor="#000000"
+                android:layout_marginBottom="5dp"
+                 android:textSize="26dp"
+                android:id="@+id/text_dreamcar"
+                android:gravity="left"
+                    android:layout_weight="2"
+                />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_savings"
+
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:textColor="#50c2b4"
+                    android:gravity="center"
+                    android:textSize="26dp"
+                    android:text="0"
+                    />
+
+
+
+                </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Future Value:"
+        android:textColor="#000000"
+        android:layout_marginBottom="5dp"
+
+        android:textSize="26dp"
+        android:gravity="left"
+        android:layout_weight="2"
+
+        />
+
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="1">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_futvalue"
+                android:inputType="number"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="26dp"
+                android:textColor="#50c2b4"
+                android:text="0"
+                />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="After 10 years @10% p.a"
+        android:textColor="#333"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        />
+</LinearLayout>
+</LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_dremcontinue"
+                android:text="Next"
+                android:textColor="#27ae60"
+                android:textAllCaps="true"
+                android:layout_marginBottom="30dp"
+                android:textSize="30dp"
+                android:gravity="center_horizontal|center"
+                android:layout_marginTop="15dp" />
+
+
+
+        </LinearLayout>
+
+</LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
+    </ScrollView>

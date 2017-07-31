@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp">
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="30dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PPF Calculator"
+        android:fontFamily="Open Sans"
+        android:textColor="#50c2b4"
+        android:textSize="35dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal|center"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_dashboard"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <View
+            android:layout_width="60dp"
+            android:layout_height="8dp"
+            android:background="@drawable/btn_style"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_marginBottom="10dp"
+
+
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PPF Investment Amount(per annum)"
+        android:textColor="#333"
+        android:layout_marginBottom="5dp"
+        android:textSize="24sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calc_amt_ppf"
+        android:background="@drawable/feedback_border"
+        android:padding="12dp"
+        android:inputType="number"
+        android:textSize="22sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No of Years(Years)"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#333"
+        android:textSize="24sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calc_years"
+        android:background="@drawable/feedback_border"
+        android:padding="12dp"
+        android:inputType="number"
+        android:textSize="22sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate(%)"
+        android:textColor="#333"
+        android:textSize="24sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calc_rate"
+        android:padding="12dp"
+        android:background="@drawable/calc_border"
+        android:inputType="number"
+        android:textSize="22sp"
+        android:text="7.8"
+        android:enabled="false"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Value at the end of 15 Years "
+        android:textColor="#333"
+        android:textSize="24sp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calc_amtinvest"
+
+        android:padding="12dp"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:background="@drawable/calc_border"/>
+
+
+    <Button
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/calc_calculate"
+        android:text="Calculate"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:textAllCaps="true"
+        android:textSize="28sp"
+        android:padding="15dp"
+        android:background="@drawable/btn_taketest"
+        android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/calc_nextppf"
+            android:text="Next"
+            android:textColor="#27ae60"
+            android:textAllCaps="true"
+            android:layout_marginBottom="30dp"
+            android:textSize="30sp"
+            android:padding="15dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal|center"/>
+    </LinearLayout>
+</LinearLayout>

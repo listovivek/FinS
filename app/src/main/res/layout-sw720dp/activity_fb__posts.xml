@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        <include
+            android:id="@+id/cus_layout"
+            layout="@layout/customlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FB_Post"
+            android:textColor="#4e2c5a"
+            android:textSize="25sp"
+            android:layout_below="@+id/cus_layout"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_dashboard"/>
+
+        <!--<Button
+            android:id="@+id/available_courses"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="5"
+            android:background="@drawable/courses_list_btn"
+            android:textColor="#fff"
+            android:textSize="10sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Available Courses"
+            android:layout_alignTop="@+id/tv_dashboard"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />-->
+
+
+
+        <LinearLayout
+            android:id="@+id/lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/tv_dashboard"
+            android:orientation="horizontal"
+            >
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#808080"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_weight="10"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_dash"
+                android:id="@+id/iv_dash_star"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_weight="3"
+                />
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#808080"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_weight="10"
+                />
+
+        </LinearLayout>
+
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/webview_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/tv_dashboard"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                >
+
+
+
+                <!--<WebView
+                    android:id="@+id/commentsView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1033dp"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_below="@+id/lin"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true" />
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:indeterminateTint="@color/colorPrimary"
+                    android:indeterminateTintMode="src_atop" />-->
+
+            </FrameLayout>
+
+</RelativeLayout>
+
+
+
+

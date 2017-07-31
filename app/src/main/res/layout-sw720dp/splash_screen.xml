@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.myappilication.xpress.finjan2017.MainActivity"
+    android:gravity="center_horizontal|center"
+   >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/splashscreenn"
+            android:id="@+id/imageView_splash"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_marginBottom="20dp"
+            android:textColor="#ffffff"
+            android:id="@+id/text_proceed"
+            android:textSize="40dp"
+            android:gravity="center"
+            android:layout_gravity="center|bottom"
+            android:drawableRight="@drawable/ic_tiny_arrow_right_double_512"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+
+
+        </LinearLayout></FrameLayout>
+</RelativeLayout>

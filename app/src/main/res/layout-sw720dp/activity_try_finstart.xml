@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <include
+        android:id="@+id/cus_layout"
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<Button
+        android:id="@+id/available_courses"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginRight="8dp"
+        android:layout_weight="5"
+        android:background="@drawable/courses_list_btn"
+        android:textColor="#fff"
+        android:textSize="10sp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Available Courses"
+        android:layout_alignTop="@+id/tv_dashboard"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />-->
+
+
+
+
+
+
+
+
+
+
+    <WebView
+            android:id="@+id/commentsView"
+            android:layout_width="match_parent"
+            android:layout_height="1200dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@+id/cus_layout"
+        android:layout_marginBottom="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="550dp"
+            android:indeterminateTint="@color/colorPrimary"
+            android:indeterminateTintMode="src_atop"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:id="@+id/buy_finstart"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/dashboard_green_btn"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:visibility="gone"
+        android:text="Buy"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
+
+
+
+

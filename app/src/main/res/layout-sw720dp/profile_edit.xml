@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+
+    >
+
+
+
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:id="@+id/ssd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ProgressBar
+                    android:id="@+id/progressBar_cyclic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    android:minWidth="80dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:visibility="invisible"
+                    />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="74dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:fontFamily="Open Sans"
+                android:textColor="#50c2b4"
+                android:textSize="35dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tv_dashboard"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/btn_style"
+                    android:layout_gravity="center_horizontal|center"
+                    android:layout_marginBottom="10dp"
+
+                    />
+
+            </LinearLayout>
+
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_edit_fname"
+                android:singleLine="true"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/edittext_border"
+                android:padding="10dp"
+                android:maxLength="25"
+                android:hint="First Name"
+                android:textSize="28dp"
+                android:textColorHint="#000000"
+                android:theme="@style/MyEditTextTheme"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_edit_lastname"
+                android:layout_marginTop="8dp"
+                android:hint="Last Name"
+                android:singleLine="true"
+                android:background="@drawable/edittext_border"
+                android:padding="10dp"
+                android:maxLength="25"
+                android:textSize="28dp"
+                android:textColorHint="#000000"
+                android:theme="@style/MyEditTextTheme"
+                />
+
+            <!--<EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_username"
+                android:layout_marginTop="8dp"
+                android:hint="Username"
+                android:textSize="16dp"
+                android:background="@drawable/edittext_border"
+                android:padding="10dp"
+                android:textColorHint="#fff"
+                android:singleLine="true"
+                android:maxLength="25"
+                android:theme="@style/MyEditTextTheme"
+                />-->
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:layout_marginTop="8dp"
+                android:id="@+id/profile_password"
+                android:background="@drawable/edittext_border"
+                android:padding="10dp"
+                android:hint="Password"
+                android:textSize="28dp"
+                android:textColorHint="#000000"
+                android:theme="@style/MyEditTextTheme"
+                android:visibility="gone"
+
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_emailid"
+                android:singleLine="true"
+                android:background="@drawable/edittext_border"
+                android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:maxLength="40"
+                android:hint="Email Id"
+                android:textSize="28dp"
+                android:textColorHint="#000000"
+                android:theme="@style/MyEditTextTheme"/>
+
+
+
+            <!--<EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/profile_companyname"
+                android:singleLine="true"
+                android:background="@drawable/edittext_border"
+                android:padding="10dp"
+                android:maxLength="25"
+                android:layout_marginTop="8dp"
+                android:hint="Company Name"
+                android:textSize="28dp"
+                android:textColorHint="#000000"
+                android:theme="@style/MyEditTextTheme"
+                />-->
+
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+
+                >
+
+
+
+                <Button
+                    android:id="@+id/button_save_changes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save Changes"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/btn_download_play"
+                    android:textAllCaps="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp"
+                    android:drawableLeft="@drawable/ic_save_profile"
+                    android:gravity="left|center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="8dp"
+                    />
+
+                <Button
+                    android:id="@+id/btn_edit_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:background="@drawable/btn_download_play"
+                    android:textAllCaps="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp"
+                    android:drawableLeft="@drawable/ic_edit_profile"
+
+                    android:gravity="left|center"
+                    android:paddingLeft="7dp"
+
+                    />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

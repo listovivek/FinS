@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="0dp"
+    >
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#808080"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_weight="10"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_star_dash"
+            android:id="@+id/iv_dash_star"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_weight="3"
+            />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#808080"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_weight="10"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Field Staff Course"
+        android:textColor="#4e2c5a"
+        android:textSize="25dp"
+        android:layout_gravity="center_horizontal|center"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:id="@+id/tv_dashboard"/>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/iv_dashboardnew_video"
+        android:background="#000000"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        />
+    <VideoView
+        android:id="@+id/video"
+        android:layout_width="wrap_content"
+        android:layout_height="230dp"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="bottom" >
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            >
+
+            <Button
+                android:id="@+id/btn_playvideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_download_play"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:drawableLeft="@drawable/ic_play_btn"
+                android:gravity="left|center"
+                />
+
+            <Button
+                android:id="@+id/btn_downloadnew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Download"
+                android:background="@drawable/btn_download_dash"
+                android:textAllCaps="false"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:ems="6"
+                android:drawableLeft="@drawable/ic_download"
+                android:gravity="left|center"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#D3D3D3"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_taketest"
+            android:id="@+id/bt_next"
+            android:text="FAQ'S TAMIL"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="22dp"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_taketest"
+            android:id="@+id/btn_faq_hindi"
+
+            android:text="CALCULATOR TAMIL"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:layout_margin="10dp"
+            android:textSize="22dp"
+            />
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+    </ScrollView>

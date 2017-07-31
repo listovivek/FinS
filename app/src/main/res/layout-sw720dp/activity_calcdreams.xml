@@ -1,0 +1,1074 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp">
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dreams Calculator"
+            android:fontFamily="Open Sans"
+            android:textColor="#50c2b4"
+            android:textSize="35sp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/text_dreams"/>
+        <View
+            android:layout_width="35dp"
+            android:layout_height="5dp"
+            android:background="@drawable/btn_style"
+            android:layout_gravity="center_horizontal|center"
+
+            />
+
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What's your family income per month?"
+        android:layout_marginBottom="5dp"
+        android:textColor="#333"
+        android:textSize="24sp"
+        android:visibility="gone"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_amtdream"
+        android:background="@drawable/feedback_border"
+        android:padding="12dp"
+        android:inputType="number"
+        android:layout_marginBottom="10dp"
+        android:textSize="22sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="How much are your family expenses per month?"
+        android:textColor="#333"
+        android:textSize="24sp"
+        android:visibility="gone"
+        />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_yearsdr"
+            android:background="@drawable/feedback_border"
+            android:padding="12dp"
+            android:inputType="number"
+            android:textSize="22sp"
+            android:visibility="gone"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_nextdr"
+            android:text="Next"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="18dp"
+            android:background="@drawable/btn_taketest"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/visiblitychk"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#f7f2f2"
+                android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></FrameLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Amount required"
+                    android:textColor="#333"
+
+                    android:id="@+id/text_fundscar"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="In how many Years"
+                    android:textColor="#333"
+                    android:id="@+id/text_yearcar"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Dream car"
+                    android:textColor="#50c2b4"
+                    android:layout_marginBottom="10dp"
+
+                    android:textSize="20sp"
+                    android:id="@+id/text_dreamcar"
+                    android:gravity="left"
+                    android:layout_weight="1"
+
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_fundscarnew"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+
+
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_yearscar"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+
+                    android:layout_weight="1"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Down payment for Dream Home"
+                    android:textColor="#50c2b4"
+
+
+                    android:textSize="20sp"
+                    android:id="@+id/text_dreamhome"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingBottom="10dp"
+                    android:layout_marginBottom="10dp"
+
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_fundshome"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_yearshome"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+
+                    />
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Funds Needed"
+            android:textColor="#333"
+            android:id="@+id/text_fundhme"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:visibility="gone"
+            />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Years to goal"
+                    android:textColor="#333"
+                    android:id="@+id/text_yearhome"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:visibility="gone"
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Higher Education"
+                    android:textColor="#50c2b4"
+
+                    android:textSize="20sp"
+                    android:id="@+id/text_dreamedu"
+                    android:gravity="top|left"
+                    android:layout_weight="1"
+                    android:layout_marginTop="-10dp"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_fundsedu"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_yearsedu"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_calchome"
+            android:text="Calculate"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="18dp"
+            android:background="@drawable/btn_taketest"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Funds Needed"
+            android:textColor="#333"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/text_fundedu"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:visibility="gone"
+            />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Years to goal"
+                    android:textColor="#333"
+                    android:id="@+id/text_yearedu"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_calcedu"
+            android:text="Calculate"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="18dp"
+            android:background="@drawable/btn_taketest"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+           />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Funds Needed"
+            android:textColor="#333"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/text_fundret"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Years to goal"
+                    android:textColor="#333"
+                    android:id="@+id/text_yearret"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Funds Needed for Retirement"
+                    android:textColor="#50c2b4"
+
+                    android:textSize="20sp"
+                    android:id="@+id/text_dreamret"
+                    android:gravity="top"
+                    android:layout_weight="1"
+                   android:layout_marginTop="-5dp"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_fundsret"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                   android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+                    />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_yearsret"
+            android:background="@drawable/feedback_border"
+            android:padding="12dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:text="0"
+            android:gravity="center"
+           />
+                </LinearLayout>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_calcret"
+            android:text="Calculate"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:textSize="22dp"
+            android:background="@drawable/btn_taketest"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+          />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Funds Needed"
+                    android:textColor="#333"
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/text_fundotr"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone"
+
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Years to goal"
+                    android:textColor="#333"
+                    android:id="@+id/text_yearotr"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Other Dreams"
+                    android:textColor="#50c2b4"
+
+                    android:textSize="20sp"
+
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_fundsother"
+                    android:background="@drawable/feedback_border"
+                    android:padding="12dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:textSize="22sp"
+                    android:text="0"
+                    android:gravity="center"
+                    />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_yearsother"
+            android:background="@drawable/feedback_border"
+            android:padding="12dp"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:text="0"
+            android:gravity="center"
+           />
+                </LinearLayout></LinearLayout>
+
+            <TextView
+                android:text="Inflation figures are at 7% and Returns calculated at 8% per annum"
+                android:layout_width="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_calculatedream"
+                android:text="Calculate"
+                android:textColor="#ffffff"
+                android:textAllCaps="true"
+                android:textSize="18dp"
+                android:background="@drawable/btn_taketest"
+                android:layout_marginTop="20dp"
+                />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#f2fcf9"
+    android:layout_margin="10dp"
+    android:id="@+id/calculation_layout">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dream car"
+                android:textColor="#50c2b4"
+
+                android:textSize="25dp"
+                android:gravity="left"
+                android:layout_marginTop="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Future value of funds"
+                    android:textColor="#333"
+
+                    android:id="@+id/text_futcar"
+                    android:layout_weight="3"
+                    android:textSize="24dp"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_futcar"
+
+
+                    android:inputType="number"
+
+                    android:layout_weight="1"
+                    android:textColor="#50c2b4"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textSize="24dp"
+                    />
+            </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_marginBottom="10dp">
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:text="Monthly investment to reach the goal	"
+              android:textColor="#333"
+              android:id="@+id/text_invcar"
+              android:layout_weight="3"
+              android:textSize="24dp"
+              />
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:id="@+id/edit_intvercar"
+
+
+              android:inputType="number"
+              android:layout_weight="1"
+              android:textColor="#50c2b4"
+              android:gravity="center"
+              android:text="0"
+              android:textSize="24dp"
+              />
+      </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#808080"
+                android:layout_gravity="center_horizontal|center"
+
+                />
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Down payment for Dream Home"
+                android:textColor="#50c2b4"
+
+                android:textSize="25dp"
+                android:gravity="left"
+                android:layout_marginTop="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Future value of funds"
+                android:textColor="#333"
+
+                android:id="@+id/text_futhome"
+                android:layout_weight="3"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_futhome"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                /></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Monthly investment to reach the goal	"
+                android:textColor="#333"
+
+                android:id="@+id/text_invhome"
+                android:layout_weight="3"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_intverhome"
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                /></LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#808080"
+                android:layout_gravity="center_horizontal|center"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Higher Education"
+                android:textColor="#50c2b4"
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"
+                android:gravity="left"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Future value of funds"
+
+                android:textColor="#333"
+                android:id="@+id/text_futedu"
+                android:layout_weight="3"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_futedu"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                /></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Monthly investment to reach the goal	"
+                android:textColor="#333"
+
+                android:id="@+id/text_invedu"
+                android:layout_weight="3"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_intveredu"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                />
+</LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#808080"
+                android:layout_gravity="center_horizontal|center"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Funds Needed for Retirement"
+                android:textColor="#50c2b4"
+
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"
+
+                android:gravity="left"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Future value of funds"
+
+                android:textColor="#333"
+                android:id="@+id/text_futret"
+                android:layout_weight="3"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_futret"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                /></LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:text="Monthly investment to reach the goal	"
+                android:textColor="#333"
+                android:id="@+id/text_invret"
+                android:layout_weight="3"
+                android:textSize="24dp"
+
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_intverret"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                /></LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#808080"
+                android:layout_gravity="center_horizontal|center"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Other Dreams"
+                android:textColor="#50c2b4"
+
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"
+                android:id="@+id/text_dreamsotr"
+                android:gravity="left"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Future value of funds"
+
+                android:textColor="#333"
+                android:id="@+id/text_futotr"
+                android:layout_weight="3"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_futother"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                /></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Monthly investment to reach the goal	"
+                android:textColor="#333"
+
+                android:id="@+id/text_invotr"
+                android:layout_weight="3"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_intverother"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="24dp"
+                /></LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#808080"
+                android:layout_gravity="center_horizontal|center"
+
+                />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Your total savings is"
+
+                android:textColor="#0fa882"
+                android:id="@+id/text_dreamsave"
+
+                android:layout_weight="3"
+                android:textSize="26dp"
+                android:visibility="gone"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_totalinv"
+
+
+                android:inputType="number"
+
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="26dp"
+                android:visibility="gone"
+
+
+                />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+
+                        >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="The total amount required to meet your goals is	"
+                android:textColor="#0fa882"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/text_totalamt"
+                android:layout_weight="3"
+                android:textSize="26dp"
+                android:visibility="gone"
+
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_amtreq"
+                android:inputType="number"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:textColor="#50c2b4"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="26dp"
+                android:visibility="gone"
+
+
+                />
+                    </LinearLayout>
+</LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_dremcontinue"
+                android:text="Next"
+                android:textColor="#27ae60"
+                android:textAllCaps="true"
+                android:layout_marginBottom="30dp"
+                android:textSize="30dp"
+                android:gravity="center_horizontal|center"
+                android:layout_marginTop="15dp" />
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+    </ScrollView>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/s_no"
+            android:text="s:no"
+            android:layout_marginLeft="8dp"
+            android:textSize="13sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/result_ques"
+            android:text="question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:textSize="13sp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/s_no"
+            android:layout_toEndOf="@+id/s_no" />
+
+        <TextView
+            android:id="@+id/result_ans"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@+id/result_ques"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:text="answer"
+            android:layout_marginBottom="5dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/result_cor_ans"
+            android:text="correct ans"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/result_ans"
+            android:layout_below="@+id/result_ques"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="4px"
+            android:background="@color/rv_list_items"
+            android:layout_marginLeft="16dp"
+            android:alpha=".2"
+            android:layout_below="@+id/result_ans"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/iv_dash_star"
+            android:layout_toStartOf="@+id/iv_dash_star">
+
+        </LinearLayout>-->
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

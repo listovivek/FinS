@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+        android:layout_margin="0dp"
+        >
+        <include
+            layout="@layout/customlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FinJan – (Module Name)"
+            android:textColor="#4e2c5a"
+            android:textSize="25dp"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:id="@+id/dashboard"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Field Staff Evaluation"
+            android:textColor="#4e2c5a"
+            android:textSize="25dp"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:id="@+id/staff_evalution"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+
+
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_dash"
+                android:id="@+id/iv_dash_star"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+
+                />
+
+                       </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp" android:text="Questions"
+            android:layout_span="4"
+            android:padding="2dip"
+            android:textColor="@android:color/black"/>
+            >
+</RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+
+
+            >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:shrinkColumns="*"  android:stretchColumns="*" android:background="#0000">
+                <!-- Row 1 with single column -->
+
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="left">
+
+                </TableRow>
+                <!-- Row 2 with 3 columns -->
+                <TableRow
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="left">
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Large Text"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <RadioGroup
+                    android:id="@+id/radioGroup1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.04" >
+
+                <RadioButton
+                            android:id="@+id/radio0"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="false"
+                            android:padding="40dp"
+                            android:textSize="20dp"
+                            android:text="black"
+                    android:buttonTint="@color/colorAccent"/>
+                        <RadioButton
+                            android:id="@+id/radio1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="40dp"
+                            android:textSize="20dp"
+                            android:text="red"
+                            android:buttonTint="@color/colorAccent"
+                            />
+                        <RadioButton
+                            android:id="@+id/radio2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="40dp"
+                            android:textSize="20dp"
+                            android:text="white"
+                            android:buttonTint="@color/colorAccent"/>
+                        <RadioButton
+                            android:id="@+id/radio3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="40dp"
+                            android:textSize="20dp"
+                            android:text="pink"
+                            android:buttonTint="@color/colorAccent"/>
+
+                    </RadioGroup>
+
+
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow5"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_next" />
+                </TableRow>
+             </TableLayout>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>

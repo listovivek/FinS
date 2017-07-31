@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/t"
+            android:text="name"
+            android:textSize="20sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="15dp"
+            android:gravity="left"
+            android:padding="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#fff"
+            android:background="@drawable/courses_list_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:padding="10dp"
+            android:text="date"
+            android:layout_marginRight="5dp"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/t"
+            android:layout_alignEnd="@+id/t" />
+
+
+
+</RelativeLayout>

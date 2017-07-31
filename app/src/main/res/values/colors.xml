@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#E4C7F3</color>
+
+    <color name="RedAccent">#734df2</color>
+    <color name="Text_Login">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#696969</color>
+    <color name="black">#000000</color>
+    <color name="grey800">#424242</color>
+    <color name="AppPurple">#281F36</color>
+    <color name="grey200">#cfd8dc</color>
+    <color name="rv_list_title">#111111</color>
+    <color name="rv_list_items">#bdbdbd</color>
+    <color name="Bg_divider">#50c2b4</color>
+    <color name="viewdivider">#111111</color>
+    <color name="Public_list_bg">#2B2A4D</color>
+    <color name="list_bg">#39386F</color>
+    <color name="Text_tag_BG">#9C9BB3</color>
+    <color name="mcq_background_bottom">#4A285B</color>
+
+
+    <color name="radiobutton1">#E2F2EF</color>
+    <color name="radiobutton2">#C5E5E0</color>
+    <color name="radiobutton3">#AAD9D1</color>
+    <color name="radiobutton4">#8DCCC1</color>
+
+    <color name="result_red">#E97077</color>
+    <color name="result_green">#ACD464</color>
+
+</resources>

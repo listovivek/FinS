@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView"
+    android:fillViewport="true">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ProgressBar
+        android:id="@+id/progressBar_cyclic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="invisible"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SEARCH RESULT"
+                android:fontFamily="Open Sans"
+                android:textColor="#50c2b4"
+                android:textSize="35sp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/faq_txt"/>
+            <View
+                android:layout_width="35dp"
+                android:layout_height="5dp"
+                android:background="@drawable/btn_style"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginBottom="10dp"
+
+                />
+
+        </LinearLayout>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <android.support.v7.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_border_inside"
+        android:id="@+id/faq_search"
+        android:cursorVisible="false"
+         >
+
+    </android.support.v7.widget.SearchView>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_simple_56_512"
+        android:layout_gravity="right"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:id="@+id/serchvie_icon"
+
+        />
+</FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/card_recycler_view"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+    </LinearLayout></FrameLayout>
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+       <ImageButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:background="@drawable/ic_arrow_back"
+           android:id="@+id/tb_normal_back"
+           android:layout_above="@+id/scrollView"
+           android:layout_marginLeft="10dp"
+           android:layout_alignParentLeft="true"
+           android:layout_alignParentStart="true" />
+
+
+
+       <TextView
+           android:id="@+id/ttte"
+           android:layout_width="match_parent"
+           android:layout_marginTop="15dp"
+           android:textSize="22sp"
+           android:textColor="@color/mcq_background_bottom"
+           android:layout_height="wrap_content"
+           android:gravity="center"
+           android:text="Available Courses"/>
+
+
+       <ScrollView
+           android:layout_below="@+id/ttte"
+           android:layout_width="match_parent"
+           android:layout_marginBottom="20dp"
+           android:layout_height="wrap_content"
+           android:id="@+id/scrollView">
+
+
+
+       <LinearLayout
+           android:id="@+id/courses_layout"
+           android:orientation="vertical"
+           android:layout_marginTop="5dp"
+           android:layout_marginBottom="25dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+
+
+       </LinearLayout>
+
+
+
+       </ScrollView>
+
+
+
+
+
+
+      <!-- <ListView
+           android:id="@+id/course_available_list"
+           android:background="@drawable/courses_list_btn"
+           android:divider="#00000000"
+           android:dividerHeight="10.0sp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+
+
+       </ListView>-->
+
+
+</RelativeLayout>

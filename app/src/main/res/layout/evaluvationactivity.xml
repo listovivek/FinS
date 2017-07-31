@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:id="@+id/relative11"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <!-- <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="FinJan – (Module Name)"
+             android:textColor="#4e2c5a"
+             android:textSize="25dp"
+             android:layout_gravity="center_horizontal|center"
+             android:layout_centerHorizontal="true"
+             android:layout_margin="10dp"
+             android:id="@+id/dashboard"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Result"
+                android:fontFamily="Open Sans"
+                android:textColor="#50c2b4"
+                android:textSize="24dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/dashboard"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/staff_evalution"/>
+        <View
+            android:layout_width="35dp"
+            android:layout_height="5dp"
+            android:background="@drawable/btn_style"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_marginBottom="10dp"
+
+            />
+</LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/ratingBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:text="Score"
+            android:textAllCaps="true"/>
+
+        <TextView
+            android:id="@+id/textResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="gone"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/eve_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_taketest"
+            android:id="@+id/take_test"
+
+            android:text="Ok"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:layout_margin="10dp"
+            android:textSize="22dp"
+            android:layout_span="4" />
+
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

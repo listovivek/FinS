@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        >
+        <include
+            layout="@layout/customlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/imageView1"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:background="@color/colorAccent"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressBar_cyclic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:minWidth="50dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:visibility="invisible"
+                />
+        </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SS"
+            android:text="To learn how to manage and grow your money. "
+            android:singleLine="false"
+            android:textColor="#767B80"
+            android:textAllCaps="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal|center"
+            android:textSize="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginBottom="15dp"
+
+            />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Try"
+                android:layout_marginTop="5dp"
+                android:text="Try "
+                android:textColor="#767B80"
+                android:textAllCaps="false"
+                android:textSize="20dp"
+                android:layout_alignTop="@+id/Try_finjan" />
+
+            <ImageButton
+                android:layout_width="140dp"
+                android:layout_height="35dp"
+                android:id="@+id/Try_finjan"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/finstart"
+                android:textColor="#50c2b4"
+                android:layout_toRightOf="@+id/Try"
+                android:layout_marginTop="10dp"
+                android:textAllCaps="false"
+                android:textSize="24dp"
+
+                />
+        </RelativeLayout>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_hidecur"
+            android:background="@null"
+            android:textCursorDrawable="@null"
+
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/What_is_finstart"
+            android:text="Click here to know more / Purchase the course "
+            android:textColor="#ffff"
+            android:background="@drawable/dashboard_gray_btn"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textAlignment="center"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+        <android.support.v7.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_finpedia"
+            android:id="@+id/faq_searchall"
+             android:queryHint="Have a query - Ask Finpedia"
+             android:focusable="false"
+             app:defaultQueryHint="Have a query - Ask Finpedia"
+
+
+
+
+
+            > </android.support.v7.widget.SearchView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_simple_56_512"
+                android:layout_gravity="right"
+
+                android:layout_margin="5dp"
+                android:id="@+id/serchviewall_icon"
+                android:layout_marginRight="20dp"
+                android:paddingRight="20dp"
+
+                android:layout_marginTop="20dp"
+
+                /></FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/have_a_Query"
+            android:text="Have a query - Ask Finpedia "
+            android:textColor="#000000"
+            android:textAllCaps="false"
+            android:padding="8dp"
+            android:layout_marginTop="30dp"
+
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:visibility="gone"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Sip"
+            android:text="Want to start a SIP? "
+            android:textColor="#ffff"
+            android:background="@drawable/dashboard_gray_btn"
+            android:layout_marginTop="30dp"
+
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textAllCaps="false"
+            android:textSize="24dp"
+            android:textAlignment="center"
+
+
+            />
+    </LinearLayout>
+</ScrollView>

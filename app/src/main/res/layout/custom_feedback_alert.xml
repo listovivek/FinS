@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <!--    <ImageView
+            android:id="@+id/dialog_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="34dp"
+            android:layout_marginTop="45dp"
+            android:contentDescription="@string/app_name" />-->
+
+
+    <RelativeLayout
+        android:id="@+id/custom_fa_r1"
+        android:layout_width="match_parent"
+        android:background="#4a285b"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/logo"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/dialog_text"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/custom_fa_r1"
+        android:layout_marginTop="10dp"
+        android:textColor="#4a285b"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:text="" />
+
+    <Button
+        android:id="@+id/feedback_okbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_taketest"
+        android:textColor="#fff"
+        android:text="Ok"
+        android:layout_below="@+id/dialog_text"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

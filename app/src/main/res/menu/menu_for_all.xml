@@ -1,0 +1,135 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_menu_for_all"
+        android:title="Settings"
+        app:showAsAction="always">
+        <menu
+            android:id="@+id/submenu1"
+                        >
+
+            <item
+                android:id="@+id/finpedia"
+                android:title="Finpedia"
+                app:showAsAction="always" />
+
+            <item
+                android:id="@+id/sub_m"
+                android:title="Resources"
+                app:showAsAction="always" >
+
+                <menu >
+                    <group android:id="@+id/group3"
+                        >
+
+                        <item android:id="@+id/learning_center"
+                            android:title="Learning Centre" />
+
+                        <item android:id="@+id/calc"
+                            android:title="Calculators" />
+
+                       <!-- <item android:id="@+id/fb_post"
+                            android:title="FB Posts" />-->
+
+
+                    </group>
+                </menu>
+            </item>
+
+            <item
+                android:id="@+id/finstart_c"
+                android:title="Finstart Course"
+                app:showAsAction="always" />
+
+           <!-- <item
+                android:id="@+id/finstaffcources"
+                android:title="Registered Courses"
+                app:showAsAction="always" />
+-->
+
+
+
+
+            <!--<item
+                android:id="@+id/feedback_list"
+                android:title="Feedback List"
+                app:showAsAction="always" />-->
+            <!--<item android:id="@+id/ss_selection"
+                android:title="Scheme Selection and invest" />-->
+
+            <item
+                android:id="@+id/sub_m1"
+                android:title="Do you want to Invest"
+                app:showAsAction="always" >
+
+                <menu >
+                    <group android:id="@+id/group1"
+                        >
+                        <item android:id="@+id/ss_selection"
+                            android:title="Select Scheme and Invest" />
+
+                        <item android:id="@+id/my_cams"
+                            android:title="MyCAMS" />
+
+                       <!-- <item
+                            android:id="@+id/li_invest"
+                            android:title="Link to invest"
+                            app:showAsAction="always" />-->
+
+
+
+                        </group>
+                    </menu>
+            </item>
+
+            <item android:id="@+id/articles"
+                android:title="In the Media" />
+
+            <item
+                android:id="@+id/feedback"
+                android:title="Feedback"
+                app:showAsAction="always" />
+
+            <item
+                android:id="@+id/sub_m2"
+                android:title="Profile"
+                app:showAsAction="always" >
+
+                <menu >
+                    <group android:id="@+id/group2"
+                        >
+                        <item
+                            android:id="@+id/profile_menu"
+                            android:title="Profile"
+                            app:showAsAction="always" />
+
+                        <item
+                            android:id="@+id/changepassword"
+                            android:title="Change Password"
+                            app:showAsAction="always" />
+
+                        <item
+                            android:id="@+id/logout"
+                            android:title="Logout"
+                            app:showAsAction="always" />
+
+                        </group>
+                    </menu>
+            </item>
+
+
+
+
+
+
+
+
+
+        </menu>
+
+    </item>
+
+</menu>
