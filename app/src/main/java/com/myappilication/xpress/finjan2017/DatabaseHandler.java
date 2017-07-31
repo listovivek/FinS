@@ -129,6 +129,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     return false;
                 }
 
+        //voevlele
 
             }while (cursor.moveToNext());
 
