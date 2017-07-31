@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
 
+        //vivekkk
+
         Boolean NewUser = sharedpreferences.getBoolean(SharedPrefUtils.SpIsNewUser, true);
 
         str_offemail = sharedpreferences.getString(SharedPrefUtils.SpEmail,"");
