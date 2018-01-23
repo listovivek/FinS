@@ -69,12 +69,11 @@ public class OtpVerification extends Activity{
             public void onClick(View v) {
 
                 if(te.getText().toString().length() != 0){
+                    Log.d("click button", "click button");
                     otpSend(te.getText().toString());
                 }else{
                     Toast.makeText(OtpVerification.this, "Kindly fill your otp code", Toast.LENGTH_LONG);
                 }
-
-
             }
         });
 
@@ -82,6 +81,7 @@ public class OtpVerification extends Activity{
             @Override
             public void onClick(View v) {
                 resendService();
+
             }
         });
 
@@ -96,15 +96,14 @@ public class OtpVerification extends Activity{
 
     private void otpSend(String s) {
         progressBar.setVisibility(View.VISIBLE);
-
+        Log.d("otp send method", "method begin");
         String email = getIntent().getStringExtra("email");
         RxClient.get(getApplicationContext()).verifOtp(sharedpreferences.getString(SharedPrefUtils.SpRememberToken, ""),
                 new OtpVerificationReq(email, s), new Callback<OtpVerificationResponse>() {
-
                     @Override
                     public void success(OtpVerificationResponse otpVerificationResponse, Response response) {
                         progressBar.setVisibility(View.INVISIBLE);
-
+                        Log.d("service success", "success");
                         //   mtd_refresh_token();
                         /*editor.putBoolean(SharedPrefUtils.SpIsNewUser, false);
                         editor.commit();*/
@@ -115,12 +114,15 @@ public class OtpVerification extends Activity{
                         Intent i = new Intent(OtpVerification.this, MainActivity.class);
                         startActivity(i);
                         finish();
+
+
+
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         progressBar.setVisibility(View.INVISIBLE);
-
+                        Log.d("service failure", "failure");
                         OtpVerificationResponse usere = (OtpVerificationResponse)
                                 error.getBodyAs(OtpVerificationResponse.class);
                         Toast.makeText(OtpVerification.this, usere.getMsg(), Toast.LENGTH_LONG).show();

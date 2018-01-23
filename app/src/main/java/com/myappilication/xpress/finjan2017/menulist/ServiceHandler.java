@@ -53,16 +53,7 @@ public class ServiceHandler {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpEntity httpEntity = null;
             HttpResponse httpResponse = null;
-            
-            //Setting user agent
-            /*httpClient.getParams().setParameter(
-            	    HttpProtocolParams.USER_AGENT,  
-            	    "Mozilla/5.0 (Linux; U; Android-4.0.3; en-us; Galaxy Nexus Build/IML74K) " +
 
-                            "AppleWebKit/535.7 (KHTML, like Gecko) CrMo/16.0.912.75 Mobile Safari/535.7"
-            	);*/
-             
-            // Checking http request method type
             if (method == POST) {
                 HttpPost httpPost = new HttpPost(url);
                 // adding post params

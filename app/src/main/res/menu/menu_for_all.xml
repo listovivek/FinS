@@ -71,8 +71,8 @@
                         <item android:id="@+id/ss_selection"
                             android:title="Select Scheme and Invest" />
 
-                        <item android:id="@+id/my_cams"
-                            android:title="MyCAMS" />
+                       <!-- <item android:id="@+id/my_cams"
+                            android:title="MyCAMS" />-->
 
                        <!-- <item
                             android:id="@+id/li_invest"
@@ -122,7 +122,10 @@
 
 
 
-
+            <item
+                android:id="@+id/fin_support"
+                android:title="Finsafe Support"
+                app:showAsAction="always" />
 
 
 

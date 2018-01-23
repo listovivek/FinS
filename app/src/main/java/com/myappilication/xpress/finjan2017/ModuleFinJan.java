@@ -80,7 +80,7 @@ import retrofit.client.Response;
 /**
  * Created by Bala on 3/2/2017.
  */
-public class ModuleFinJan extends AppCompatActivity {
+public class  ModuleFinJan extends AppCompatActivity {
     String remember_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjMsImlzcyI6Imh0dHA6XC9cLzE4My44Mi4zMy4yMzI6ODA5NFwvYXBpXC9sb2dpbiIsImlhdCI6MTQ5MDY5NzcwMiwiZXhwIjoxNDkwNzAxMzAyLCJuYmYiOjE0OTA2OTc3MDIsImp0aSI6Ijg3NTIzNGQxOTlmMjkyY2E1NjMzNzY2YjZjZDU2ZWFkIn0.RtR5jF_vhPynlnvwC_odi5klUfcsCqY_Eg_zF-cmSlU";
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
@@ -433,9 +433,9 @@ public class ModuleFinJan extends AppCompatActivity {
 
                 if(couponBSResponse.getStatus().equalsIgnoreCase("200")){
                     mtd_module_list();
-                    String message = couponBSResponse.getResult();
+                   /* String message = couponBSResponse.getResult();
                     Toast.makeText(ModuleFinJan.this, message, Toast.LENGTH_LONG).show();
-                    al.dismiss();
+                    al.dismiss();*/
                     mBottomSheetDialog.dismiss();
 
                 }
@@ -444,10 +444,10 @@ public class ModuleFinJan extends AppCompatActivity {
             @Override
             public void failure(RetrofitError error) {
                 try{
-                    CouponBSResponse usere = (CouponBSResponse) error.getBodyAs(CouponBSResponse.class);
+                   /* CouponBSResponse usere = (CouponBSResponse) error.getBodyAs(CouponBSResponse.class);
                    // Toast.makeText(ModuleFinJan.this, usere.getResult(), Toast.LENGTH_LONG).show();
-                   /* al.dismiss();
-                    mBottomSheetDialog.dismiss();*/
+                   *//* al.dismiss();
+                    mBottomSheetDialog.dismiss();*//*
                     final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ModuleFinJan.this);
                     View bView = getLayoutInflater().inflate(R.layout.custom_feedback_alert, null);
                     dialogBuilder.setView(bView);
@@ -465,7 +465,7 @@ public class ModuleFinJan extends AppCompatActivity {
                             s.setText("");
                             al.dismiss();
                         }
-                    });
+                    });*/
 
                 }catch (Exception e){
 

@@ -1,6 +1,8 @@
 package com.myappilication.xpress.finjan2017.webservice;
 
 import com.google.android.gms.auth.TokenData;
+import com.myappilication.xpress.finjan2017.ccavenue.CcavenueReq;
+import com.myappilication.xpress.finjan2017.ccavenue.CcavenueResponse;
 import com.myappilication.xpress.finjan2017.mcqevalutiontest.McqTestReq;
 import com.myappilication.xpress.finjan2017.mcqevalutiontest.McqTestResp;
 import com.myappilication.xpress.finjan2017.menulist.mycamsinfo.MyCamResponse;
@@ -20,6 +22,8 @@ import com.myappilication.xpress.finjan2017.models.login.availablecourses.Availa
 import com.myappilication.xpress.finjan2017.models.login.availablecourses.AvailableCoursesResponse;
 import com.myappilication.xpress.finjan2017.models.login.changepassword.ChangePasswordreq;
 import com.myappilication.xpress.finjan2017.models.login.changepassword.Changepasswordresp;
+import com.myappilication.xpress.finjan2017.models.login.completemodpushtoserver.CompletemodResponse;
+import com.myappilication.xpress.finjan2017.models.login.completemodpushtoserver.Completemodreq;
 import com.myappilication.xpress.finjan2017.models.login.couponbasedcourses.CouponBSReq;
 import com.myappilication.xpress.finjan2017.models.login.couponbasedcourses.CouponBSResponse;
 import com.myappilication.xpress.finjan2017.models.login.dashboard.DashboardResponse;
@@ -37,10 +41,15 @@ import com.myappilication.xpress.finjan2017.models.login.feedbackQAreq.FBQuesRes
 import com.myappilication.xpress.finjan2017.models.login.feedbackquestion.FeedbackResponse;
 import com.myappilication.xpress.finjan2017.models.login.forget.forgotreq;
 import com.myappilication.xpress.finjan2017.models.login.forget.forgotresp;
+import com.myappilication.xpress.finjan2017.models.login.isusralreadygetcoupon.UserAlreadyCouponReq;
+import com.myappilication.xpress.finjan2017.models.login.isusralreadygetcoupon.UserAlreadyCouponRes;
 import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
 import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
 import com.myappilication.xpress.finjan2017.models.login.modulelist.ListOfModuleReq;
 import com.myappilication.xpress.finjan2017.models.login.modulelist.ListOfModuleResponse;
+import com.myappilication.xpress.finjan2017.models.login.mycamssetting.MycamSettingResponse;
+import com.myappilication.xpress.finjan2017.models.login.mycamstransactiondetails.Transactionreq;
+import com.myappilication.xpress.finjan2017.models.login.mycamstransactiondetails.Transactionresponse;
 import com.myappilication.xpress.finjan2017.models.login.newfaqcategorylist.NewFaqCategoryReq;
 import com.myappilication.xpress.finjan2017.models.login.newfaqcategorylist.NewFaqCategoryResponse;
 import com.myappilication.xpress.finjan2017.models.login.newfaqmoduleweb.NewFaqRequest;
@@ -125,9 +134,8 @@ public interface RxApi {
     void VideoList(@Header("Authorization") String authToken, @Body VideoListReq body, Callback<VideoListResponse> callback);
 
 
-
    @POST("/userSignup")
-   void userReg(@Header("Authorization") String authToken, @Body UserRegReq body, Callback<UserRegResponse> callback);
+   void userReg(@Body UserRegReq body, Callback<UserRegResponse> callback);
 
 
    @POST("/verificationOtp")
@@ -161,12 +169,36 @@ public interface RxApi {
     void getSearchFieldsForQus(@Header("Authorization") String authToken, @Body faqfulllistreq body,
                            Callback<faqfulllistresp> callback);
 
+// getUserCourseDetails    getCourseForUser
+    @POST("/getCourseForUser")
+    void getUserCourseDtls(@Header("Authorization") String authToken, @Body UserAlreadyCouponReq body,
+                               Callback<UserAlreadyCouponRes> callback);
+
+
+ /*@POST("/getUserCourseDetails")
+ void getUserCourseDtls1(@Body UserAlreadyCouponReq body,
+                        Callback<UserAlreadyCouponRes> callback);*/
+
+    @POST("/updateUserFinishedCourse")
+    void getUserFinishedCourse(@Header("Authorization") String authToken, @Body Completemodreq body,
+                           Callback<CompletemodResponse> callback);
+
     @POST("/getCamsAPISetting")
     void myCamsInfo(Callback<MyCamResponse> callback);
 
     @POST("/listSchemes")
     void schemeList(Callback<SchemeListResponse> callback);
 
+    @POST("/getCamsAPISettings")
+    void mycamssetting(@Header("Authorization") String authToken, Callback<MycamSettingResponse> callback);
+
+    @POST("/getCamsTransactionDetails")
+    void transactiondetails(@Header("Authorization") String authToken, @Body Transactionreq body,
+                            Callback<Transactionresponse> callback);
+
+    @POST("/ccAvenueUpdate")
+    void ccavenueres(@Header("Authorization") String authToken, @Body CcavenueReq body,
+                         Callback<CcavenueResponse> callback);
 }
 
 

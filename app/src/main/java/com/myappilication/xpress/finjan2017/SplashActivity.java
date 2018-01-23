@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +48,14 @@ public class SplashActivity extends AppCompatActivity {
         tv_proceed = (TextView) findViewById(R.id.text_proceed);
         iv_splashscreen = (ImageView) findViewById(R.id.imageView_splash);
 
+        try {
+            String vName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            Log.d("version name", vName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         tv_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,12 +71,9 @@ public class SplashActivity extends AppCompatActivity {
                 callwebService();
             }
         });
-
-
     }
 
     private void callwebService() {
-
 
         //RxClient.get(getApplicationContext())
     }
@@ -74,6 +82,7 @@ public class SplashActivity extends AppCompatActivity {
     private void Intent2Activity() {
 
         Intent i = new Intent(SplashActivity.this, FinstartHomeActivity.class);
+        i.putExtra("coupon_code", getIntent().getStringExtra("coupon_code"));
         startActivity(i);
         // close this activity
         finish();
@@ -83,6 +92,7 @@ public class SplashActivity extends AppCompatActivity {
              * Showing splash screen with a timer. This will be useful when you
              * want to show case your app logo / company
              *//*
+             *
             @Override
             public void run() {
                 Intent i = new Intent(SplashActivity.this, FinstartHomeActivity.class);

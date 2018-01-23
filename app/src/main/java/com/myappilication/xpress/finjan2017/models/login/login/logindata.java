@@ -21,6 +21,16 @@ public class logindata {
 
     private logincorporates[] corporates;
 
+    public FinishedcourseDetails[] getFinished_course_details() {
+        return finished_course_details;
+    }
+
+    public void setFinished_course_details(FinishedcourseDetails[] finished_course_details) {
+        this.finished_course_details = finished_course_details;
+    }
+
+    private FinishedcourseDetails[] finished_course_details;
+
     public String getId ()
     {
         return id;

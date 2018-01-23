@@ -17,6 +17,8 @@ import com.myappilication.xpress.finjan2017.feedback.OfflineFeedbackDB;
 import com.myappilication.xpress.finjan2017.feedback.UserFeedbackList;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 
 import java.util.ArrayList;
 
@@ -92,7 +94,7 @@ public class Articles extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Kindly check your network connection",
@@ -100,7 +102,9 @@ public class Articles extends AppCompatActivity {
                     return false;
                 }
 
-
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
 
             /*case R.id.feedback_list:
                 OfflineFeedbackDB feedbackDB = new OfflineFeedbackDB(this);

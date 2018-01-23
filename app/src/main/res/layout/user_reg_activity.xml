@@ -35,6 +35,15 @@
         android:layout_marginTop="15dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />-->
+    <ScrollView
+        android:id="@+id/sss"
+        android:layout_below="@+id/lll"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,33 +72,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
+                    android:id="@+id/tv_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User Registration"
-                    android:fontFamily="Open Sans"
-                    android:textColor="#50c2b4"
-                    android:textSize="24dp"
-                    android:layout_gravity="center_horizontal|center"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/tv_dashboard"/>
+                    android:layout_gravity="center_horizontal|center"
+                    android:fontFamily="Open Sans"
+                    android:text="User Registration"
+                    android:textColor="#50c2b4"
+                    android:textSize="24dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <View
                         android:layout_width="35dp"
                         android:layout_height="5dp"
-                        android:background="@drawable/btn_style"
                         android:layout_gravity="center_horizontal|center"
                         android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_style"
 
                         />
 
 
                 </LinearLayout>
-
 
 
                 <!--<EditText
@@ -110,133 +120,168 @@
                     />-->
 
                 <EditText
+                    android:id="@+id/reg_firstname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/reg_firstname"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:background="@drawable/edittext_border"
                     android:layout_marginTop="8dp"
-                    android:singleLine="true"
-                    android:padding="10dp"
+                    android:background="@drawable/edittext_border"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:hint="First Name"
                     android:inputType="textPersonName|textCapSentences"
-                    android:textSize="16dp"
-                    android:textColorHint="#000000"
-                    android:theme="@style/MyEditTextTheme"
+                    android:padding="10dp"
+                    android:singleLine="true"
                     android:textColor="#000000"
-                    />
+                    android:textColorHint="#000000"
+                    android:textSize="16dp"
+                    android:theme="@style/MyEditTextTheme" />
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/reg_lastname"
-                    android:inputType="textPersonName|textCapSentences"
-                    android:hint="Last Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_border"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:singleLine="true"
+                    android:hint="Last Name"
+                    android:inputType="textPersonName|textCapSentences"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border"
-                    android:layout_marginTop="8dp"
-                    android:textSize="16dp"
-                    android:textColorHint="#000000"
-                    android:theme="@style/MyEditTextTheme"
+                    android:singleLine="true"
                     android:textColor="#000000"
-                    />
+                    android:textColorHint="#000000"
+                    android:textSize="16dp"
+                    android:theme="@style/MyEditTextTheme" />
 
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/reg_emailid"
-                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_border"
                     android:hint="Email"
-                    android:background="@drawable/edittext_border"
-                    android:layout_marginTop="8dp"
-                    android:singleLine="true"
                     android:imeOptions="actionNext"
-                    android:textSize="16dp"
-                    android:textColorHint="#000000"
-                    android:theme="@style/MyEditTextTheme"
+                    android:padding="10dp"
+                    android:singleLine="true"
                     android:textColor="#000000"
-                    />
+                    android:textColorHint="#000000"
+                    android:textSize="16dp"
+                    android:theme="@style/MyEditTextTheme" />
+
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/reg_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_border"
                     android:hint="Password"
-                    android:padding="10dp"
-                    android:singleLine="true"
                     android:inputType="textPassword"
-                    android:background="@drawable/edittext_border"
-                    android:layout_marginTop="8dp"
-                    android:textSize="16dp"
-                    android:textColorHint="#000000"
-                    android:theme="@style/MyEditTextTheme"
-                    android:textColor="#000000"/>
-
-
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/reg_mobilenumber"
-                    android:hint="Mobile Number"
-                    android:background="@drawable/edittext_border"
-                    android:layout_marginTop="8dp"
-                    android:maxLines="1"
-                    android:maxLength="11"
                     android:padding="10dp"
-                    android:inputType="phone"
-                    android:textSize="16dp"
-                    android:textColorHint="#000000"
                     android:singleLine="true"
-                    android:theme="@style/MyEditTextTheme"
-                    android:textColor="#000000"/>
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:textSize="16dp"
+                    android:theme="@style/MyEditTextTheme" />
+
 
                 <EditText
+                    android:id="@+id/reg_mobilenumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/reg_couponcode"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="Mobile Number"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:maxLines="1"
+                    android:padding="10dp"
                     android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:textSize="16dp"
+                    android:theme="@style/MyEditTextTheme" />
+
+                <EditText
+                    android:id="@+id/reg_couponcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_border"
                     android:hint="If you have a coupon code, enter here"
                     android:padding="10dp"
-                    android:textSize="16dp"
-                    android:background="@drawable/edittext_border"
-                    android:layout_marginTop="8dp"
+                    android:singleLine="true"
+                    android:textColor="#000000"
                     android:textColorHint="#000000"
-                    android:theme="@style/MyEditTextTheme"
-                    android:textColor="#000000"/>
+                    android:textSize="16dp"
+                    android:theme="@style/MyEditTextTheme" />
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="left|center"
+                        android:padding="10dp"
+                        android:textSize="16dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/checktext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:paddingLeft="10dp"
+                        android:text="I agree to the"
+                        android:textColor="#000"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/checktextterm"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Terms Of Service "
+                        android:textColor="#50c2b4"
+                        android:textSize="16dp" />
+
+
+                </LinearLayout>
 
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                   android:layout_marginTop="10dp">
-
-
+                    android:layout_marginTop="10dp">
 
 
                     <Button
                         android:id="@+id/reg_submit"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="Submit"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="0dp"
                         android:background="@drawable/btn_download_play"
-                        android:textAllCaps="true"
-                        android:textColor="#ffffff"
-                        android:layout_marginTop="20dp"
-                        android:textSize="18dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        />
-
+                        android:text="Submit"
+                        android:textAllCaps="true"
+                        android:textColor="#ffffff"
+                        android:textSize="18dp" />
 
 
                 </RelativeLayout>
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

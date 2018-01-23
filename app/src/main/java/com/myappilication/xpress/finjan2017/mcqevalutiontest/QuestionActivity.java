@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.myappilication.xpress.finjan2017.ActivityEvaluation;
 import com.myappilication.xpress.finjan2017.DbHelper;
+import com.myappilication.xpress.finjan2017.EvelouationAdapter;
 import com.myappilication.xpress.finjan2017.ModuleFinJan;
 import com.myappilication.xpress.finjan2017.R;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
@@ -61,19 +62,20 @@ public class QuestionActivity extends Activity {
         sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
 
+        EvelouationAdapter.score=0;
+
         moduleName = (TextView) findViewById(R.id.dashboard);
         questionNum = (TextView) findViewById(R.id.questionNumber);
         question = (TextView) findViewById(R.id.qDescription);
 
         in = getIntent();
-        String modName = sharedpreferences.getString("Module_name", "");;
+        String modName = sharedpreferences.getString("Module_name", "");
         moduleName.setText(""+ modName);
 
         mDbHelper = new DbHelper(QuestionActivity.this);
 
         /*String name = intent.getStringExtra("Module_name");
-        t3.setText(" " + name);
-*/
+        t3.setText(" " + name);*/
 
         TextView textView = (TextView) findViewById(R.id.tv_dashboard);
         textView.setText( ModuleFinJan.courseName);
@@ -278,7 +280,9 @@ public class QuestionActivity extends Activity {
         quesIndex--;
         if (quesIndex < 0){
             quesIndex = 0;
-            view.setEnabled(false);
+            //view.setEnabled(false);
+
+
         }else{
             showQus(quesIndex);
         }
@@ -291,6 +295,8 @@ public class QuestionActivity extends Activity {
 
             setAnswer();
             quesIndex++;
+
+            Log.d("next one", "call 1");
 
             if(quesIndex >= McQData.getInstance().getMCQQuestion().size()){
                 quesIndex = McQData.getInstance().getMCQQuestion().size() - 1;
@@ -310,6 +316,7 @@ public class QuestionActivity extends Activity {
                     cc.add(McQData.getInstance().getMCQanswer3().get(t));
                     cc.add(McQData.getInstance().getMCQanswer4().get(t));
 
+
                     String userSelectAns = cc.get(selected[t]);
                     finalAns.add(userSelectAns);
                     cc.clear();
@@ -318,12 +325,12 @@ public class QuestionActivity extends Activity {
                 McQData.getInstance().setUserSelectedData(finalAns);
             }else{
                 showQus(quesIndex);
+
+                Log.d("next two", ""+quesIndex);
             }
 
         }else{
             Toast.makeText(QuestionActivity.this, "Kindly click any one option", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 }

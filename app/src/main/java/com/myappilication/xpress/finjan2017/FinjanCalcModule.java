@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 
 /**
  * Created by sureshmano on 3/2/2017.
@@ -99,6 +100,10 @@ public class FinjanCalcModule extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 onBackPressed();
+
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
 
             case R.id.profile_menu:
                 startActivity(new Intent(getApplicationContext(), ProfileSetting.class));

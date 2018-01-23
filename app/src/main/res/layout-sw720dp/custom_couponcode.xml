@@ -4,7 +4,6 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/custom_fa_r1"
         android:layout_width="match_parent"
         android:background="#4a285b"
         android:layout_height="wrap_content">
@@ -30,9 +29,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />-->
 
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTintMode="src_atop"
+        android:layout_above="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/custom_fa_r1"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"
+        android:src="@drawable/logo"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/custom_fa_r1"
+        android:background="#4a285b"
+        android:layout_gravity="center_horizontal|center"
+        android:layout_weight="10"
+        />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_below="@+id/custom_fa_r1"
+        android:text="price"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="@color/mcq_background_bottom"
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/coupon_title1"
+        android:layout_below="@+id/price"
+        android:text="If you have a coupon code, enter here"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/mcq_background_bottom"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/edit1"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="35dp"
         android:layout_marginLeft="70dp"
         android:hint="Coupon code"
         android:gravity="center"
@@ -41,7 +92,7 @@
         android:textSize="18sp"
         android:textColor="@color/mcq_background_bottom"
         android:layout_marginRight="70dp"
-        android:layout_below="@+id/custom_fa_r1"
+        android:layout_below="@+id/price"
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,6 +109,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
+
     <TextView
         android:id="@+id/buy"
         android:layout_marginTop="3dp"
@@ -72,6 +125,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text" />
+
+
 
     <Button
         android:layout_width="wrap_content"
@@ -89,10 +144,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
-        android:layout_marginLeft="148dp"
+        android:layout_marginLeft="0dp"
         android:background="@drawable/discard_button"
         android:textColor="@color/white"
-        android:layout_marginStart="33dp"
+        android:layout_marginStart="75dp"
         android:id="@+id/discard_button"
         android:layout_alignTop="@+id/send_button"
         android:layout_alignParentLeft="true"

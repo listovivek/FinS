@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+     >
+
+
+
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:id="@+id/ssd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    <ProgressBar
+        android:id="@+id/progressBar_cyclic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:minWidth="80dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="invisible"
+        />
+
+    </FrameLayout>
+</LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical"
+           android:layout_marginTop="74dp"
+           android:layout_marginRight="20dp"
+
+           android:layout_alignParentTop="true"
+           android:layout_centerHorizontal="true">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Support"
+               android:fontFamily="Open Sans"
+               android:textColor="#50c2b4"
+               android:textSize="35dp"
+               android:layout_gravity="center_horizontal|center"
+               android:layout_centerHorizontal="true"
+               android:id="@+id/tv_dashboard"/>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:layout_marginTop="10dp"
+               >
+               <View
+                   android:layout_width="60dp"
+                   android:layout_height="8dp"
+                   android:background="@drawable/btn_style"
+                   android:layout_gravity="center_horizontal|center"
+                   android:layout_marginBottom="10dp"
+
+                   />
+
+
+           </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+           <!--<EditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/profile_companyname"
+               android:singleLine="true"
+               android:background="@drawable/edittext_border"
+               android:padding="10dp"
+               android:maxLength="25"
+               android:layout_marginTop="8dp"
+               android:textColor="#000000"
+               android:hint="Company Name"
+               android:textSize="16dp"
+               android:textColorHint="#000000"
+               android:theme="@style/MyEditTextTheme"
+               />-->
+
+
+           <EditText
+               android:id="@+id/edit_userquery"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="top"
+               android:layout_marginTop="10dp"
+               android:background="@drawable/edittext_border"
+               android:gravity="top"
+               android:hint="Please let us know if you have any queries"
+               android:lines="5"
+               android:padding="5dp"
+               android:textSize="28dp" />
+
+           <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@drawable/btn_download_play"
+               android:textSize="16dp"
+               android:layout_marginTop="20dp"
+               android:text="Send"
+               android:textColor="#ffffff"
+               android:id="@+id/button_support"
+
+               />
+       </LinearLayout>
+
+
+       <TextView
+           android:id="@+id/version_name"
+           android:text="version"
+           android:textSize="22sp"
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:layout_marginBottom="20dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+   </RelativeLayout>
+</RelativeLayout>

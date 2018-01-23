@@ -41,6 +41,8 @@ import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
 import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
 import com.myappilication.xpress.finjan2017.models.login.searchfaq.searchreq;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.util.ArrayList;
@@ -213,15 +215,20 @@ public class CalcModuleActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             case R.id.finpedia:
                 startActivity(new Intent(getApplicationContext(), FaqCategroyLIstActivity.class));
                 finish();
                 return true;
 
             case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
@@ -276,7 +283,7 @@ public class CalcModuleActivity extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     finish();
                     return true;
                 }else{

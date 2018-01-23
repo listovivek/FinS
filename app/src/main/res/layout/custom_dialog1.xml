@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/sub_layout"
+        android:layout_width="match_parent"
+        android:background="#4a285b"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="36dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/logo"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <!--    <ImageView
+            android:id="@+id/dialog_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="34dp"
+            android:layout_marginTop="45dp"
+            android:contentDescription="@string/app_name" />-->
+    <TextView
+        android:id="@+id/dialog_text1"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:layout_below="@+id/sub_layout"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="finish your test" />
+    <TextView
+        android:id="@+id/ok_btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textSize="20sp"
+        android:layout_below="@+id/sub_layout"
+        android:text="Yes"
+        android:textColor="@color/redd"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="30dp" />
+
+    <TextView
+        android:id="@+id/cancel_btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/redd"
+        android:textSize="20sp"
+        android:text="On"
+        android:layout_alignTop="@+id/ok_btn1"
+        android:layout_toLeftOf="@+id/ok_btn1"
+        android:layout_toStartOf="@+id/ok_btn1"
+        android:layout_marginRight="42dp"
+        android:layout_marginEnd="42dp" />
+</RelativeLayout>

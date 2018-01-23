@@ -28,11 +28,6 @@ public  class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.MyViewHolder> {
             tv_question = (TextView) view.findViewById(R.id.textfaq_question);
             tv_answer = (TextView) view.findViewById(R.id.textfaq_answer);
 
-
-
-
-
-
         }
     }
 
@@ -64,7 +59,7 @@ public  class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.MyViewHolder> {
             @Override
             public void onClick(View v) {
 
-                if(holder.tv_answer.getVisibility() == View.VISIBLE){
+                if(holder.tv_answer.getVisibility() == View.VISIBLE) {
                     condition=true;
                 }else{
                     condition=false;

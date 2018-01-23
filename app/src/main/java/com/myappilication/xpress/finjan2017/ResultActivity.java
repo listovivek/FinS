@@ -68,7 +68,7 @@ public class ResultActivity extends AppCompatActivity {
                 switch (score) {
                     case 1:
                     case 2:
-                        t.setText("Oopsie! Better Luck Next Time!");
+                        t.setText("Oops! Better Luck Next Time!");
                         break;
                     case 3:
                     case 4:

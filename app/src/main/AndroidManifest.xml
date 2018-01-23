@@ -13,16 +13,17 @@
 
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher1"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
+
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -32,8 +33,6 @@
             android:theme="@style/Theme.AppCompat.Light"
             >
 
-
-
        </activity>
 
         <activity android:name=".ProfileSetting"
@@ -42,7 +41,25 @@
             >
         </activity>
 
+        <activity android:name=".newfeedback.NewFeedbackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+        </activity>
+
+        <activity android:name=".feedback.FeedbackNew"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+        </activity>
+
         <activity android:name=".ActivityEvaluation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+        </activity>
+
+        <activity android:name=".termscondition.Support"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >
@@ -61,6 +78,12 @@
         </activity>
 
         <activity android:name=".menulist.MediaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+        </activity>
+
+        <activity android:name=".ccavenue.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >
@@ -194,8 +217,8 @@
         <activity
             android:name=".DashBoard"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="screenLayout|screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTop">
 
         </activity>

@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FeedBack"
+        android:text="Feedback"
         android:fontFamily="Open Sans"
         android:textColor="#50c2b4"
         android:textSize="24dp"
@@ -72,8 +72,8 @@
 
             <TextView
                 android:id="@+id/question1"
-                android:layout_marginLeft="15dp"
-                android:textSize="20dp"
+                android:layout_marginLeft="25dp"
+                android:textSize="18dp"
                 android:layout_marginBottom="10dp"
                 android:text="question1"
                 android:textColor="#4a285b"
@@ -84,7 +84,7 @@
                 android:id="@+id/r1"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="25dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="25dp"
                 android:layout_below="@+id/question1"
                 android:layout_height="wrap_content">
 
@@ -121,7 +121,7 @@
                 <RadioButton
                     android:id="@+id/q1_radio5"
                     android:layout_width="match_parent"
-                    android:background="@color/radiobutton4"
+                    android:background="@color/radiobutton5"
                     android:layout_height="wrap_content" />
 
 
@@ -133,8 +133,8 @@
             <TextView
                 android:id="@+id/question2"
                 android:text="question1"
-                android:layout_marginLeft="15dp"
-                android:textSize="20dp"
+                android:layout_marginLeft="25dp"
+                android:textSize="18dp"
                 android:textColor="#4a285b"
                 android:layout_below="@+id/r1"
                 android:layout_width="match_parent"
@@ -145,7 +145,7 @@
                 android:id="@+id/r2"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="25dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/question2"
                 android:layout_height="wrap_content">
@@ -182,7 +182,7 @@
                     <RadioButton
                         android:id="@+id/q2_radio5"
                         android:layout_width="match_parent"
-                        android:background="@color/radiobutton4"
+                        android:background="@color/radiobutton5"
                         android:layout_height="wrap_content" />
 
 
@@ -194,8 +194,8 @@
             <TextView
                 android:id="@+id/question3"
                 android:text="question1"
-                android:layout_marginLeft="15dp"
-                android:textSize="20dp"
+                android:layout_marginLeft="25dp"
+                android:textSize="18dp"
                 android:textColor="#4a285b"
                 android:layout_below="@+id/r2"
                 android:layout_width="match_parent"
@@ -206,7 +206,7 @@
                 android:id="@+id/r3"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="25dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/question3"
                 android:layout_height="wrap_content">
@@ -219,31 +219,36 @@
                     <RadioButton
                         android:id="@+id/q3_radio1"
                         android:layout_width="match_parent"
+                        android:text="poor"
                         android:background="@color/radiobutton1"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/q3_radio2"
                         android:layout_width="match_parent"
+                        android:text="poor"
                         android:background="@color/radiobutton2"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/q3_radio3"
                         android:layout_width="match_parent"
+                        android:text="poor"
                         android:background="@color/radiobutton3"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/q3_radio4"
                         android:layout_width="match_parent"
+                        android:text="poor"
                         android:background="@color/radiobutton4"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/q3_radio5"
                         android:layout_width="match_parent"
-                        android:background="@color/radiobutton4"
+                        android:text="poor"
+                        android:background="@color/radiobutton5"
                         android:layout_height="wrap_content" />
 
 
@@ -253,7 +258,7 @@
             </RelativeLayout>
 
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/question4"
                 android:text="question1"
                 android:layout_marginLeft="15dp"
@@ -337,7 +342,7 @@
                 android:singleLine="true"
                 android:hint="Name"
                 android:background="@drawable/feedback_border"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:inputType="text"
                 android:maxLength="25"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="25dp"
@@ -411,6 +416,40 @@
                     android:inputType="phone"
                     android:textSize="20dp"
                     android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>-->
+
+            <RelativeLayout
+                android:id="@+id/r7"
+                android:layout_below="@+id/r3"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/feed_txtnum"
+                    android:text="Comments"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="18dp"
+                    android:textColor="#4a285b"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="5"
+                    android:layout_marginTop="30dp"
+                    android:hint="Please give me your comments"
+                    android:layout_gravity="top"
+                    android:gravity="top"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="25dp"
+                    android:id="@+id/edit_comments"
+                    android:background="@drawable/edittext_border"
+                    android:padding="5dp"
+                    />
 
 
             </RelativeLayout>

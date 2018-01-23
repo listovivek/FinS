@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<RelativeLayout
-        android:id="@+id/custom_fa_r1"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:background="#4a285b"
         android:layout_height="wrap_content">
@@ -17,7 +17,18 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
-    </RelativeLayout>-->
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTintMode="src_atop"
+        android:layout_above="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/custom_fa_r1"
@@ -38,11 +49,22 @@
         />
 
     <TextView
-        android:id="@+id/coupon_title1"
+        android:id="@+id/price"
         android:layout_below="@+id/custom_fa_r1"
+        android:text="price"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:textColor="@color/mcq_background_bottom"
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/coupon_title1"
+        android:layout_below="@+id/price"
         android:text="If you have a coupon code, enter here"
         android:textSize="18sp"
-        android:layout_marginLeft="5dp"
+        android:gravity="center"
         android:textColor="@color/mcq_background_bottom"
         android:layout_marginTop="0dp"
         android:layout_width="match_parent"
@@ -50,7 +72,7 @@
 
     <EditText
         android:id="@+id/edit1"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="70dp"
         android:hint="Coupon code"
         android:gravity="center"
@@ -91,33 +113,46 @@
         android:layout_height="wrap_content"
         android:inputType="text" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ok"
-        android:id="@+id/send_button"
-        android:layout_below="@+id/buy"
-        android:layout_toRightOf="@+id/discard_button"
-        android:textColor="@color/white"
-        android:layout_toEndOf="@+id/discard_button"
-        android:background="@drawable/dashboard_green_btn"
-        android:layout_marginLeft="136dp"
-        android:layout_marginStart="66dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp" />
 
-    <Button
+    <RelativeLayout
         android:layout_width="wrap_content"
+        android:layout_below="@+id/buy"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:layout_marginLeft="148dp"
-        android:background="@drawable/discard_button"
-        android:textColor="@color/white"
-        android:layout_marginStart="33dp"
-        android:id="@+id/discard_button"
-        android:layout_alignTop="@+id/send_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+
+        android:id="@+id/relativeLayout2">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Cancel"
+            android:background="@drawable/discard_button"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="30dp"
+            android:id="@+id/discard_button"
+           />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Ok"
+            android:id="@+id/send_button"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/courses_list_btn"
+            android:layout_alignTop="@+id/discard_button"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />
+
 
 
 

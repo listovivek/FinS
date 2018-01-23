@@ -2,13 +2,16 @@ package com.myappilication.xpress.finjan2017.newfaqcategroylist;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -42,15 +45,22 @@ import com.myappilication.xpress.finjan2017.menulist.Scheme;
 import com.myappilication.xpress.finjan2017.models.login.faq.Faqlistdatas;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.models.login.isusralreadygetcoupon.UserAlreadyCouponRes;
+import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
+import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
 import com.myappilication.xpress.finjan2017.models.login.newfaqcategorylist.NewFaqCategoryReq;
 import com.myappilication.xpress.finjan2017.models.login.newfaqcategorylist.NewFaqCategoryResponse;
 import com.myappilication.xpress.finjan2017.models.login.newfaqmoduleweb.NewFaqRequest;
 import com.myappilication.xpress.finjan2017.models.login.newfaqmoduleweb.NewFaqResponse;
 import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.RunnableFuture;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -68,6 +78,8 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
 
     Context con;
 
+
+
     public static List<Faqlistdatas> faqList = new ArrayList<>();
     Faqlistdatas listDatas;
 
@@ -82,6 +94,10 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
     public static ArrayList<Activity> faq_activity_list = new ArrayList<>();
 
     FaqOfflineDatabase offlineDatabase;
+
+    public static Dialog mprProgressDialog;
+
+    OfflineDatabaseHelper offlineDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +126,10 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
+
+        offlineDB = new OfflineDatabaseHelper(FaqCategroyLIstActivity.this);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
         offlineDatabase.getFaqList();
@@ -167,6 +187,7 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
                         }
                     }
 
+
                 }catch (Exception e){
                 }
                 finish();
@@ -223,6 +244,14 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
     }
 
     private void faqCatListFmWB() {
+       // progressBar.setVisibility(View.VISIBLE);
+        mprProgressDialog.show();
+       /* if(ProgressBarStyle.rLoading.isStart()){
+            ProgressBarStyle.rLoading.stop();
+        }else{
+            ProgressBarStyle.rLoading.start();
+        }*/
+
         String token = sharedpreferences.getString(SharedPrefUtils.SpRememberToken, "");
 
         RxClient.get(getApplicationContext()).getNewFaqCategory(token,
@@ -261,7 +290,6 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
                             btn.setTag(n);
                             lLayout.addView(btn);
 
-
                             btn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -272,8 +300,10 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
                                     offlineDatabase.getQuesAns(cID);
 
                                     if(NDC.isConnected(con)){
-                                        progressBar.setVisibility(View.VISIBLE);
-                                        newFaqModuleWBService(cID, categoryName.get(Integer.valueOf(v.getTag().toString())));
+                                       // progressBar.setVisibility(View.VISIBLE);
+                                        mprProgressDialog.show();
+                                        newFaqModuleWBService(cID, categoryName.
+                                                get(Integer.valueOf(v.getTag().toString())));
                                     }else if(faqList.size()>0 && faqList != null){
                                         //faqList.add(list);
                                         Intent i = new Intent(FaqCategroyLIstActivity.this, FaqActivity.class);
@@ -281,69 +311,82 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
                                         startActivity(i);
                                     }else{
                                         progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(con, "Kindly check your network connection", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(con, "Kindly check your network connection",
+                                                Toast.LENGTH_LONG).show();
                                     }
-
                                 }
                             });
                         }
+                       // progressBar.setVisibility(View.INVISIBLE);
+
+                        mprProgressDialog.dismiss();
+                       /* if(ProgressBarStyle.rLoading.isStart()){
+                            ProgressBarStyle.rLoading.stop();
+                        }else{
+                            ProgressBarStyle.rLoading.start();
+                        }*/
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         try{
-                            progressBar.setVisibility(View.INVISIBLE);
-                        final AlertDialog.Builder dialogBuilder = new
-                                AlertDialog.Builder(FaqCategroyLIstActivity.this);
-                        View bView = getLayoutInflater().inflate(R.layout.custom_feedback_alert, null);
-                        dialogBuilder.setView(bView);
-                        Button send_btn = (Button) bView.findViewById(R.id.feedback_okbtn);
-                        NewFaqCategoryResponse usere = (NewFaqCategoryResponse)
-                                error.getBodyAs(NewFaqCategoryResponse.class);
-                        TextView t = (TextView) bView.findViewById(R.id.dialog_text);
-                        t.setText(usere.getError());
+                            NewFaqCategoryResponse usere = (NewFaqCategoryResponse)
+                                    error.getBodyAs(NewFaqCategoryResponse.class);
 
-                        final AlertDialog al = dialogBuilder.create();
-                        al.show();
-
-                        send_btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                al.dismiss();
-                                finish();
+                            if(usere.getStatus().equalsIgnoreCase("402")){
+                                mtd_refresh_token();
                             }
-                        });
 
                         }catch (Exception e){
-                          /*  Toast.makeText(FaqCategroyLIstActivity.this, "Service not response",
-                                    Toast.LENGTH_LONG).show();
-                            finish();*/
-
-                            progressBar.setVisibility(View.INVISIBLE);
-                            final AlertDialog.Builder dialogBuilder = new
-                                    AlertDialog.Builder(FaqCategroyLIstActivity.this);
-                            View bView = getLayoutInflater().inflate(R.layout.custom_feedback_alert, null);
-                            dialogBuilder.setView(bView);
-                            Button send_btn = (Button) bView.findViewById(R.id.feedback_okbtn);
-                            /*NewFaqCategoryResponse usere = (NewFaqCategoryResponse)
-                                    error.getBodyAs(NewFaqCategoryResponse.class);*/
-                            TextView t = (TextView) bView.findViewById(R.id.dialog_text);
-                            t.setText("No Categories For this Course");
-
-                            final AlertDialog al = dialogBuilder.create();
-                            al.show();
-
-                            send_btn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    al.dismiss();
-                                    finish();
-                                }
-                            });
 
                         }
+                        /*Toast.makeText(FaqCategroyLIstActivity.this, "Service not response",
+                                Toast.LENGTH_LONG).show();
+                        finish();*/
+
                     }
                 });
+    }
+
+
+    private void mtd_refresh_token() {
+       /* Toast.makeText(context, "expired", Toast.LENGTH_SHORT).show();*/
+        RxClient.get(FaqCategroyLIstActivity.this).Login(new loginreq(sharedpreferences.
+                getString(SharedPrefUtils.SpEmail, ""),
+                sharedpreferences.getString(SharedPrefUtils.SpPassword, "")), new Callback<loginresp>() {
+            @Override
+            public void success(loginresp loginresp, Response response) {
+
+
+
+                if (loginresp.getStatus().equals("200")){
+                    editor.putString(SharedPrefUtils.SpRememberToken,loginresp.getToken().toString());
+                    editor.commit();
+
+                    final Handler handler = new Handler();
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            faqCatListFmWB();
+                            //progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    };
+                    handler.postDelayed(runnable, 500);
+
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Log.d("refresh token", "refresh token error");
+                Toast.makeText(FaqCategroyLIstActivity.this, "Service not response",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+
     }
 
     private void newFaqModuleWBService(final String catid, final String name) {
@@ -376,13 +419,15 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
                                 Intent i = new Intent(FaqCategroyLIstActivity.this, FaqActivity.class);
                                 i.putExtra("faqname", name);
                                 startActivity(i);
-                                progressBar.setVisibility(View.INVISIBLE);
+                              //  progressBar.setVisibility(View.INVISIBLE);
+                                mprProgressDialog.dismiss();
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
                                 try{
-                                    progressBar.setVisibility(View.INVISIBLE);
+                                   // progressBar.setVisibility(View.INVISIBLE);
+                                    mprProgressDialog.dismiss();
                                     NewFaqResponse usere = (NewFaqResponse) error.getBodyAs(NewFaqResponse.class);
                                     Toast.makeText(FaqCategroyLIstActivity.this, usere.getError(),
                                             Toast.LENGTH_LONG).show();
@@ -404,9 +449,13 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             case R.id.finpedia:
-                startActivity(new Intent(getApplicationContext(), FaqCategroyLIstActivity.class));
-                ModuleFinJan.courseID = "5";
+                /*startActivity(new Intent(getApplicationContext(), FaqCategroyLIstActivity.class));
+                ModuleFinJan.courseID = "5";*/
                 return true;
 
             case R.id.learning_center:
@@ -435,17 +484,23 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
 
             case R.id.finstart_c:
 
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
                     ModuleFinJan.courseName = "Finstart";
                     startActivity(i);
                 }else{
-                    Intent i = new Intent(getApplicationContext(), TryFinStart.class);
-                    startActivity(i);
+                    if (NDC.isConnected(con)) {
+                        Intent i = new Intent(getApplicationContext(), TryFinStart.class);
+                        startActivity(i);
+                    }else{
+                        Toast.makeText(FaqCategroyLIstActivity.this,
+                                "Kindly check your network connection", Toast.LENGTH_LONG).show();
+                    }
 
                 }
 
@@ -472,7 +527,7 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(con)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Kindly check your network connection",
@@ -506,6 +561,13 @@ public class FaqCategroyLIstActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                offlineDB.deleteAll();
 
                 finish();
                 return true;

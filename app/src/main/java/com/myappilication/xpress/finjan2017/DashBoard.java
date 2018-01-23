@@ -2,7 +2,9 @@ package com.myappilication.xpress.finjan2017;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,6 +16,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -33,6 +36,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -40,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -66,6 +71,8 @@ import com.myappilication.xpress.finjan2017.models.login.VideoList.MCQ;
 import com.myappilication.xpress.finjan2017.models.login.VideoList.VideoListModules;
 import com.myappilication.xpress.finjan2017.models.login.VideoList.VideoListReq;
 import com.myappilication.xpress.finjan2017.models.login.VideoList.VideoListResponse;
+import com.myappilication.xpress.finjan2017.models.login.completemodpushtoserver.CompletemodResponse;
+import com.myappilication.xpress.finjan2017.models.login.completemodpushtoserver.Completemodreq;
 import com.myappilication.xpress.finjan2017.models.login.evalution.EvalutionModularQues;
 import com.myappilication.xpress.finjan2017.models.login.evalution.EvalutionReq;
 import com.myappilication.xpress.finjan2017.models.login.evalution.EvalutionResponse;
@@ -77,6 +84,9 @@ import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
 import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
 import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 import com.squareup.picasso.Picasso;
 
@@ -110,9 +120,7 @@ import retrofit.client.Response;
 
 public class DashBoard extends AppCompatActivity {
 
-
     //new
-
     private static String list_modID_position;
 
     List<VideoListModules> videoList = new ArrayList<>();
@@ -132,6 +140,8 @@ public class DashBoard extends AppCompatActivity {
     int tempCondition;
     Dialog dialog;
     ImageButton Min;
+
+    ProgressBar pb;
 
     @SuppressWarnings("deprecation")
     @SuppressLint("SetJavaScriptEnabled")
@@ -188,7 +198,7 @@ public class DashBoard extends AppCompatActivity {
     ArrayList<String> mcq_correct_ans = new ArrayList<>();
     ArrayList<String> modular = new ArrayList<String>();
 
-    boolean visibleGoToNext=false;
+    boolean visibleGoToNext=true, allmodCompleted=false;
 
     public static DashBoard mDashBoard;
 
@@ -216,6 +226,8 @@ public class DashBoard extends AppCompatActivity {
 
     public static int increaseModIDPos;
 
+    public static Dialog mprProgressDialog;
+
     ScrollView contentLayout;
     Button FullScreen;
     int mcurrentPosition;
@@ -239,16 +251,45 @@ public class DashBoard extends AppCompatActivity {
      */
     VideoView full_sc;
     ProgressBar fulprogressBar;
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        ScrollView ll = (ScrollView) findViewById(R.id.scrollviewdash);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            // addContentView(R.layout.rl_dark,);
+
+            ll.setVisibility(View.GONE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            ll.setVisibility(View.VISIBLE);
+            //Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            //  setContentView(R.layout.dashboardnew);
+            //   onResume();
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         try{
+
             if(ccondition==true){
               //  super.onCreate(savedInstanceState);
             }else{
+                requestWindowFeature(Window.FEATURE_NO_TITLE);// hide statusbar of Android
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 super.onCreate(savedInstanceState);
             }
+
         }catch (Exception e){
             Log.d("error", e.toString());
         }
@@ -259,6 +300,11 @@ public class DashBoard extends AppCompatActivity {
         dashboard_act.add(DashBoard.this);
 
         fulprogressBar = (ProgressBar) findViewById(R.id.full_progress);
+
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
+       // mprProgressDialog.show();
+       /* ActionBar actionBar = getActionBar();
+        actionBar.hide();*/
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES, Context.MODE_PRIVATE);
@@ -299,6 +345,7 @@ public class DashBoard extends AppCompatActivity {
             Module_id = incrementmoduleID;
         }else{
             List_of_moduleID = getIntent().getStringExtra("list_of_module_id");
+
             if(temp == true){
 
             }else{
@@ -310,6 +357,7 @@ public class DashBoard extends AppCompatActivity {
 
        /* for(int nn=0; nn<ListofModuleFinjan.modulerID_list.size(); nn++){
             if(nn == 0) {
+
                 String listONe = ListofModuleFinjan.modulerID_list.get(nn);
                 if(listONe.equalsIgnoreCase(List_of_moduleID)){
                     Log.d("enc_url","equal");
@@ -325,6 +373,8 @@ public class DashBoard extends AppCompatActivity {
                 Log.d("enc_url","");
             }
         }*/
+
+
 
         String firstOne = ListofModuleFinjan.modulerID_list.get(0);
         if(firstOne.equalsIgnoreCase(List_of_moduleID)){
@@ -374,12 +424,11 @@ public class DashBoard extends AppCompatActivity {
 
         // imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
-
-
         // Toast.makeText(DashBoard.this, "Video_type" + vtype, Toast.LENGTH_SHORT).show();
 
         /* editor.putString(SharedUtils.SpModuleId,moduleId);
         editor.commit();*/
+
         Download = (Button) findViewById(R.id.btn_downloadnew);
 
       /*  DisplayMetrics metrics = new DisplayMetrics(); getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -407,8 +456,8 @@ public class DashBoard extends AppCompatActivity {
         }
 
         //Toast.makeText(getApplicationContext(), "result"+result, Toast.LENGTH_SHORT).show();
-        TextView textView = (TextView) findViewById(R.id.tv_dashboard);
-        textView.setText( ModuleFinJan.courseName);
+        /*TextView textView = (TextView) findViewById(R.id.tv_dashboard);
+        textView.setText( ModuleFinJan.courseName);*/
         t3 = (TextView) findViewById(R.id.t1);
         tv_finjan_test = (TextView) findViewById(R.id.text_finjan_test);
 
@@ -417,14 +466,16 @@ public class DashBoard extends AppCompatActivity {
             t3.setText(" " + name);
             String testfinjan = sharedpreferences.getString("Module_name", "");
             tv_finjan_test.setText(" " + testfinjan);
-            Picasso.with(getApplicationContext()).load(img).resize(2400, 1300).centerCrop().into(imageView);
+            Picasso.with(getApplicationContext()).load(img).resize(2400,
+                    1300).centerCrop().into(imageView);
+
         }else{
             Download.setVisibility(View.INVISIBLE);
-            btn_playvideo.setEnabled(false);
+          //  btn_playvideo.setEnabled(false);
+            FullScreen.setVisibility(View.GONE);
             List<VideoListModules> offLineVideolist = mOfflineDatabaseHelper.getdata(List_of_moduleID);
 
             if(offLineVideolist.size() > 0){
-
                 for(int tt=0; tt<offLineVideolist.size(); tt++){
                     String name = offLineVideolist.get(tt).getCourse_module();
                     t3.setText(" " + name);
@@ -441,11 +492,20 @@ public class DashBoard extends AppCompatActivity {
             }
         }
 
+
         dialog = new Dialog(con, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setContentView(R.layout.activity_full_screen);
 
         // dialog.setTitle("Title...");
        full_sc = (VideoView) dialog.findViewById(R.id.fullscreen);
+        pb = (ProgressBar) dialog.findViewById(R.id.full_s_dialog_progress);
+
+        full_sc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_LONG).show();
+            }
+        });
 
       /*  String name = sharedpreferences.getString("Module_name", "");
         t3.setText(" " + name);
@@ -461,6 +521,7 @@ public class DashBoard extends AppCompatActivity {
         myInternalFile = new File(directory, filename);
         vidView = (VideoView) findViewById(R.id.video);
 
+
         vidView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
                 // TODO Auto-generated method stub
@@ -469,6 +530,7 @@ public class DashBoard extends AppCompatActivity {
                 FullScreen.setVisibility(View.GONE);
                 btn_playvideo.setVisibility(View.INVISIBLE);
                 Log.d("compleate", "video com");
+
                 Toast.makeText(getApplicationContext(), "Video completed", Toast.LENGTH_LONG).show();
 
                 mOfflineDatabaseHelper.setvideoComplete(List_of_moduleID, "true");
@@ -634,13 +696,20 @@ public class DashBoard extends AppCompatActivity {
             String lastOne1 = ListofModuleFinjan.modulerID_list.get(ListofModuleFinjan.modulerID_list.size() - 1);
             if(lastOne.equalsIgnoreCase(List_of_moduleID)){
                 Log.d("enc_url","equal");
-                go_tonext.setVisibility(View.INVISIBLE);
+                go_tonext.setVisibility(View.VISIBLE);
+
+                allmodCompleted = true;
+                //hgjh
+
             }else{
 
 
 
                 go_tonext.setVisibility(View.VISIBLE);
             }
+
+            completemodPushtoserver();
+
 
 
             //go_tonext.setPaintFlags(go_tonext.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -672,14 +741,65 @@ public class DashBoard extends AppCompatActivity {
                    // ccondition=true;
                  //   onCreate(bb);
 
-                    String videoVali = mOfflineDatabaseHelper.getVideoCompleted(List_of_moduleID);
+                   // completemodPushtoserver();
+
+                    String lastOne = ListofModuleFinjan.modulerID_list.
+                            get(ListofModuleFinjan.modulerID_list.size() - 1);
+
+                    if(lastOne.equalsIgnoreCase(List_of_moduleID)){
+                        if(allmodCompleted==true) {
+                            String videoVali = mOfflineDatabaseHelper.getVideoCompleted(List_of_moduleID);
+
+                            if (videoVali != null) {
+                                String name = sharedpreferences.getString("coupon_image", "");
+
+                                String reg_c_image = sharedpreferences.getString("reg_d_coupon_image", "");
+
+                                if(name != null&& name.length()>0) {
+                                    sheetDialog(name);
+                                }else if(reg_c_image != null&& reg_c_image.length()>0){
+                                    sheetDialog(reg_c_image);
+                                }else{
+                                    modFinishedalert();
+                                }
+
+                            } else {
+                                Toast.makeText(DashBoard.this, "Watch the video completely to proceed",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    }else{
+                        callWebService(1);
+                    }
+
+
+
+
+                   /* if(allmodCompleted==true){
+                        String videoVali = mOfflineDatabaseHelper.getVideoCompleted(List_of_moduleID);
+
+                        if(videoVali!=null){
+                            modFinishedalert();
+                        }else{
+                            Toast.makeText(DashBoard.this, "Watch the video completely and then " +
+                                    "you can use next", Toast.LENGTH_LONG).show();
+                        }
+
+                    }else{
+                        callWebService(1);
+
+                    }
+*/
+
+                  /*  String videoVali = mOfflineDatabaseHelper.getVideoCompleted(List_of_moduleID);
 
                     if(videoVali!=null){
                         callWebService(1);
                     }else{
                         Toast.makeText(DashBoard.this, "Watch the video completely and then " +
                                 "move to next module", Toast.LENGTH_LONG).show();
-                    }
+                    }*/
 
 
 
@@ -768,26 +888,49 @@ public class DashBoard extends AppCompatActivity {
                         }
                     });*/
 
-                    // Mini_scr=(ImageButton) findViewById(R.id.mini);
+                  //  pb.setVisibility(View.VISIBLE);
+                   // Mini_scr=(ImageButton) findViewById(R.id.mini);
+
+                    Button pyButton = (Button) dialog.findViewById(R.id.play_button);
+                    Button stButton = (Button) dialog.findViewById(R.id.stop_button);
+
+                    pyButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            full_sc.start();
+                        }
+                    });
+
+                    stButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            full_sc.pause();
+                        }
+                    });
+
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     int orientation = getResources().getConfiguration().orientation;
+
                     // if(orientation == Configuration.ORIENTATION_LANDSCAPE;
                    /* Window window = dialog.getWindow();
-                    window.setLayout(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);*/
-                    dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.WRAP_CONTENT);
+                    window.setLayout(WindowManager.LayoutParams.FILL_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT);*/
+                    dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.WRAP_CONTENT);
+
                     Min = (ImageButton) dialog.findViewById(R.id.mini);
                     Min.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
                             mcurrentPosition = full_sc.getCurrentPosition();
 
                             vidView.start();
                             vidView.seekTo(mcurrentPosition);
-
+                            full_sc.pause();
                             dialog.dismiss();
+                            progressBar.setVisibility(View.GONE);
 
                         }
                     });
@@ -799,13 +942,14 @@ public class DashBoard extends AppCompatActivity {
                             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                             vidView.start();
                             vidView.seekTo(mcurrentPosition);
+                            pb.setVisibility(View.GONE);
                         }
                     });
 
-
                     DisplayMetrics metrics = new DisplayMetrics();
                     getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                    android.widget.FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) full_sc.getLayoutParams();
+                    android.widget.FrameLayout.LayoutParams params =
+                            (android.widget.FrameLayout.LayoutParams) full_sc.getLayoutParams();
                     params.width = metrics.widthPixels;
                     params.height = metrics.heightPixels;
                     params.leftMargin = 0;
@@ -836,16 +980,23 @@ public class DashBoard extends AppCompatActivity {
                         full_sc.seekTo(vidView.getCurrentPosition());
                     } else {
                         //  if (Integer.parseInt(Lang_id)==Integer.parseInt(Module_id)) {
+                        WindowManager.LayoutParams a = dialog.getWindow().getAttributes();
+                        a.dimAmount = 0;
+                        dialog.getWindow().setAttributes(a);
 
                         imageView.setVisibility(View.INVISIBLE);
-                        mediacontroller = new MediaController(
-                                DashBoard.this);
+
+                        MediaController mediacontroller = new MediaController(dialog.getContext());
+                        getWindow().setFormat(PixelFormat.TRANSLUCENT);
                         mediacontroller.setAnchorView(full_sc);
+
+
                         // Get the URL from String VideoURL
                         Uri video = Uri.parse(play_url);
 
                         full_sc.setMediaController(mediacontroller);
                         full_sc.requestFocus();
+                        //mediacontroller.setVisibility(View.VISIBLE);
                         // full_sc.seekTo(mCurrentposition);
 
                         full_sc.setVideoURI(video);
@@ -853,19 +1004,17 @@ public class DashBoard extends AppCompatActivity {
 
                         vidView.pause();
                         full_sc.start();
-
+                       // mediacontroller.setVisibility(View.VISIBLE);
+                        //mediacontroller.setEnabled(true);
                         full_sc.seekTo(vidView.getCurrentPosition());
 
                     }
-
-
                     // Showing Alert Message
     /*
                     alertDialog.show();
     */
                     dialog.show();
-
-
+                   // pb.setVisibility(View.GONE);
                 }
             });
         } catch (Exception e) {
@@ -929,10 +1078,12 @@ public class DashBoard extends AppCompatActivity {
                                 }
                             }
                         }
+
                         Intent i = new Intent(DashBoard.this, ListofModuleFinjan.class);
                         i.putExtra("moduleID", ListofModuleFinjan.course_ID);
                         startActivity(i);
                         finish();
+
                     }catch (Exception e){
                     }
 
@@ -953,23 +1104,38 @@ public class DashBoard extends AppCompatActivity {
         calc_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            ArrayList<String> worList = new ArrayList<String>();
-                ArrayList<String> Calc = new ArrayList<String>();
-                final String Cal = sharedpreferences.getString("calc", "");
-                Calc.add(Cal);
 
-                worList.clear();
-                String[] calcname = Cal.split(",");
-                List<String> newList = Arrays.asList(calcname);
-                String nn = newList.get(0);
-                if(nn.equalsIgnoreCase("null")){
-               // Toast.makeText(DashBoard.this, "No calculator to this module", Toast.LENGTH_SHORT).show();
+                String videoVali = mOfflineDatabaseHelper.getVideoCompleted(List_of_moduleID);
+
+                if(videoVali!=null){
+                    //callWebService(1);
+
+                    ArrayList<String> worList = new ArrayList<String>();
+                    ArrayList<String> Calc = new ArrayList<String>();
+                    final String Cal = sharedpreferences.getString("calc", "");
+                    Calc.add(Cal);
+
+                    worList.clear();
+                    String[] calcname = Cal.split(",");
+                    List<String> newList = Arrays.asList(calcname);
+                    String nn = newList.get(0);
+                    if(nn.equalsIgnoreCase("null")){
+                        // Toast.makeText(DashBoard.this,
+                        // "No calculator to this module", Toast.LENGTH_SHORT).show();
+                    }else{
+                        // worList.addAll(newList);
+                        Intent i = new Intent(DashBoard.this, CalcModuleActivity.class);
+                        i.putExtra("list_of_module_id", List_of_moduleID);
+                        startActivity(i);
+                    }
+
                 }else{
-                   // worList.addAll(newList);
-                    Intent i = new Intent(DashBoard.this, CalcModuleActivity.class);
-                    i.putExtra("list_of_module_id", List_of_moduleID);
-                    startActivity(i);
+                    Toast.makeText(DashBoard.this, "Watch the video completely to proceed",
+                            Toast.LENGTH_LONG).show();
                 }
+
+
+
 
 
 
@@ -997,7 +1163,7 @@ public class DashBoard extends AppCompatActivity {
 
                     @Override
                     public void onScrollChanged() {
-                        mediacontroller.hide();
+                       // mediacontroller.hide();
                     }
                 });
                 new Offlinevideo().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1010,8 +1176,6 @@ public class DashBoard extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 // TODO Auto-generated method stub
-                progressBar.setVisibility(View.VISIBLE);
-
                 mp.start();
                 vidView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -1034,6 +1198,27 @@ public class DashBoard extends AppCompatActivity {
 
                     }
                 });
+
+
+              //  vidView.setMediaController(null);
+
+                int topContainerId = getResources().getIdentifier("mediacontroller_progress", "id", "android");
+                SeekBar seekBarVideo = (SeekBar) mediacontroller.findViewById(topContainerId);
+                seekBarVideo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        seekBar.setEnabled(false);
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        seekBar.setEnabled(false);
+                    }
+                });
             }
         });
 
@@ -1041,19 +1226,67 @@ public class DashBoard extends AppCompatActivity {
         bt_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("list of module id", Module_id);
 
-                quesList = db.getAllQuestions(Module_id);
-                if (NDC.isConnected(context)) {
-                    mcq_Id.clear();
-                    mcq_question.clear();
-                    mcq_answer1.clear();
-                    mcq_answer2.clear();
-                    mcq_answer3.clear();
-                    mcq_answer4.clear();
-                    mcq_correct_ans.clear();
-                    if(quesList != null) {
+                String videoVali = mOfflineDatabaseHelper.getVideoCompleted(List_of_moduleID);
+
+                if(videoVali!=null){
+
+                    Log.d("list of module id", Module_id);
+
+                    quesList = db.getAllQuestions(Module_id);
+                    if (NDC.isConnected(context)) {
+                        mcq_Id.clear();
+                        mcq_question.clear();
+                        mcq_answer1.clear();
+                        mcq_answer2.clear();
+                        mcq_answer3.clear();
+                        mcq_answer4.clear();
+                        mcq_correct_ans.clear();
+                        if(quesList != null) {
+                            for (EvalutionModularQues dc : quesList) {
+
+                                mcq_Id.add(dc.getMcq_id());
+                                mcq_answer1.add(dc.getMcq_ans1());
+                                mcq_answer2.add(dc.getMcq_ans2());
+                                mcq_answer3.add(dc.getMcq_ans3());
+                                mcq_answer4.add(dc.getMcq_ans4());
+                                mcq_question.add(dc.getMcq_qus());
+                                mcq_correct_ans.add(dc.getCorrect_ans());
+                                // modular.add(dc.getModular());
+
+
+                                McQData.getInstance().setMCQid(mcq_Id);
+                                McQData.getInstance().setMCQQuestion(mcq_question);
+                                McQData.getInstance().setMCQanswer1(mcq_answer1);
+                                McQData.getInstance().setMCQanswer2(mcq_answer2);
+                                McQData.getInstance().setMCQanswer3(mcq_answer3);
+                                McQData.getInstance().setMCQanswer4(mcq_answer4);
+                                McQData.getInstance().setMCQcorrectans(mcq_correct_ans);
+                                // McQData.getInstance().setMCQcorrectans(modular);
+
+                            }
+
+                            newinetent = new Intent(DashBoard.this, QuestionActivity.class);
+                            newinetent.putExtra("list_of_mod_id", Module_id);
+                            startActivity(newinetent);
+                        }else{
+
+                            //  Toast.makeText(DashBoard.this, "No MCQ to this module", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }else if (quesList != null) {
+                        // btn_playvideo.setEnabled(false);
+                        FullScreen.setVisibility(View.GONE);
+                        mcq_Id.clear();
+                        mcq_question.clear();
+                        mcq_answer1.clear();
+                        mcq_answer2.clear();
+                        mcq_answer3.clear();
+                        mcq_answer4.clear();
+                        mcq_correct_ans.clear();
                         for (EvalutionModularQues dc : quesList) {
+
 
                             mcq_Id.add(dc.getMcq_id());
                             mcq_answer1.add(dc.getMcq_ans1());
@@ -1078,53 +1311,21 @@ public class DashBoard extends AppCompatActivity {
 
                         newinetent = new Intent(DashBoard.this, QuestionActivity.class);
                         newinetent.putExtra("list_of_mod_id", Module_id);
+
                         startActivity(newinetent);
-                    }else{
-
-                  //  Toast.makeText(DashBoard.this, "No MCQ to this module", Toast.LENGTH_SHORT).show();
-
+                    }else {
+                        Toast.makeText(context, "Kindly check your network connection", Toast.LENGTH_LONG).show();
                     }
 
-                }else if (quesList != null) {
-                    btn_playvideo.setEnabled(false);
-                    mcq_Id.clear();
-                    mcq_question.clear();
-                    mcq_answer1.clear();
-                    mcq_answer2.clear();
-                    mcq_answer3.clear();
-                    mcq_answer4.clear();
-                    mcq_correct_ans.clear();
-                    for (EvalutionModularQues dc : quesList) {
 
-
-                        mcq_Id.add(dc.getMcq_id());
-                        mcq_answer1.add(dc.getMcq_ans1());
-                        mcq_answer2.add(dc.getMcq_ans2());
-                        mcq_answer3.add(dc.getMcq_ans3());
-                        mcq_answer4.add(dc.getMcq_ans4());
-                        mcq_question.add(dc.getMcq_qus());
-                        mcq_correct_ans.add(dc.getCorrect_ans());
-                       // modular.add(dc.getModular());
-
-
-                        McQData.getInstance().setMCQid(mcq_Id);
-                        McQData.getInstance().setMCQQuestion(mcq_question);
-                        McQData.getInstance().setMCQanswer1(mcq_answer1);
-                        McQData.getInstance().setMCQanswer2(mcq_answer2);
-                        McQData.getInstance().setMCQanswer3(mcq_answer3);
-                        McQData.getInstance().setMCQanswer4(mcq_answer4);
-                        McQData.getInstance().setMCQcorrectans(mcq_correct_ans);
-                       // McQData.getInstance().setMCQcorrectans(modular);
-
-                    }
-
-                    newinetent = new Intent(DashBoard.this, QuestionActivity.class);
-                    newinetent.putExtra("list_of_mod_id", Module_id);
-
-                    startActivity(newinetent);
-                }else {
-                    Toast.makeText(context, "Kindly check your network connection", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(DashBoard.this, "Watch the video completely to proceed", Toast.LENGTH_LONG).show();
                 }
+
+
+
+
+
 
 
         /*quesList = db.getAllQuestions();
@@ -1166,50 +1367,51 @@ public class DashBoard extends AppCompatActivity {
         btn_playvideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                File file = new File(Environment.getExternalStorageDirectory() + filename_to_dl);
-                //File fil = new File(Environment.getExternalStorageDirectory() + filename_to_dl+"e");
+                if(NDC.isConnected(context)){
+                    progressBar.setVisibility(View.VISIBLE);
+                    File file = new File(Environment.getExternalStorageDirectory() + filename_to_dl);
+                    //File fil = new File(Environment.getExternalStorageDirectory() + filename_to_dl+"e");
      /*   long fileSize = file.length();
         fileSize1 = filename_to_dl.length();
 */
 
-                if (file.exists()) {
-                    Download.setVisibility(View.INVISIBLE);
-                    new Offlinevideo().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                } else {
-                    //  if (Integer.parseInt(Lang_id)==Integer.parseInt(Module_id)) {
+                    if (file.exists()) {
+                        Download.setVisibility(View.INVISIBLE);
+                        new Offlinevideo().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    } else {
+                        //  if (Integer.parseInt(Lang_id)==Integer.parseInt(Module_id)) {
 
-                    imageView.setVisibility(View.INVISIBLE);
-                   mediacontroller = new MediaController(
-                            DashBoard.this);
-                    mediacontroller.setAnchorView(vidView);
-                    // Get the URL from String VideoURL
-                    Uri video = Uri.parse(play_url);
+                        imageView.setVisibility(View.INVISIBLE);
+                        mediacontroller = new MediaController(
+                                DashBoard.this);
+                        mediacontroller.setAnchorView(vidView);
+                        // Get the URL from String VideoURL
+                        Uri video = Uri.parse(play_url);
 
-                    vidView.setMediaController(mediacontroller);
-                    vidView.setVideoURI(video);
-                    mcurrentPosition = vidView.getCurrentPosition();
-                  //  Toast.makeText(DashBoard.this, "mCurrentposition"+mCurrentposition, Toast.LENGTH_SHORT).show();
-                    vidView.start();
+                        vidView.setMediaController(mediacontroller);
+                        vidView.setVideoURI(video);
+                        mcurrentPosition = vidView.getCurrentPosition();
+                        //  Toast.makeText(DashBoard.this, "mCurrentposition"+mCurrentposition, Toast.LENGTH_SHORT).show();
+                        vidView.start();
 
-                    //  t3.setText("Your OutPut"+position);
-                }
+                        //  t3.setText("Your OutPut"+position);
 
-            }
+                        FileOutputStream fos = null;
 
-            FileOutputStream fos = null;
+                        {
+                            try {
+                                fos = new FileOutputStream(myInternalFile);
+                                fos.close();
 
-            {
-                try {
-                    fos = new FileOutputStream(myInternalFile);
-                    fos.close();
-
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                            } catch (FileNotFoundException e1) {
+                                e1.printStackTrace();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+                }else{
+                    Toast.makeText(DashBoard.this, "Offline Unavailable. Sorry, video can't be taken offline.", Toast.LENGTH_LONG).show();                }
             }
         });
 
@@ -1441,10 +1643,111 @@ public class DashBoard extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+
+    private void sheetDialog(String name) {
+
+        final AlertDialog.Builder dialogBuilder = new
+                AlertDialog.Builder(DashBoard.this);
+
+        View bView = getLayoutInflater().inflate(R.layout.finstart_bannerdialog, null);
+        dialogBuilder.setView(bView);
+        dialogBuilder.setCancelable(false);
+
+        ImageView coursesLayout = (ImageView) bView.findViewById(R.id.banner_view);
+
+        if(name!=null){
+            Picasso.with(context)
+                    .load(StaticConfig.html_Base+name)
+                    .into(coursesLayout);
+        }
+
+
+        Button btn_ok = (Button) bView.findViewById(R.id.banner_button);
+
+        final AlertDialog al = dialogBuilder.create();
+        al.show();
+
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String reg_c_image = sharedpreferences.getString("reg_d_coupon_image", "");
+
+                String c_img = sharedpreferences.getString("coupon_image", "");
+
+                if(reg_c_image != null&& reg_c_image.length()>0){
+                    editor.remove("reg_coupon_image");
+                    editor.commit();
+                }
+
+                if(c_img != null&& c_img.length()>0){
+                    editor.remove("coupon_image");
+                    editor.commit();
+                }
+
+                al.dismiss();
+                modFinishedalert();
+
+            }
+        });
+    }
+
+    private void modFinishedalert() {
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DashBoard.this);
+        View bView = getLayoutInflater().inflate(R.layout.custom_feedback_alert, null);
+        dialogBuilder.setView(bView);
+        Button send_btn = (Button) bView.findViewById(R.id.feedback_okbtn);
+
+        TextView t = (TextView) bView.findViewById(R.id.dialog_text);
+        t.setText("Thankyou for completing all modules. Please submit your feedback");
+
+        final AlertDialog al = dialogBuilder.create();
+        al.show();
+
+        send_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (NDC.isConnected(context)) {
+                    Intent i = new Intent(DashBoard.this, NewFeedbackActivity.class);
+                    startActivity(i);
+                    finish();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Kindly check your network connection",
+                            Toast.LENGTH_LONG).show();
+                }
+
+
+
+            }
+        });
+    }
+
+    private void completemodPushtoserver() {
+        RxClient.get(getApplicationContext()).getUserFinishedCourse(sharedpreferences.getString(SharedPrefUtils.
+                SpRememberToken, ""), new Completemodreq(sharedpreferences.getString(SharedPrefUtils.SpEmail, "")
+        , ListofModuleFinjan.course_ID, List_of_moduleID), new Callback<CompletemodResponse>() {
+            @Override
+            public void success(CompletemodResponse completemodResponse, Response response) {
+                    String status = completemodResponse.getResult();
+
+                Log.d("", "");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("", "");
+            }
+        });
+
+    }
+
     private void callWebService(final int nnn) {
 
         try{
-            fulprogressBar.setVisibility(View.VISIBLE);
+          // fulprogressBar.setVisibility(View.VISIBLE);
+            mprProgressDialog.show();
+
             temp=true;
             tempCondition = nnn;
             if(nnn == 1){
@@ -1474,7 +1777,6 @@ public class DashBoard extends AppCompatActivity {
                                 mcq_answer3.clear();
                                 mcq_answer4.clear();
                                 mcq_correct_ans.clear();
-
 
                                 MCQ[] mcqList = dashboardResponse.getResult().getInfo().getMCQ();
                                 faqdata[] mFaq = dashboardResponse.getResult().getInfo().getFAQ();
@@ -1570,21 +1872,25 @@ public class DashBoard extends AppCompatActivity {
                                 CalcExpense.calcExpense_validation.clear();
                                 CalcDreams.calcDreams_validation.clear();
 
-
+                                mprProgressDialog.dismiss();
 
                                 ccondition=true;
                                 onCreate(bb);
-                                fulprogressBar.setVisibility(View.INVISIBLE);
+                              // fulprogressBar.setVisibility(View.INVISIBLE);
+
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
-                                fulprogressBar.setVisibility(View.INVISIBLE);
+                               // fulprogressBar.setVisibility(View.INVISIBLE);
+                               mprProgressDialog.dismiss();
                             }
                         });
 
             }else if(offLineVideolist.size() > 0){
-                btn_playvideo.setEnabled(false);
+               // btn_playvideo.setEnabled(false);
+                mprProgressDialog.dismiss();
+                FullScreen.setVisibility(View.GONE);
                 ccondition=true;
                 onCreate(bb);
             }else{
@@ -1815,13 +2121,14 @@ public class DashBoard extends AppCompatActivity {
         vidView.start();
         vidView.seekTo(mcurrentPosition);
         super.onStart();
+       // Toast.makeText(DashBoard.this, "start", Toast.LENGTH_SHORT).show();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
+        //client.connect();
         //   Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
+        /*Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
                 "DashBoard Page", // TODO: Define a title for the content shown.
                 // TODO: If you have web page content that matches this app activity's content,
@@ -1829,17 +2136,20 @@ public class DashBoard extends AppCompatActivity {
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.myappilication.xpress.finjan2017/http/host/path")
+               // "android-app://com.myappilication.xpress.finjan2017/http/host/path"
+
+                Uri.parse("android-app://"+R.string.packge_name+"/http/host/path")
         );
-        AppIndex.AppIndexApi.start(client, viewAction);
+        AppIndex.AppIndexApi.start(client, viewAction);*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // Toast.makeText(DashBoard.this, "resume", Toast.LENGTH_SHORT).show();
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+       // Toast.makeText(DashBoard.this, "resume", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -1863,7 +2173,7 @@ public class DashBoard extends AppCompatActivity {
 */
     @Override
     protected void onPause() {
-        // Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
         if(fullscr==false) {
             Uri viduri = Uri.parse(Environment.getExternalStorageDirectory() + "/dec.mp4");
 
@@ -1893,7 +2203,8 @@ public class DashBoard extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        //  Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+
+       // Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
         Uri viduri = Uri.parse(Environment.getExternalStorageDirectory() + "/dec.mp4");
         progressBar.setVisibility(View.GONE);
 
@@ -1908,7 +2219,7 @@ public class DashBoard extends AppCompatActivity {
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
+        /*Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
                 "DashBoard Page", // TODO: Define a title for the content shown.
                 // TODO: If you have web page content that matches this app activity's content,
@@ -1921,7 +2232,7 @@ public class DashBoard extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.disconnect();
+        client.disconnect();*/
     }
     // create temp file that will hold byte array
 
@@ -2099,13 +2410,17 @@ public class DashBoard extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(DashBoard.this, "Kindly check your network connection",
                             Toast.LENGTH_LONG).show();
                     return false;
                 }
+
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
 
             /*case R.id.feedback_list:
                 OfflineFeedbackDB feedbackDB = new OfflineFeedbackDB(this);
@@ -2135,10 +2450,15 @@ public class DashBoard extends AppCompatActivity {
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
 
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                mOfflineDatabaseHelper.deleteAll();
+
                 finish();
                 return true;
-
-
         }
         return false;
     }

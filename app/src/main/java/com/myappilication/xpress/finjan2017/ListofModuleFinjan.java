@@ -2,24 +2,32 @@ package com.myappilication.xpress.finjan2017;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -39,6 +47,7 @@ import com.myappilication.xpress.finjan2017.models.login.VideoList.MCQ;
 import com.myappilication.xpress.finjan2017.models.login.VideoList.VideoListModules;
 import com.myappilication.xpress.finjan2017.models.login.VideoList.VideoListReq;
 import com.myappilication.xpress.finjan2017.models.login.VideoList.VideoListResponse;
+import com.myappilication.xpress.finjan2017.models.login.couponbasedcourses.CouponBSResponse;
 import com.myappilication.xpress.finjan2017.models.login.evalution.EvalutionModularQues;
 import com.myappilication.xpress.finjan2017.models.login.faq.Faqlistdatas;
 import com.myappilication.xpress.finjan2017.models.login.faq.faqdata;
@@ -46,15 +55,22 @@ import com.myappilication.xpress.finjan2017.models.login.helpers.DataBase;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
 import com.myappilication.xpress.finjan2017.models.login.helpers.StaticConfig;
+import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
+import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
 import com.myappilication.xpress.finjan2017.models.login.modulelist.LOCourse;
 import com.myappilication.xpress.finjan2017.models.login.modulelist.ListOfModuleReq;
 import com.myappilication.xpress.finjan2017.models.login.modulelist.ListOfModuleResponse;
+import com.myappilication.xpress.finjan2017.models.login.newfaqcategorylist.NewFaqCategoryResponse;
 import com.myappilication.xpress.finjan2017.models.login.newfaqmoduleweb.NewFaqRequest;
 import com.myappilication.xpress.finjan2017.models.login.newfaqmoduleweb.NewFaqResponse;
 import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.DatabaseModules;
 import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
+import com.squareup.picasso.Picasso;
 
 import java.sql.Array;
 import java.text.DateFormat;
@@ -149,6 +165,8 @@ public class ListofModuleFinjan extends AppCompatActivity {
 
     public static String moduleID_position;
 
+    public static String coupon_img;
+
 
     TextView t3;
     ImageButton imageButton;
@@ -157,6 +175,8 @@ public class ListofModuleFinjan extends AppCompatActivity {
     public static ArrayList<Activity> list_mod_act = new ArrayList<>();
 
     ProgressBar progressBar;
+
+    public static Dialog mprProgressDialog;
 
 
     @Override
@@ -183,9 +203,21 @@ public class ListofModuleFinjan extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+       String c_image = getIntent().getStringExtra("coupon_image");
+
+        String reg_c_image = sharedpreferences.getString("reg_m_coupon_image", "");
+
+        if(c_image!=null && c_image.length()>0){
+            sheetDialog(c_image);
+        }else if(reg_c_image != null&& reg_c_image.length()>0){
+            sheetDialog(reg_c_image);
+        }
 
         imageButton = (ImageButton) findViewById(R.id.tb_normal_back);
 
@@ -222,7 +254,6 @@ public class ListofModuleFinjan extends AppCompatActivity {
                         }catch (Exception e){
 
                         }
-
                     }
 
                     if(FaqCategroyLIstActivity.faq_activity_list.size()>1) {
@@ -253,19 +284,18 @@ public class ListofModuleFinjan extends AppCompatActivity {
 
                 }catch (Exception e){
                 }
-        finish();
+                finish();
+      // FinstartHomeActivity.homeActivity.finish();
             }
         });
 
         //listView = (ListView) findViewById(R.id.list);
         linear = (LinearLayout) findViewById(R.id.linear);
 
-
         faq_button = (Button) findViewById(R.id.listofmod_faq_btn);
 
         t3 = (TextView) findViewById(R.id.tv_dashboard);
         t3.setText(" " + ModuleFinJan.courseName);
-
 
         faq_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,7 +315,6 @@ public class ListofModuleFinjan extends AppCompatActivity {
                     callWebService(course_ID);
 
                 }else if(getDB_listMod.size()>0){
-
 
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date();
@@ -352,7 +381,8 @@ public class ListofModuleFinjan extends AppCompatActivity {
                         Button send_btn = (Button) bView.findViewById(R.id.feedback_okbtn);
 
                         TextView t = (TextView) bView.findViewById(R.id.dialog_text);
-                        t.setText("Your subcription for finstart expried from " +expvalidation+ " to " +datee);
+                        t.setText("Your subscription for finstart has expired kindly subscribe again " +
+                                "if you want to use finstart");
 
                         final AlertDialog al = dialogBuilder.create();
                         al.show();
@@ -361,7 +391,11 @@ public class ListofModuleFinjan extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
 
-                                editor.remove("couponvalidation");
+                                editor.remove("couponbaseModuleid");
+                                editor.remove("isusergetmoduleid");
+                                editor.remove("isusergetexpdate");
+
+
                                 editor.commit();
 
                                 offlineDB.deleteSingleEmail(sharedpreferences.getString(SharedPrefUtils.SpEmail, ""));
@@ -376,7 +410,7 @@ public class ListofModuleFinjan extends AppCompatActivity {
                                         a.finish();
                                     }
 
-                                    for(Activity a: FeedActivity.feed_act){
+                                    for(Activity a: NewFeedbackActivity.feed_act) {
                                         a.finish();
                                     }
 
@@ -596,11 +630,54 @@ public class ListofModuleFinjan extends AppCompatActivity {
                 }
             }
 
+    private void sheetDialog(String coupon_img) {
+
+        final AlertDialog.Builder dialogBuilder = new
+                AlertDialog.Builder(ListofModuleFinjan.this);
+
+        View bView = getLayoutInflater().inflate(R.layout.finstart_bannerdialog, null);
+        dialogBuilder.setView(bView);
+       // bView.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialogBuilder.setCancelable(false);
+
+        ImageView coursesLayout = (ImageView) bView.findViewById(R.id.banner_view);
+
+        Picasso.with(context)
+                .load(StaticConfig.html_Base+coupon_img)
+                .into(coursesLayout);
+
+        Button btn_Cancel = (Button) bView.findViewById(R.id.banner_button);
+
+        final AlertDialog al = dialogBuilder.create();
+
+        try{
+            final Handler handler = new Handler();
+            final Runnable r = new Runnable(){
+                public void run(){
+                    al.show();
+                }
+            };
+            handler.postDelayed(r, 300);
+        }catch (Exception e){
+            al.show();
+        }
 
 
+        btn_Cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String reg_c_image = sharedpreferences.getString("reg_m_coupon_image", "");
+                if(reg_c_image != null&& reg_c_image.length()>0) {
+                    editor.remove("reg_m_coupon_image");
+                    editor.commit();
+                }
+                al.dismiss();
+            }
+        });
+    }
 
 
-                //  Toast.makeText(ModuleFinJan.this, "cs" + Res, Toast.LENGTH_SHORT).show();
+    //  Toast.makeText(ModuleFinJan.this, "cs" + Res, Toast.LENGTH_SHORT).show();
 
 
 
@@ -608,8 +685,6 @@ public class ListofModuleFinjan extends AppCompatActivity {
            /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
 
 
                     moduleid = cmoduleID.get(position);
@@ -634,8 +709,6 @@ public class ListofModuleFinjan extends AppCompatActivity {
             });*/
 
 
-
-
     private void callWebService(String c_id) {
         progressBar.setVisibility(View.VISIBLE);
         RxClient.get(getApplicationContext()).finListOfModule(sharedpreferences.getString
@@ -650,223 +723,243 @@ public class ListofModuleFinjan extends AppCompatActivity {
                         cModule.clear();
                         cmoduleID.clear();
 
-                        String expirydate = null;
-                        String crt = null;
 
-                        for (int t = 0; t < listOfModuleResponse.getLomResult().
-                                getModuleInFo().getModulesList().length; t++) {
-                            expirydate = listOfModuleResponse.getLomResult().getModuleInFo().
-                                    getModulesList()[t].getExpiry_day();
+                        if(listOfModuleResponse.getLomResult() != null){
+                            String expirydate = null;
+                            String crt = null;
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            Date date = new Date();
+                            String datee = dateFormat.format(date);
 
-                            crt = listOfModuleResponse.getLomResult().getModuleInFo().
-                                    getModulesList()[t].getCreated_at();
+                            try{
+                                for (int t = 0; t < listOfModuleResponse.getLomResult().
+                                        getModuleInFo().getModulesList().length; t++) {
+                                    expirydate = listOfModuleResponse.getLomResult().getModuleInFo().
+                                            getModulesList()[t].getExpiry_day();
 
-                            Log.d("exp datee", expirydate);
+                                    crt = listOfModuleResponse.getLomResult().getModuleInFo().
+                                            getModulesList()[t].getCreated_at();
+                                    Log.d("exp datee", expirydate);
 
-                        }
-
-
-
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = new Date();
-                        String datee = dateFormat.format(date);
-
-                        Log.d("database exp date", expirydate);
-                        Log.d("Android current date", datee);
-
-                        boolean expCondition=false;
-                        try {
-
-                            if(expirydate != null){
-                                if(dateFormat.parse(expirydate).before(dateFormat.parse(datee)))
-                                {
-                                    expCondition = true;//If start date is before end date
-                                    //expiryAlert(expCondition);
-                                    Log.d("database exp", "true");
                                 }
-                                else if(dateFormat.parse(expirydate).equals(dateFormat.parse(datee)))
-                                {
-                                    expCondition = true;//If two dates are equal
-                                   // expiryAlert(expCondition);
-                                    Log.d("database exp", "true");
+
+                                Log.d("database exp date", expirydate);
+                                Log.d("Android current date", datee);
+                            }catch (Exception e){
+
+                            }
+
+                            boolean expCondition=false;
+                            try {
+
+                                if(expirydate != null){
+                                    if(dateFormat.parse(expirydate).before(dateFormat.parse(datee)))
+                                    {
+                                        expCondition = true;//If start date is before end date
+                                        //expiryAlert(expCondition);
+                                        Log.d("database exp", "true");
+                                    }
+                                    else if(dateFormat.parse(expirydate).equals(dateFormat.parse(datee)))
+                                    {
+                                        expCondition = true;//If two dates are equal
+                                        // expiryAlert(expCondition);
+                                        Log.d("database exp", "true");
+                                    }
+                                    else
+                                    {
+                                        expCondition = false; //If start date is after the end date
+                                        Log.d("database exp", "false");
+                                    }
                                 }
-                                else
-                                {
-                                    expCondition = false; //If start date is after the end date
-                                    Log.d("database exp", "false");
+
+
+                            } catch (ParseException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+
+                            if (expCondition == false) {
+                                try{
+                                    for (int t = 0; t < listOfModuleResponse.getLomResult().
+                                            getModuleInFo().getCourseList().length; t++) {
+
+                                        cModule.add(listOfModuleResponse.getLomResult().getModuleInFo().
+                                                getCourseList()[t].getCourseModule());
+                                        cmoduleID.add(listOfModuleResponse.getLomResult().getModuleInFo().
+                                                getCourseList()[t].getCmID());
+
+                                        modulerName_list.add(listOfModuleResponse.getLomResult().getModuleInFo().getCourseList()[t].getCourseModule());
+                                        modulerID_list.add(listOfModuleResponse.getLomResult().
+                                                getModuleInFo().getCourseList()[t].getCmID());
+                                    }
+                                }catch (Exception e){
                                 }
-                            }
+
+                                List<DatabaseModules> complete_prossess = offlineDB.getAllMCQComplete(true);
+                                List<DatabaseModules> CALCcomplete_prossess = offlineDB.getAllCALCComplete(true);
+                                List<DatabaseModules> FAQcomplete_prossess = offlineDB.getAllFAQComplete(true);
+
+                                List<DatabaseModules> videocomplete_prossess = offlineDB.getAllVideoComplete(true);
 
 
-                        } catch (ParseException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+                                boolean tempCon = true;
+                                ArrayList<String> mcqtempList = new ArrayList<String>();
+                                ArrayList<String> calctempList = new ArrayList<String>();
+                                ArrayList<String> faqtempList = new ArrayList<String>();
 
-                        if (expCondition == false) {
+                                ArrayList<String> videotempList = new ArrayList<String>();
 
-                            for (int t = 0; t < listOfModuleResponse.getLomResult().
-                                    getModuleInFo().getCourseList().length; t++) {
-
-                                cModule.add(listOfModuleResponse.getLomResult().getModuleInFo().
-                                        getCourseList()[t].getCourseModule());
-                                cmoduleID.add(listOfModuleResponse.getLomResult().getModuleInFo().
-                                        getCourseList()[t].getCmID());
-
-                                modulerName_list.add(listOfModuleResponse.getLomResult().getModuleInFo().getCourseList()[t].getCourseModule());
-                                modulerID_list.add(listOfModuleResponse.getLomResult().
-                                        getModuleInFo().getCourseList()[t].getCmID());
-
-                            }
-
-                            List<DatabaseModules> complete_prossess = offlineDB.getAllMCQComplete(true);
-                            List<DatabaseModules> CALCcomplete_prossess = offlineDB.getAllCALCComplete(true);
-                            List<DatabaseModules> FAQcomplete_prossess = offlineDB.getAllFAQComplete(true);
-
-
-                            boolean tempCon = true;
-                            ArrayList<String> mcqtempList = new ArrayList<String>();
-                            ArrayList<String> calctempList = new ArrayList<String>();
-                            ArrayList<String> faqtempList = new ArrayList<String>();
-
-                            for(DatabaseModules mm : complete_prossess){
-                                mcqtempList.add(mm.getMcq_complete_all_courseid());
-                            }
-
-                            for(DatabaseModules mm : CALCcomplete_prossess){
-                                calctempList.add(mm.getCalc_complete_all_courseid());
-                            }
-
-                            for(DatabaseModules mm : FAQcomplete_prossess){
-                                faqtempList.add(mm.getFaq_complete_all_courseid());
-                            }
-
-                            if(((LinearLayout) linear).getChildCount() > 0)
-                                linear.removeAllViews();
-
-                            for(int t=0; t<cModule.size(); t++){
-                                final Button btnTag = new Button(ListofModuleFinjan.this);
-                                btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.
-                                        LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                                btnTag.setText(cModule.get(t));
-                                btnTag.setBackgroundResource(R.drawable.list_of_module_btn);
-
-                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.
-                                        LayoutParams.MATCH_PARENT);
-
-                                params.setMargins(15, 10, 15, 2);
-                                btnTag.setTextColor(Color.WHITE);
-
-                                btnTag.setLayoutParams(params);
-
-                                if(t==0){
-                                    btnTag.setEnabled(true);
+                                for(DatabaseModules mm : complete_prossess){
+                                    mcqtempList.add(mm.getMcq_complete_all_courseid());
                                 }
-                                // btnTag.setEnabled(false);
 
-                                try {
+                                for(DatabaseModules mm : CALCcomplete_prossess){
+                                    calctempList.add(mm.getCalc_complete_all_courseid());
+                                }
+
+                                for(DatabaseModules mm : FAQcomplete_prossess){
+                                    faqtempList.add(mm.getFaq_complete_all_courseid());
+                                }
+
+                                for(DatabaseModules mm : videocomplete_prossess){
+                                    videotempList.add(mm.getVideo_complete_all_courseid());
+                                }
+
+                                if(((LinearLayout) linear).getChildCount() > 0)
+                                    linear.removeAllViews();
+
+                                for(int t=0; t<cModule.size(); t++){
+                                    final Button btnTag = new Button(ListofModuleFinjan.this);
+                                    btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.
+                                            LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                                    btnTag.setText(cModule.get(t));
+                                    btnTag.setBackgroundResource(R.drawable.list_of_module_btn);
+
+                                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.
+                                            LayoutParams.MATCH_PARENT);
+
+                                    params.setMargins(15, 10, 15, 2);
+                                    btnTag.setTextColor(Color.WHITE);
+
+                                    btnTag.setLayoutParams(params);
+
+                                    if(t==0){
+                                        btnTag.setEnabled(true);
+                                    }
+                                    // btnTag.setEnabled(false);
+
+                                    try {
                                /* String mcq = complete_prossess.get(t).getMcq_complete_all_courseid();
                                 String calc = complete_prossess.get(t).getCalc_complete_all_courseid();
                                 String faq = complete_prossess.get(t).getFaq_complete_all_courseid();*/
 
-                                    String mcq = mcqtempList.get(t);
-                                    String calc = calctempList.get(t);
-                                    String faq = faqtempList.get(t);
+                                        String mcq = mcqtempList.get(t);
+                                        String calc = calctempList.get(t);
+                                        String faq = faqtempList.get(t);
+                                        String video = videotempList.get(t);
 
-                                    // if(tempCon==true){
-                                    if(mcq != null && calc != null && faq != null){
-                                        btnTag.setEnabled(true);
+                                        // if(tempCon==true){
+                                        if(mcq != null && calc != null && faq != null
+                                                && video != null){
+                                            btnTag.setEnabled(true);
 
-                                        int b=t;
-                                        b++;
-                                        if(cModule.size() == b){
-                                            Log.d("comp", "compl");
-                                            offlineDB.setFinishedCourse(course_ID, "1");
-                                        }else{
-                                        }
+                                            int b=t;
+                                            b++;
+                                            if(cModule.size() == b){
+                                                Log.d("comp", "compl");
+                                                offlineDB.setFinishedCourse(course_ID, "1");
+                                            }else{
+                                            }
 
                                         /*Drawable im = getResources().getDrawable( R.drawable.ic_save_profile);
                                         im.setBounds( 0, 0, 60, 60 );
                                         btnTag.setCompoundDrawables( im, null, null, null );*/
 
-                                        btnTag.setBackgroundResource(R.drawable.dashboard_green_btn);
-                                        btnTag.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_save_profile,0);
-                                        Log.d("value", mcq);
-                                    }else{
-                                        tempCon=false;
-                                        Log.d("value", mcq);
-                                    }
-                                    //  }
-                                }catch (Exception e){
-                                    if(tempCon==true){
-                                        tempCon=false;
-                                        btnTag.setBackgroundResource(R.drawable.dashboard_green_btn);
-                                        btnTag.setEnabled(true);
-                                        //btnTag.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_save_profile,0);
-                                    }else{
-
-                                        Log.d("error", e.toString());
-                                        btnTag.setBackgroundResource(R.drawable.list_of_module_btn);
-                                        btnTag.setTextColor(Color.parseColor("#80FFFFFF"));
-                                        btnTag.setEnabled(false);
-                                    }
-                                }
-
-                                btnTag.setTag(t);
-                                // btnTag.setEnabled(false);
-                                linear.addView(btnTag);
-                                if(btnTag.getTag().toString().equalsIgnoreCase("0")){
-                                    btnTag.setEnabled(true);
-                                }else{
-                                }
-
-                                btnTag.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d("value", v.getTag().toString());
-
-                                        moduleid = cmoduleID.get(Integer.valueOf(v.getTag().toString()));
-                                        editor.putString("Module_id", cmoduleID.get(Integer.valueOf(v.getTag().toString())));
-                                        editor.putString("Module_name", cModule.get(Integer.valueOf(v.getTag().toString())));
-
-                                        //editor.putString("filename", Res.get(position));
-                                        Log.d("cmid",moduleid);
-
-                                        editor.commit();
-                                        // quesList = db.getAllQuestions(moduleid);
-                                        List<VideoListModules> offLineVideolist = offlineDB.getdata(moduleid);
-                                        if (NDC.isConnected(context)) {
-                                            mtd_module_list(v.getTag().toString());
-                                        }else if(offLineVideolist.size() > 0) {
-
-                                            CalcPPF.calcPPF_validation.clear();
-                                            CalcSip.calcSip_validation.clear();
-                                            CalcSS.calcSS_validation.clear();
-
-                                            moduleID_position = v.getTag().toString();
-                                            DashBoard.temp = false;
-
-                                            Intent i = new Intent(ListofModuleFinjan.this, DashBoard.class);
-                                            i.putExtra("list_of_module_id", moduleid);
-                                            startActivity(i);
-                                            finish();
+                                            btnTag.setBackgroundResource(R.drawable.dashboard_green_btn);
+                                            btnTag.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_save_profile,0);
+                                            Log.d("value", mcq);
                                         }else{
-                                            Toast.makeText(ListofModuleFinjan.this, "Kindly check your network connection",
-                                                    Toast.LENGTH_SHORT).show();
+                                            tempCon=false;
+                                            Log.d("value", mcq);
+                                        }
+                                        //  }
+                                    }catch (Exception e){
+                                        if(tempCon==true){
+                                            tempCon=false;
+                                            btnTag.setBackgroundResource(R.drawable.dashboard_green_btn);
+                                            btnTag.setEnabled(true);
+                                            //btnTag.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_save_profile,0);
+                                        }else{
+
+                                            Log.d("error", e.toString());
+                                            btnTag.setBackgroundResource(R.drawable.list_of_module_btn);
+                                            btnTag.setTextColor(Color.parseColor("#80FFFFFF"));
+                                            btnTag.setEnabled(false);
                                         }
                                     }
-                                });
+
+                                    btnTag.setTag(t);
+                                    // btnTag.setEnabled(false);
+                                    linear.addView(btnTag);
+                                    if(btnTag.getTag().toString().equalsIgnoreCase("0")){
+                                        btnTag.setEnabled(true);
+                                    }else{
+                                    }
+
+                                    btnTag.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Log.d("value", v.getTag().toString());
+
+                                            if(mprProgressDialog.isShowing()){
+                                                mprProgressDialog.dismiss();
+                                            }
+                                            mprProgressDialog.show();
+
+                                            moduleid = cmoduleID.get(Integer.valueOf(v.getTag().toString()));
+                                            editor.putString("Module_id", cmoduleID.get(Integer.valueOf(v.getTag().toString())));
+                                            editor.putString("Module_name", cModule.get(Integer.valueOf(v.getTag().toString())));
+
+                                            //editor.putString("filename", Res.get(position));
+                                            Log.d("cmid",moduleid);
+
+                                            editor.commit();
+                                            // quesList = db.getAllQuestions(moduleid);
+                                            List<VideoListModules> offLineVideolist = offlineDB.getdata(moduleid);
+                                            if (NDC.isConnected(context)) {
+                                                mtd_module_list(v.getTag().toString());
+                                            }else if(offLineVideolist.size() > 0) {
+
+                                                CalcPPF.calcPPF_validation.clear();
+                                                CalcSip.calcSip_validation.clear();
+                                                CalcSS.calcSS_validation.clear();
+
+                                                moduleID_position = v.getTag().toString();
+                                                DashBoard.temp = false;
+
+                                                Intent i = new Intent(ListofModuleFinjan.this, DashBoard.class);
+                                                i.putExtra("list_of_module_id", moduleid);
+                                                startActivity(i);
+                                                finish();
+                                                mprProgressDialog.dismiss();
+                                            }else{
+                                                Toast.makeText(ListofModuleFinjan.this, "Kindly check your network connection",
+                                                        Toast.LENGTH_SHORT).show();
+                                                mprProgressDialog.dismiss();
+                                            }
+                                        }
+                                    });
+                                }
+                            }else{
+                                expiryAlert(datee, expirydate);
                             }
-                        }else{
-                            expiryAlert(datee, expirydate);
-                        }
 
 
-                        offlineDB.set_listOFmodules(cModule, cmoduleID, course_ID,
-                                expirydate, crt, sharedpreferences.getString(SharedPrefUtils.SpEmail, ""));
+                            offlineDB.set_listOFmodules(cModule, cmoduleID, course_ID,
+                                    expirydate, crt, sharedpreferences.getString(SharedPrefUtils.SpEmail, ""));
 
-                      //  newFaqModuleWBService(course_ID);
+                            //  newFaqModuleWBService(course_ID);
 
 
 
@@ -884,16 +977,78 @@ public class ListofModuleFinjan extends AppCompatActivity {
                                 listView.getChildAt(t).setEnabled(false);
                             }
                         }*/
-                        progressBar.setVisibility(View.INVISIBLE);
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }else{
+                            Toast.makeText(ListofModuleFinjan.this, "No modules allocated", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+
+
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(ListofModuleFinjan.this, error.toString(), Toast.LENGTH_LONG).show();
-                        finish();
+
+                        /*try{
+                            ListOfModuleResponse usere = (ListOfModuleResponse) error.
+                                    getBodyAs(ListOfModuleResponse.class);
+
+                            Toast.makeText(ListofModuleFinjan.this, usere.getStatus(), Toast.LENGTH_LONG).show();
+                            finish();
+                        }catch (Exception e){
+                            finish();
+                        }*/
+                        try{
+                            ListOfModuleResponse usere = (ListOfModuleResponse)
+                                    error.getBodyAs(ListOfModuleResponse.class);
+
+                            if(usere.getStatus().equalsIgnoreCase("402")){
+                                mtd_refresh_token();
+                            }
+                        }catch (Exception e){
+
+                        }
+
                     }
                 });
+    }
+
+    private void mtd_refresh_token() {
+       /* Toast.makeText(context, "expired", Toast.LENGTH_SHORT).show();*/
+        RxClient.get(ListofModuleFinjan.this).Login(new loginreq(sharedpreferences.
+                getString(SharedPrefUtils.SpEmail, ""),
+                sharedpreferences.getString(SharedPrefUtils.SpPassword, "")), new Callback<loginresp>() {
+            @Override
+            public void success(loginresp loginresp, Response response) {
+
+                if (loginresp.getStatus().equals("200")){
+
+                    editor.putString(SharedPrefUtils.SpRememberToken,loginresp.getToken().toString());
+                    editor.commit();
+
+                    final Handler handler = new Handler();
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            callWebService(course_ID);
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    };
+                    handler.postDelayed(runnable, 500);
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Log.d("refresh token", "refresh token error");
+                Toast.makeText(ListofModuleFinjan.this, "Service not response",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+
     }
 
     private void expiryAlert(String cDate, String expDate) {
@@ -904,7 +1059,8 @@ public class ListofModuleFinjan extends AppCompatActivity {
         Button send_btn = (Button) bView.findViewById(R.id.feedback_okbtn);
 
         TextView t = (TextView) bView.findViewById(R.id.dialog_text);
-        t.setText("Your subcription for finstart expried from " +expDate+ " to " +cDate);
+        t.setText("Your subscription for finstart has expired kindly subscribe again " +
+                "if you want to use finstart");
 
         final AlertDialog al = dialogBuilder.create();
         al.show();
@@ -913,8 +1069,11 @@ public class ListofModuleFinjan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                editor.remove("couponvalidation");
-                editor.commit();
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
 
                 offlineDB.deleteSingleEmail(sharedpreferences.getString(SharedPrefUtils.SpEmail, ""));
                 al.dismiss();
@@ -928,7 +1087,7 @@ public class ListofModuleFinjan extends AppCompatActivity {
                         a.finish();
                     }
 
-                    for(Activity a: FeedActivity.feed_act){
+                    for(Activity a: NewFeedbackActivity.feed_act){
                         a.finish();
                     }
 
@@ -1106,6 +1265,7 @@ public class ListofModuleFinjan extends AppCompatActivity {
         super.onBackPressed();
 
 
+
        /* if(ModuleFinJan.modFinjan !=null){
             ModuleFinJan.modFinjan.finish();
             Intent i = new Intent(ListofModuleFinjan.this, ModuleFinJan.class);
@@ -1119,6 +1279,10 @@ public class ListofModuleFinjan extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 onBackPressed();
+                return true;
+
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
                 return true;
 
             case R.id.finpedia:
@@ -1179,7 +1343,7 @@ public class ListofModuleFinjan extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     finish();
                     return true;
                 }else{
@@ -1214,6 +1378,13 @@ public class ListofModuleFinjan extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                offlineDB.deleteAll();
 
                 finish();
                 return true;

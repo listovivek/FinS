@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Courses"
@@ -27,7 +27,23 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:id="@+id/tv_dashboard"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"/>-->
+
+    <ImageButton
+        android:layout_width="140dp"
+        android:layout_height="38dp"
+        android:id="@+id/Try_finjan"
+        android:layout_gravity="center_horizontal|center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/finstart"
+        android:textColor="#50c2b4"
+        android:layout_toRightOf="@+id/Try"
+        android:layout_marginTop="20dp"
+        android:textAllCaps="false"
+        android:textSize="0dp"
+
+        />
 
     <TextView
         android:id="@+id/t1"

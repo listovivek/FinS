@@ -38,7 +38,10 @@ import com.myappilication.xpress.finjan2017.menulist.MediaActivity;
 import com.myappilication.xpress.finjan2017.menulist.Scheme;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 
 import java.util.ArrayList;
 
@@ -55,6 +58,8 @@ public class AllCalcListActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
     public static ArrayList<Activity> calc_act_list = new ArrayList<>();
+
+    OfflineDatabaseHelper offlineDB;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +89,8 @@ public class AllCalcListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        offlineDB = new OfflineDatabaseHelper(AllCalcListActivity.this);
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.tb_normal_back);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -207,6 +214,10 @@ public class AllCalcListActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             case R.id.finpedia:
                 startActivity(new Intent(getApplicationContext(), FaqCategroyLIstActivity.class));
                 ModuleFinJan.courseID = "5";
@@ -231,9 +242,10 @@ public class AllCalcListActivity extends AppCompatActivity {
                 return true;
 
             case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
@@ -271,7 +283,7 @@ public class AllCalcListActivity extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Kindly check your network connection",
@@ -305,6 +317,14 @@ public class AllCalcListActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+
+
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                offlineDB.deleteAll();
 
                 finish();
                 return true;

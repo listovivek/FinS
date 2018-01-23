@@ -7,18 +7,25 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/frame"
 
         >
+
+
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -59,7 +66,7 @@
             android:background="@color/colorAccent"
             />
     <ProgressBar
-        android:id="@+id/progress"
+        android:id="@+id/full_s_dialog_progress"
         android:indeterminateBehavior="repeat"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -68,9 +75,39 @@
         >
 
     </ProgressBar>
-</FrameLayout>
+
+    </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/play_button"
+                android:background="@drawable/play"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/stop_button"
+                android:background="@drawable/stop_2"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               />
+
+        </LinearLayout>
+
+
 
     </RelativeLayout>
+
+
+
 </LinearLayout>
 
 

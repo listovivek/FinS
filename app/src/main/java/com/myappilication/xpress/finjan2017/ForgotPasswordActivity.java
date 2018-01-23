@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.myappilication.xpress.finjan2017.models.login.forget.forgotreq;
 import com.myappilication.xpress.finjan2017.models.login.forget.forgotresp;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import retrofit.Callback;
@@ -129,6 +130,11 @@ public class ForgotPasswordActivity  extends AppCompatActivity{
             case android.R.id.home:
                 onBackPressed();
                 return true;
+
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             /*case R.id.finstaffcources:
                 startActivity(new Intent(getApplicationContext(), ModuleFinJan.class));
                 return true;*/

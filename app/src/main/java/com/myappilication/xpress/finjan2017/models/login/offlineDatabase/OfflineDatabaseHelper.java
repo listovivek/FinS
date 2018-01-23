@@ -74,6 +74,7 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
     private static final String courses_id_for_moudles = "TEMP_ID";
     private static final String expiry_day = "EXPIRY_DAY";
     private static final String created_date = "CREATED_DATE";
+    private static final String emailid_for_listofmodules = "EMAILID_FOR_LISTOFMOD";
 
 
     private static final String module_id="MODULE_ID";
@@ -88,8 +89,9 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String Moduler_position="MODULERPOS";
 
-    private static final String video_vali_courseid="videovalicourseid";
+    private static final String video_id="videoid";
     private static final String video_vali_coursename="videovalicoursename";
+    private static final String video_vali_courseid="videovalicourseid";
     private static final String video_vali_condition="videovalicondition";
 
 
@@ -99,12 +101,13 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
             + " TEXT, "+courses_position+" TEXT)";
 
     private static final String videovalidate = "CREATE TABLE IF NOT EXISTS " + TABLE_OF_VIDEOVALIDATION + " ( "
-            + video_vali_courseid + " INTEGER , " + video_vali_coursename
-            + " TEXT, "+video_vali_condition+" TEXT)";
+            + video_id + " INTEGER , " + video_vali_coursename
+            + " TEXT, "+video_vali_condition+" TEXT, "+video_vali_courseid+" TEXT)";
 
     private static final String Listofmodules = "CREATE TABLE IF NOT EXISTS " + TABLE_LISTOF_MODULES + " ( "
             + list_of_modules_id + " INTEGER , " + list_of_modules_name
-            + " TEXT, "+courses_id_for_moudles+" TEXT, "+ expiry_day +" TEXT, "+ created_date +" TEXT)";
+            + " TEXT, "+courses_id_for_moudles+" TEXT, "+ expiry_day +" TEXT, "+ created_date +" TEXT, "+
+            emailid_for_listofmodules +" TEXT)";
 
 
     private static final String expirydate = "CREATE TABLE IF NOT EXISTS " + TABLE_OF_EXPIRY_DATE + " ( "
@@ -224,6 +227,7 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_COURSES, null, null);
         db.delete(TABLE_FINISHED_COURSES, null, null);
         db.delete(TABLE_OF_DASHBOARD, null, null);
+        db.delete(TABLE_OF_VIDEOVALIDATION, null, null);
 
         db.close();
     }
@@ -259,11 +263,11 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
                 values.put(courses_id_for_moudles, id);
                 values.put(list_of_modules_id, moduleID.get(n));
                 values.put(list_of_modules_name, cModule.get(n));
+                values.put(emailid_for_listofmodules, email);
 
                 mSqLiteDatabase.insert(TABLE_LISTOF_MODULES, null, values);
                 Log.d("Dbase", String.valueOf(mSqLiteDatabase));
             }
-
 
         }else {
           //  Toast.makeText(con, "Data already insert in database", Toast.LENGTH_LONG).show();
@@ -361,8 +365,8 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return false;
-
     }
+
 
     private boolean getListOfModules(String id) {
         mSqLiteDatabase=this.getReadableDatabase();
@@ -604,6 +608,9 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_MCQ_COMPLETE + " WHERE "
                 + mcq_course_id + " = " + ListofModuleFinjan.course_ID;
 
+
+
+
         Cursor cursor = mSqLiteDatabase.rawQuery(selectQuery, new String[]{});
         DatabaseModules vaIN = null;
         if (cursor.moveToFirst()) {
@@ -619,7 +626,6 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
                     //vaIN.setMcq_complete_all_value(cursor.getString(2));
                     Log.d("validation", moduleid);
                 }
-
 
                 vaIN.setMcq_complete_all_modid(cursor.getString(0));
 
@@ -874,7 +880,7 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
         if(condition == false){
             ContentValues values = new ContentValues();
             values.put(video_vali_coursename, list_of_moduleID);
-           // values.put(mcq_course_id, ListofModuleFinjan.course_ID);
+            values.put(video_vali_courseid, ListofModuleFinjan.course_ID);
             values.put(video_vali_condition, aTrue);
             mSqLiteDatabase.insert(TABLE_OF_VIDEOVALIDATION, null, values);
         }else{
@@ -920,5 +926,55 @@ public class OfflineDatabaseHelper extends SQLiteOpenHelper {
         }
         return con;
 
+    }
+
+    public List<DatabaseModules> getAllVideoComplete(boolean b) {
+        mSqLiteDatabase=this.getReadableDatabase();
+        ArrayList<DatabaseModules> values = new ArrayList<>();
+        String cc = ListofModuleFinjan.course_ID;
+
+        // String selectQuery = "SELECT  * FROM " + TABLE_MCQ_COMPLETE;
+        String selectQuery = "SELECT  * FROM " + TABLE_OF_VIDEOVALIDATION + " WHERE "
+                + video_vali_courseid + " = " + ListofModuleFinjan.course_ID;
+
+
+
+
+        Cursor cursor = mSqLiteDatabase.rawQuery(selectQuery, new String[]{});
+        DatabaseModules vaIN = null;
+        if (cursor.moveToFirst()) {
+            do {
+                vaIN = new DatabaseModules();
+                String modID = cursor.getString(0);
+                if(b==true){
+                    String courseid = cursor.getString(3);
+                    vaIN.setVideo_complete_all_courseid(cursor.getString(3));
+                    Log.d("validation", courseid);
+                }else{
+                    String moduleid = cursor.getString(2);
+                    //vaIN.setMcq_complete_all_value(cursor.getString(2));
+                    Log.d("validation", moduleid);
+                }
+
+                vaIN.setMcq_complete_all_modid(cursor.getString(0));
+
+                values.add(vaIN);
+            } while (cursor.moveToNext());
+        }
+
+        return values;
+    }
+
+    public int checkinDatabase() {
+        mSqLiteDatabase=this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_MCQ_COMPLETE;
+        Log.e("", selectQuery);
+
+        Cursor cursor = mSqLiteDatabase.rawQuery(selectQuery, new String[]{});
+
+        int count = cursor.getCount();
+        Log.d("cursor count", ""+count);
+        return count;
     }
 }

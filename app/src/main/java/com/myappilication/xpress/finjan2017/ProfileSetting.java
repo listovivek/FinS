@@ -1,6 +1,7 @@
 package com.myappilication.xpress.finjan2017;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,12 +35,19 @@ import com.myappilication.xpress.finjan2017.menulist.MediaActivity;
 import com.myappilication.xpress.finjan2017.menulist.Scheme;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
+import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
+import com.myappilication.xpress.finjan2017.models.login.mycamssetting.MycamSettingResponse;
+import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.models.login.profileedit.profilereq;
 import com.myappilication.xpress.finjan2017.models.login.profileedit.profileresp;
 import com.myappilication.xpress.finjan2017.models.login.profileupdate.profileupdatereq;
 import com.myappilication.xpress.finjan2017.models.login.profileupdate.profileupdateresp;
 import com.myappilication.xpress.finjan2017.models.login.pushnotification.NotifyConfig;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.util.ArrayList;
@@ -60,7 +69,7 @@ public class ProfileSetting extends AppCompatActivity {
 
 
 
-    NetConnectionDetector NCD;
+    NetConnectionDetector NDC;
     Context context;
     ProgressBar progressBar;
     Intent newintent;
@@ -73,6 +82,10 @@ public class ProfileSetting extends AppCompatActivity {
 
     private GoogleApiClient client;
 
+    public static Dialog mprProgressDialog;
+
+    OfflineDatabaseHelper offlineDB;
+
     public static ArrayList<Activity> profile_Act_list = new ArrayList<>();;
 
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -82,15 +95,15 @@ public class ProfileSetting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_edit);
 
-        NCD = new NetConnectionDetector();
+        NDC = new NetConnectionDetector();
 
         profile_Act_list.add(ProfileSetting.this);
 
         context = getApplicationContext();
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
-
-        progressBar.setVisibility(View.VISIBLE);
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
+       // progressBar.setVisibility(View.VISIBLE);
 
 
         btn_save_changes = (Button) findViewById(R.id.button_save_changes);
@@ -106,7 +119,7 @@ public class ProfileSetting extends AppCompatActivity {
 
 
 
-
+        offlineDB = new OfflineDatabaseHelper(ProfileSetting.this);
 
 
 
@@ -145,7 +158,7 @@ public class ProfileSetting extends AppCompatActivity {
             }
         });
 
-        if (NCD.isConnected(context)){
+        if (NDC.isConnected(context)){
             getprofiledatas();
         }
        else
@@ -190,7 +203,7 @@ public class ProfileSetting extends AppCompatActivity {
                         if ( et_emailid.length() != 0) {
                             if (Pattern.matches(EMAIL_REGEX,et_emailid.getText().toString())) {
 
-                                if (NCD.isConnected(context)) {
+                                if (NDC.isConnected(context)) {
                                     mtd_save_changes();
                                 } else {
                                     Toast.makeText(ProfileSetting.this,
@@ -260,6 +273,8 @@ public class ProfileSetting extends AppCompatActivity {
         tm.add("2");
         tm.add("3");
 
+        mprProgressDialog.show();
+
         RxClient.get(ProfileSetting.this).Updateprofile(sharedpreferences.
                         getString(SharedPrefUtils.SpRememberToken, ""),
                 new profileupdatereq(sharedpreferences.getString(SharedPrefUtils.SpId,""),
@@ -274,6 +289,7 @@ public class ProfileSetting extends AppCompatActivity {
                     public void success(profileupdateresp profileupdateresp, Response response) {
 
                         Toast.makeText(ProfileSetting.this,"Profile Updated Successfully ",Toast.LENGTH_LONG).show();
+                        mprProgressDialog.dismiss();
 
                         if (profileupdateresp.getStatus().equals("200")){
 
@@ -284,14 +300,16 @@ public class ProfileSetting extends AppCompatActivity {
                            // editor.putString(SharedPrefUtils.SpCompanyName,et_companyname.getText().toString());
                             editor.commit();
 
-                            Intent imodule=new Intent(ProfileSetting.this, FinstartHomeActivity.class);
-                            startActivity(imodule);
+                          /*  Intent imodule=new Intent(ProfileSetting.this, FinstartHomeActivity.class);
+                            finish();
+                            startActivity(imodule);*/
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Toast.makeText(ProfileSetting.this,"failure",Toast.LENGTH_LONG).show();
+                        mprProgressDialog.dismiss();
                     }
                 });
     }
@@ -311,19 +329,28 @@ public class ProfileSetting extends AppCompatActivity {
                 return true;
 
 
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
 
             case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
                     ModuleFinJan.courseName = "Finstart";
                     startActivity(i);
                 }else{
-                    Intent i = new Intent(getApplicationContext(), TryFinStart.class);
-                    startActivity(i);
+                    if (NDC.isConnected(context)) {
+                        Intent i = new Intent(getApplicationContext(), TryFinStart.class);
+                        startActivity(i);
+                    }else{
+                        Toast.makeText(ProfileSetting.this,
+                                "Kindly check your network connection", Toast.LENGTH_LONG).show();
+                    }
 
                 }
                 return true;
@@ -363,8 +390,8 @@ public class ProfileSetting extends AppCompatActivity {
                 return true;*/
 
             case R.id.feedback:
-                if (NCD.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                if (NDC.isConnected(context)) {
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(ProfileSetting.this, "Kindly check your network connection",
@@ -413,6 +440,13 @@ public class ProfileSetting extends AppCompatActivity {
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
 
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                offlineDB.deleteAll();
+
                 finish();
                 return true;
 
@@ -434,6 +468,8 @@ public class ProfileSetting extends AppCompatActivity {
 
     private void getprofiledatas(){
 
+        mprProgressDialog.show();
+
         RxClient.get(context).Editprofile(sharedpreferences.getString(SharedPrefUtils.SpRememberToken, ""),
                 new profilereq(sharedpreferences.getString(SharedPrefUtils.SpEmail,"") ),
                     new Callback<profileresp>() {
@@ -444,9 +480,9 @@ public class ProfileSetting extends AppCompatActivity {
 
 if (profileresp.getStatus().equals("200")){
 
-    progressBar.setVisibility(View.GONE);
+    //progressBar.setVisibility(View.GONE);
 
-
+    mprProgressDialog.dismiss();
 
     editor.putString(SharedPrefUtils.SpFirstname,profileresp.getResult().getInfo().getLists().getFirstname());
     editor.putString(SharedPrefUtils.Splastname,profileresp.getResult().getInfo().getLists().getLastname());
@@ -477,11 +513,68 @@ if (profileresp.getStatus().equals("200")){
             public void failure(RetrofitError error) {
                // Toast.makeText(getApplicationContext(),"failure t",Toast.LENGTH_LONG).show();
 
+                try{
+                    profileresp usere = (profileresp)
+                            error.getBodyAs(profileresp.class);
+
+                    if(usere.getStatus().equalsIgnoreCase("402")){
+                        mtd_refresh_token();
+                    }else{
+                        mprProgressDialog.dismiss();
+                        Toast.makeText(ProfileSetting.this, error.toString(),
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(ProfileSetting.this, e.toString(),
+                            Toast.LENGTH_LONG).show();
+                    mprProgressDialog.dismiss();
+                    finish();
+                }
+
             }
         });
 
 
 
+
+    }
+
+    private void mtd_refresh_token() {
+       /* Toast.makeText(context, "expired", Toast.LENGTH_SHORT).show();*/
+        RxClient.get(ProfileSetting.this).Login(new loginreq(sharedpreferences.
+                getString(SharedPrefUtils.SpEmail, ""),
+                sharedpreferences.getString(SharedPrefUtils.SpPassword, "")), new Callback<loginresp>() {
+            @Override
+            public void success(loginresp loginresp, Response response) {
+
+                if (loginresp.getStatus().equals("200")){
+
+                    editor.putString(SharedPrefUtils.SpRememberToken,loginresp.getToken().toString());
+                    editor.commit();
+
+                    final Handler handler = new Handler();
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            getprofiledatas();
+                            //progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    };
+                    handler.postDelayed(runnable, 500);
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                progressBar.setVisibility(View.GONE);
+                Log.d("refresh token", "refresh token error");
+                Toast.makeText(ProfileSetting.this, "Service not response",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
 
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,9 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar_mycams"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="65dp"
+        android:minWidth="65dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal|center_vertical"
+        />
+
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_below="@+id/cus_layout"
         android:layout_height="match_parent">
 
 
@@ -23,4 +34,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

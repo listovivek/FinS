@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_re"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <include
+        layout="@layout/customlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <RelativeLayout
+        android:id="@+id/relative11"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Feedback"
+            android:fontFamily="Open Sans"
+            android:textColor="#50c2b4"
+            android:textSize="24dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tv_dashboard"
+            android:gravity="center_horizontal"/>
+
+
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FinJan – (Module Name)"
+            android:fontFamily="Open Sans"
+            android:textColor="#50c2b4"
+            android:textSize="24dp"
+            android:layout_below="@+id/tv_dashboard"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:id="@+id/dashboard"/>-->
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Field Staff Evaluation"
+            android:fontFamily="Open Sans"
+            android:textColor="#50c2b4"
+            android:textSize="24dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/dashboard"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/staff_evalution"/>-->
+
+
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView2"
+        android:visibility="invisible"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/relative11"
+        android:fadeScrollbars="false"
+        android:scrollIndicators="right"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent">
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/relativeLayout">
+        <Button
+            android:id="@+id/pre_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="prev"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"
+            android:layout_marginRight="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>.
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/relative11"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
+        <View
+            android:layout_width="35dp"
+            android:layout_height="5dp"
+            android:background="@drawable/btn_style"
+            android:layout_gravity="center_horizontal|center"
+            android:layout_marginBottom="10dp"
+
+            />
+
+       <!-- <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/questionNumber"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:text="question num"
+            android:textSize="15dp"/>-->
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="question"
+            android:id="@+id/qDescription"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="16dp"
+            android:textColor="#000000"
+            />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/options">
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/opt0"
+                android:buttonTint="#27ae60"
+                android:textSize="14dp"/>
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/opt1"
+                android:buttonTint="#27ae60"
+                android:textSize="14dp"/>
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/opt2"
+                android:buttonTint="#27ae60"
+                android:textSize="14dp"/>
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New RadioButton"
+                android:id="@+id/opt3"
+                android:buttonTint="#27ae60"
+                android:textSize="14dp"/>
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="question"
+                android:id="@+id/opt4"
+                android:buttonTint="#27ae60"
+                android:textSize="14dp"/>
+        </RadioGroup>
+
+
+        <RelativeLayout
+            android:id="@+id/r7"
+            android:layout_below="@+id/r3"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/feed_txtcomment"
+                android:text="Comments"
+                android:layout_marginLeft="10dp"
+                android:textSize="18dp"
+                android:visibility="gone"
+                android:textColor="#4a285b"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="5"
+                android:layout_marginTop="30dp"
+                android:visibility="gone"
+                android:hint="Please give me your comments"
+                android:layout_gravity="top"
+                android:gravity="top"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/edit_comments"
+                android:background="@drawable/edittext_border"
+                android:padding="5dp"
+                />
+
+
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/linearLayout"
+        android:weightSum="2"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="previous"
+            android:id="@+id/previousBtn"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.1"
+            android:onClick="previous"
+            android:padding="5dp"
+            android:textSize="18sp"
+            android:background="@drawable/btn_taketest"
+            android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="next"
+        android:textSize="18sp"
+        android:background="@drawable/btn_taketest"
+        android:textColor="#ffffff"
+        android:layout_weight="0.14"
+        android:id="@+id/nextBtn"
+        android:onClick="next"
+        />
+
+
+
+    </LinearLayout>
+
+    <!--<ProgressBar
+        android:id="@+id/progressBar_cyclic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:visibility="invisible"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_centerHorizontal="true" />-->
+
+            </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

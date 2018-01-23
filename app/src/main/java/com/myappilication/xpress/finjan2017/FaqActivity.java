@@ -1,6 +1,7 @@
 package com.myappilication.xpress.finjan2017;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +18,11 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,9 +36,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.myappilication.xpress.finjan2017.allcalculatorlist.AllCalcListActivity;
-import com.myappilication.xpress.finjan2017.feedback.FeedActivity;
 import com.myappilication.xpress.finjan2017.menulist.Learning_centre;
-import com.myappilication.xpress.finjan2017.menulist.Link_To_Interest;
 import com.myappilication.xpress.finjan2017.menulist.MediaActivity;
 import com.myappilication.xpress.finjan2017.menulist.Scheme;
 import com.myappilication.xpress.finjan2017.models.login.faq.Faqlistdatas;
@@ -49,6 +50,9 @@ import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.Offline
 import com.myappilication.xpress.finjan2017.models.login.searchfaq.searchreq;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqOfflineDatabase;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.util.ArrayList;
@@ -81,6 +85,8 @@ public class FaqActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     NetConnectionDetector NDC;
+
+    public static Dialog mprProgressDialog;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -96,8 +102,12 @@ public class FaqActivity extends AppCompatActivity {
 
     FaqOfflineDatabase offlineDatabase;
 
+    ProgressBar progressBar;
+
+    ArrayList<Faqlistdatas> temp_List = new ArrayList<>();
 
     ImageView iv_searchicon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +135,11 @@ public class FaqActivity extends AppCompatActivity {
         scrollView.setFocusableInTouchMode(true);
         scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_f);
 
+
+
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
 
         /*btn = (Button) findViewById(R.id.faq_finished);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -213,11 +227,22 @@ public class FaqActivity extends AppCompatActivity {
 
         iv_searchicon = (ImageView) findViewById(R.id.serchvie_icon);
 
+        searchviewfaq.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if(event.getAction() == KeyEvent.KEYCODE_SEARCH){
+                    Log.d("empty click", "click");
+                }
+
+
+                return false;
+            }
+        });
+
 
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-
-
 
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -250,13 +275,19 @@ public class FaqActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         //Toast.makeText(context, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
                     }
+                }else{
+                    Log.d("empty click", "click");
                 }
                 return false;
             }
 
 
+
+
             public boolean onQueryTextChange(String newText) {
                 iv_searchicon.setVisibility(View.GONE);
+
+                Log.d("empty click", "click");
 
               if(newText.isEmpty()){
                     iv_searchicon.setVisibility(View.VISIBLE);
@@ -289,7 +320,6 @@ public class FaqActivity extends AppCompatActivity {
             adapter = new FaqAdapter(FaqCategroyLIstActivity.faqList);
             recyclerView.setAdapter(adapter);
            // btn.setVisibility(View.VISIBLE);
-
 
             /*listDatas = new Faqlistdatas(db.getAllContacts().get(0).getFaq_qus(),db.getAllContacts().get(0).getFaq_ans());
             list.add(listDatas);
@@ -353,6 +383,10 @@ public class FaqActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             case R.id.finpedia:
                /* startActivity(new Intent(getApplicationContext(), FaqCategroyLIstActivity.class));
                 ModuleFinJan.courseID = "5";*/
@@ -385,9 +419,10 @@ public class FaqActivity extends AppCompatActivity {
 
             case R.id.finstart_c:
 
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
@@ -422,7 +457,7 @@ public class FaqActivity extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Kindly check your network connection",
@@ -479,6 +514,8 @@ public class FaqActivity extends AppCompatActivity {
 
             String modID = sharedpreferences.getString("Module_id", "");
         Log.d("faqmod id", modID);
+
+       // progressBar.setVisibility(View.VISIBLE);
         //Toast.makeText(context, "fd"+sharedpreferences.getString(SharedPrefUtils.SpRememberToken, ""), Toast.LENGTH_SHORT).show();
 
         RxClient.get(context).userFaq(sharedpreferences.getString(SharedPrefUtils.SpRememberToken, ""),
@@ -497,19 +534,26 @@ public class FaqActivity extends AppCompatActivity {
 
                       /*      pb.setVisibility(View.VISIBLE);*/
 
-                            for (int i = 0; i < faqresp.getResult().getInfo().getFaq().length; i++) {
-                                String nn = faqresp.getResult().getInfo().getFaq()[i].getFaq_qus();
-                                listDatas = new Faqlistdatas(faqresp.getResult().getInfo().getFaq()[i].getFaq_qus(),
-                                        faqresp.getResult().getInfo().getFaq()[i].getFaq_ans());
-                                list.add(listDatas);
+                            if(faqresp.getResult().getInfo().getFaq().length>0){
+                                for (int i = 0; i < faqresp.getResult().getInfo().getFaq().length; i++) {
+                                    String nn = faqresp.getResult().getInfo().getFaq()[i].getFaq_qus();
+                                    listDatas = new Faqlistdatas(faqresp.getResult().getInfo().getFaq()[i].getFaq_qus(),
+                                            faqresp.getResult().getInfo().getFaq()[i].getFaq_ans());
+                                    list.add(listDatas);
+                                }
+
+
+                            }else{
+                                Toast.makeText(getApplicationContext(), "No records found",
+                                        Toast.LENGTH_LONG).show();
                             }
 
                             adapter = new FaqAdapter(list);
                             recyclerView.setAdapter(adapter);
-                          ///  btn.setVisibility(View.VISIBLE);
+                            ///  btn.setVisibility(View.VISIBLE);
                             db.OnDelete();
                             db.addContact(list);
-
+                            progressBar.setVisibility(View.INVISIBLE);
                            // Toast.makeText(context, "Successfully added in the database", Toast.LENGTH_SHORT).show();
 
                       /*      adapter.notifyDataSetChanged();*/
@@ -566,7 +610,7 @@ public class FaqActivity extends AppCompatActivity {
                        /*Toast.makeText(context, "Retrofit Failure", Toast.LENGTH_LONG).show();*/
 
                      isSearchtoakenExpired = false;
-
+                        progressBar.setVisibility(View.INVISIBLE);
                         mtd_refresh_token();
                     }
                 });
@@ -605,13 +649,6 @@ public class FaqActivity extends AppCompatActivity {
                        getdata();
                    }
                 }
-
-
-
-
-
-
-
             }
 
             @Override
@@ -627,6 +664,8 @@ public class FaqActivity extends AppCompatActivity {
 
     private void getSearchData() {
         list.clear();
+        //progressBar.setVisibility(View.VISIBLE);
+        mprProgressDialog.show();
         //StaticConfig.faqModule = "2";
       //  Toast.makeText(FaqActivity.this,"excut",Toast.LENGTH_LONG).show();
         //sharedpreferences.getString("Module_id", "")
@@ -647,8 +686,10 @@ public class FaqActivity extends AppCompatActivity {
                                         faqresp.getResult().getInfo().getFaq()[i].getFaq_ans());
                                 list.add(listDatas);
                             }
+                            temp_List.addAll(list);
 
                             adapter = new FaqAdapter(list);
+                            recyclerView.setVisibility(View.VISIBLE);
                             recyclerView.setAdapter(adapter);
                          //   btn.setVisibility(View.VISIBLE);
                          /* adapter.notifyDataSetChanged();*/
@@ -671,6 +712,9 @@ public class FaqActivity extends AppCompatActivity {
                             mtd_refresh_token();
                         }
 
+                        //progressBar.setVisibility(View.INVISIBLE);
+                        mprProgressDialog.dismiss();
+
                        /* data = new ArrayList<faqresp>();
                         data.add(1,"test");
                         adapter = new FaqAdapter(data);
@@ -685,7 +729,6 @@ public class FaqActivity extends AppCompatActivity {
 
 
 */
-
                     }
 
                     @Override
@@ -693,7 +736,35 @@ public class FaqActivity extends AppCompatActivity {
 
                         isSearchtoakenExpired = false;
 
-                        mtd_refresh_token();
+                       // mtd_refresh_token();
+
+                        mprProgressDialog.dismiss();
+
+                        faqresp usere = (faqresp) error.getBodyAs(faqresp.class);
+
+                        try{
+                            String message = usere.getStatus();
+
+                            if(message.equalsIgnoreCase("401")){
+
+                                Toast.makeText(FaqActivity.this, "No records found",
+                                        Toast.LENGTH_LONG).show();
+                                recyclerView.setVisibility(View.INVISIBLE);
+
+                            }
+                        }catch (Exception e){
+                            Log.d("Catch error", e.toString());
+                            Log.d("retrofit error", error.toString());
+
+                            Toast.makeText(FaqActivity.this, "No records found",
+                                    Toast.LENGTH_LONG).show();
+                            recyclerView.setVisibility(View.INVISIBLE);
+                        }
+
+
+
+
+                        //progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
 

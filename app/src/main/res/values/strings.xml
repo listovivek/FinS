@@ -10,7 +10,10 @@
         <item>Telugu</item>
         <item>English-US</item>
     </string-array>
-    
+
+    <string name="packge_name">com.money.finsafe</string>
+
+    <string name="rs">\u20A8</string>
     
     <string name="calc_disclamer">You clearly understand that the purpose of these calculators is to encourage you to plan for your investments based on your goals and is solely meant for education purposes. There is no guarantee that your goals will be achieved. Any recommendation should not be construed as complete investment advice.You are adviced to consult your investment / financial advisor prior to taking any investment decisions. While, every care has been taken in preparing the Training Materials and the Documentation to ensure accuracy at the time of publication and creation, however, the Licensor assumes no responsibility for any errors, which may arise</string>
     <string name="calc_disclarmer1">The training material is supplied for your private information and education only. You are strictly prohibited  from altering, copying  or commercially distributing the same.</string>

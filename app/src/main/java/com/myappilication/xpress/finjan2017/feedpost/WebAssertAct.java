@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.myappilication.xpress.finjan2017.R;
 
@@ -21,22 +23,33 @@ public class WebAssertAct extends Activity {
     WebView webView;
     final int SELECT_PHOTO = 1;
 
+    final Handler myHandler = new Handler();
+
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mycam_webview);
 
+
+        final MyJavascriptInterface myJavaScriptInterface
+                = new MyJavascriptInterface(this);
+
         webView = (WebView) findViewById(R.id.webview);
-        webView.getSettings().setJavaScriptEnabled(true);
+       /* webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.addJavascriptInterface(new MyJavascriptInterface(this), "Android");
+        webView.getSettings().setLightTouchEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);*/
+        // webView.addJavascriptInterface(new MyJavascriptInterface(this), "Android");
+        webView.getSettings().setLightTouchEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
 
-
+        webView.addJavascriptInterface(myJavaScriptInterface, "Android");
 
         webView.loadUrl("file:///android_asset/sam.html");
-
 
     }
 
@@ -54,11 +67,10 @@ public class WebAssertAct extends Activity {
             // TODO Auto-generated method stub
             String file = "test";
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
+            photoPickerIntent.setType("image");
             startActivityForResult(photoPickerIntent, SELECT_PHOTO);
             return file;
         }
-
     }
 
     @Override
@@ -96,4 +108,27 @@ public class WebAssertAct extends Activity {
         }
     }
 
+    public class MyHandler {
+        Context mContext;
+
+        MyHandler(Context c) {
+            mContext = c;
+        }
+
+        @JavascriptInterface
+        public void setResult(String webMessage){
+            final String msgeToast = webMessage;
+            myHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    // This gets executed on the UI thread so it can safely modify Views
+                    Toast.makeText(mContext, msgeToast, Toast.LENGTH_LONG).show();
+
+                    finish();
+                }
+            });
+
+            Toast.makeText(mContext, webMessage, Toast.LENGTH_LONG).show();
+        }
+    }
 }

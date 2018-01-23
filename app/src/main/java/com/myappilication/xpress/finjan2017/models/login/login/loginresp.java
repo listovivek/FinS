@@ -14,14 +14,14 @@ public class loginresp {
 
     private String status;
 
-   private String error;
+   private String msg;
 
     public String getError() {
-        return error;
+        return msg;
     }
 
     public void setError(String error) {
-        this.error = error;
+        this.msg = error;
     }
 
     public logindata getDetails ()

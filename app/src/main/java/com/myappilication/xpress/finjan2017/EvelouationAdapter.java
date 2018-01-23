@@ -23,9 +23,10 @@ import java.util.List;
 public  class EvelouationAdapter extends RecyclerView.Adapter<EvelouationAdapter.MyViewHolder> {
 
     private List<Evaluationdatas> Listdata;
-    public static int score;
+    public static int score=0;
     int count =1;
     Context con;
+    TextView tt;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_mcqques, tv_correctanswer, tv_sno, tv_res_cor_ans ;
@@ -40,8 +41,9 @@ public  class EvelouationAdapter extends RecyclerView.Adapter<EvelouationAdapter
     }
 
 
-    public EvelouationAdapter(ActivityEvaluation c) {
+    public EvelouationAdapter(ActivityEvaluation c, TextView t) {
             con = c;
+        tt = t;
     }
 
     @Override
@@ -76,8 +78,10 @@ public  class EvelouationAdapter extends RecyclerView.Adapter<EvelouationAdapter
                 holder.tv_correctanswer.setTextColor(Color.WHITE);
                 holder.tv_correctanswer.setBackgroundColor(con.getResources().getColor(R.color.result_green));
                 score = count++;
+               // tt.setText("Score " +score+"/"+ McQData.getInstance().getMCQQuestion().size());
 
             }else{
+
                 holder.tv_correctanswer.setTextColor(Color.WHITE);
                 holder.tv_correctanswer.setBackgroundColor(con.getResources().getColor(R.color.result_red));
                 //holder.tv_res_cor_ans.setVisibility(View.VISIBLE);

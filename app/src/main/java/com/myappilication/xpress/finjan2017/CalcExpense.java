@@ -7,9 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,14 +23,11 @@ import android.widget.Toast;
 import com.myappilication.xpress.finjan2017.allcalculatorlist.AllCalcListActivity;
 import com.myappilication.xpress.finjan2017.feedback.FeedActivity;
 import com.myappilication.xpress.finjan2017.menulist.Learning_centre;
-import com.myappilication.xpress.finjan2017.menulist.Link_To_Interest;
 import com.myappilication.xpress.finjan2017.menulist.MediaActivity;
-import com.myappilication.xpress.finjan2017.menulist.Scheme;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
-
-import org.w3c.dom.Text;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -36,13 +36,32 @@ import static java.lang.Double.isNaN;
 
 public class CalcExpense extends AppCompatActivity {
 
-    EditText et_smartamt,et_smartsave,et_restamt,et_restsave,et_movieamt,et_moviedave,et_personalamt,
+/*    EditText et_smartamt,et_smartsave,et_restamt,et_restsave,et_movieamt,et_moviedave,et_personalamt,
     et_personalsave,et_shopamt,et_shopsave,et_otheramt,et_othersave,et_creditamt,et_creditsave,et_totalexp,
-    et_totalyears,et_rateannum,et_totalsave,et_savings,et_futvalue;
+    et_totalyears,et_rateannum,et_totalsave,et_savings,et_futvalue;*/
 
-    TextView tv_totalsave,tv_totalexpense,tv_totyears,tv_totalrate,tv_savings,tv_futurevalue, btn_drmcontine;
+    Double total_savexp = 0.00;
+    Double eatingoutsav = 0.00;
+
+    Double moviesav = 0.00;
+
+    Double shoppingsav = 0.00;
+    Double creditcardsav =0.00;
+    Double anyothersav =0.00;
+
+    Double eatingout;
+    Double movie;
+    Double shopping;
+    Double creditcard;
+    Double anyother;
 
 
+    TextView tv_totalsave,tv_totalexpense,tv_totyears,tv_totalrate,tv_savings,tv_futurevalue;
+
+    EditText et_eatingamt,et_movieamt,et_shoppingamt,et_creditcard,et_anyother,et_totalexpense,et_eatingsave,
+            et_moviesav,et_shoppingsave,et_creditcardsav,et_anysave,et_totlasav;
+
+    TextView btn_drmcontine, tv_savingtitle,tv_expensetitle;
     Button btn_callcualteexpense;
 
     Toolbar toolbar;
@@ -59,11 +78,12 @@ public class CalcExpense extends AppCompatActivity {
     public static ArrayList<Activity> calc_expense_act = new ArrayList<>();
 
     Context context;
+    String calcppf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calcexpense);
+        setContentView(R.layout.activity_calcexpensenew);
 
         sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
@@ -91,27 +111,25 @@ public class CalcExpense extends AppCompatActivity {
             }
         });
 
+        et_eatingamt = (EditText) findViewById(R.id.edit_eatamt);
+        et_movieamt = (EditText) findViewById(R.id.edit_movieamt);
+        et_shoppingamt = (EditText) findViewById(R.id.edit_shoppingamt);
+        et_creditcard = (EditText) findViewById(R.id.edit_creditcardamt);
+        et_anyother = (EditText) findViewById(R.id.edit_anyamt);
+        et_totalexpense = (EditText) findViewById(R.id.edit_totalexpense);
 
-        et_smartamt = (EditText) findViewById(R.id.edit_smartamt);
-        et_smartsave = (EditText) findViewById(R.id.edit_smartsave);
+        et_eatingsave = (EditText) findViewById(R.id.edit_eatsave);
+        et_moviesav = (EditText) findViewById(R.id.edit_moviesave);
+        et_shoppingsave = (EditText) findViewById(R.id.edit_shoppingsave);
+        et_creditcardsav = (EditText) findViewById(R.id.edit_creditcardsave);
+        et_anysave = (EditText) findViewById(R.id.edit_anysave);
+        et_totlasav = (EditText) findViewById(R.id.edit_totalsave);
 
-        et_restamt = (EditText) findViewById(R.id.edit_restamt);
-        et_restsave = (EditText) findViewById(R.id.edit_restsave);
 
-        et_movieamt = (EditText) findViewById(R.id.edit_movamt);
-        et_moviedave = (EditText) findViewById(R.id.edit_movsave);
+        tv_savingtitle = (TextView) findViewById(R.id.text_save_title);
+        tv_expensetitle = (TextView) findViewById(R.id.expense_title);
 
-        et_personalamt = (EditText) findViewById(R.id.edit_personalamt);
-        et_personalsave = (EditText) findViewById(R.id.edit_personalsave);
-
-        et_shopamt = (EditText) findViewById(R.id.edit_shopamt);
-        et_shopsave = (EditText) findViewById(R.id.edit_shoptsave);
-
-        et_creditamt = (EditText) findViewById(R.id.edit_creditamt);
-        et_creditsave = (EditText) findViewById(R.id.edit_creditsave);
-
-        et_otheramt = (EditText) findViewById(R.id.edit_otheramt);
-        et_othersave = (EditText) findViewById(R.id.edit_othersave);
+       // calcppf = sharedpreferences.getString(SharedPrefUtils.SpCalcExpense,"");
 
         tv_totalexpense = (TextView) findViewById(R.id.edit_totexpense);
         tv_totalsave = (TextView) findViewById(R.id.edit_totsave);
@@ -130,14 +148,17 @@ public class CalcExpense extends AppCompatActivity {
         tv_savings.setEnabled(false);
         tv_futurevalue.setEnabled(false);
 
-        tv_totyears.setText("10");
+        tv_totalexpense.setText("10");
         tv_totalrate.setText("10%");
 
 
 
 
-     expense_calculation.setVisibility(View.GONE);
 
+
+
+
+        expense_calculation.setVisibility(View.GONE);
 
 
         btn_callcualteexpense = (Button) findViewById(R.id.button_calculateexpense);
@@ -146,7 +167,10 @@ public class CalcExpense extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mtd_expense_calculation();
-                expense_calculation.setVisibility(View.VISIBLE);
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
             }
         });
 
@@ -193,147 +217,224 @@ public class CalcExpense extends AppCompatActivity {
 
 
     }
-/*
-    public String is_nan(String my_val){
-        if(isNaN(my_val)){
-            Toast.makeText(context, "Enter Only Numbers", Toast.LENGTH_SHORT).show();
-            return false;
-        }else{
-            return my_val;
-        }
-    }*/
+
 
 
 
 
     private void mtd_expense_calculation() {
+        Double finalValueamt= 0.00;
 
-        if (et_smartamt.length()==0){
-            et_smartamt.setError("Enter Amount");
-        }else if (et_smartsave.length()==0){
-            et_smartsave.setText("Enter Saving Amount");
-        }
-        else if (et_restamt.length()==0){
-            et_restamt.setText("Enter Amount");
-        }
-        else if (et_restsave.length()==0){
-            et_restsave.setText("Enter Saving Amount");
-        }
-        else if (et_movieamt.length()==0){
-            et_movieamt.setText("Enter Amount");
-        }
-        else if (et_moviedave.length()==0){
-            et_moviedave.setText("Enter Saving Amount");
-        }
-        else if (et_personalamt.length()==0){
-            et_personalamt.setText("Enter Amount");
-        }
-        else if (et_personalsave.length()==0){
-            et_personalsave.setText("Enter Saving Amount");
+
+        if (et_eatingamt.length()==0){
+
+            eatingout = finalValueamt;
+
+        }else{
+            eatingout = Double.parseDouble(et_eatingamt.getText().toString());
         }
 
-        else if (et_shopamt.length()==0){
-            et_shopamt.setText("Enter Amount");
-        }
-        else if (et_shopsave.length()==0){
-            et_shopsave.setText("Enter Saving Amount");
-        }
 
-        else if (et_creditamt.length()==0){
-            et_creditamt.setText("Enter Amount");
+       if (et_movieamt.length()==0){
+           movie = finalValueamt;
         }
-        else if (et_creditsave.length()==0){
-            et_creditsave.setText("Enter Saving Amount");
+       else{
+           movie = Double.parseDouble(et_movieamt.getText().toString());
+       }
+
+
+         if (et_shoppingamt.length()==0){
+             shopping = finalValueamt;
         }
-        else if (et_otheramt.length()==0){
-            et_otheramt.setText("Enter Amount");
-        }
-        else if (et_othersave.length()==0){
-            et_othersave.setText("Enter Saving Amount");
+        else{
+             shopping = Double.parseDouble(et_shoppingamt.getText().toString());
+         }
+
+         if (et_creditcard.length()==0){
+
+             creditcard = finalValueamt;
         }
         else {
 
+             creditcard = Double.parseDouble(et_creditcard.getText().toString());
+         }
 
-            Double smartphone = Double.parseDouble(et_smartamt.getText().toString());
-            Double restaurant = Double.parseDouble(et_restamt.getText().toString());
-            Double movies = Double.parseDouble(et_movieamt.getText().toString());
-            Double shopping = Double.parseDouble(et_shopamt.getText().toString());
-            Double personalcare = Double.parseDouble(et_personalamt.getText().toString());
-            Double creditcard = Double.parseDouble(et_creditamt.getText().toString());
-            Double otherexpense = Double.parseDouble(et_otheramt.getText().toString());
-
-
-            Double smartphonesave = Double.parseDouble(et_smartsave.getText().toString());
-            Double restaurantsave = Double.parseDouble(et_restsave.getText().toString());
-            Double moviessave = Double.parseDouble(et_moviedave.getText().toString());
-            Double shoppingsave = Double.parseDouble(et_shopsave.getText().toString());
-            Double personalsave = Double.parseDouble(et_personalsave.getText().toString());
-            Double creditsave = Double.parseDouble(et_creditsave.getText().toString());
-            Double othersave = Double.parseDouble(et_othersave.getText().toString());
-
-            //Double ratee = Double.parseDouble(et_totalyears.getText().toString());
-
-
-
-            Double total_expx=(creditcard) +(restaurant) + (movies)+(otherexpense)+(personalcare) + (shopping) + (smartphone);
-            Double sav=(creditsave) + (restaurantsave) + (moviessave) + (othersave) + (personalsave) + (shoppingsave) + (smartphonesave);
-
-
-
-
-            Integer r = 10;
-
-
-            Double rate =Double.valueOf(r/100.00);
-            Integer years =10;
-
-            double tenure=(years*12.00);
-            Double r_tenure=(rate/12.00);
-            Integer type=1;
-            Integer pv=0;
-            Double pownew=Math.pow(r_tenure+1,tenure);
-
-
-            Double fvnew = (-sav* (1 + r_tenure * type) * (1 - pownew) / r_tenure) - pv * pownew;
-
-            if(isNaN(fvnew))
-            {
-                fvnew=0.00;
-            }
-            if(isNaN(total_expx))
-            {
-                total_expx=0.00;
-            }
-
-            if(isNaN(sav))
-            {
-                sav=0.00;
-            }
-
-
-
-            tv_futurevalue.setText(new DecimalFormat("##.##").format(fvnew));
-
-            tv_totalexpense.setText(new DecimalFormat("##.##").format(total_expx));
-
-
-            tv_totalsave.setText(new DecimalFormat("##.##").format(sav));
-
-
-            tv_savings.setText(new DecimalFormat("##.##").format(sav));
-
-
-
-
-
-
-
-
+        if (et_anyother.length()==0){
+            anyother = finalValueamt;
+        }else {
+            anyother = Double.parseDouble(et_anyother.getText().toString());
         }
 
-      /*  et_totalinvdr = (EditText) findViewById(R.id.edit_amtdream);
-        et_amtreqdr = (EditText) findViewById(R.id.edit_amtreq);
-*/
+
+
+
+
+            tv_savingtitle.setVisibility(View.VISIBLE);
+            et_eatingsave.setVisibility(View.VISIBLE);
+            et_moviesav.setVisibility(View.VISIBLE);
+            et_shoppingsave.setVisibility(View.VISIBLE);
+            et_creditcardsav.setVisibility(View.VISIBLE);
+            et_anysave.setVisibility(View.VISIBLE);
+            et_totlasav.setVisibility(View.VISIBLE);
+
+           /* eatingout = Double.parseDouble(et_eatingamt.getText().toString());
+            movie = Double.parseDouble(et_movieamt.getText().toString());*/
+            //shopping = Double.parseDouble(et_shoppingamt.getText().toString());
+            //creditcard = Double.parseDouble(et_creditcard.getText().toString());
+            //anyother = Double.parseDouble(et_anyother.getText().toString());
+
+
+            Double total_amtexp=(eatingout) +(movie) + (shopping)+(creditcard)+(anyother);
+            et_totalexpense.setText(new DecimalFormat("##.##").format(total_amtexp));
+
+          //  editor.putString(SharedPrefUtils.SpCalcExpense,et_totalexpense.getText().toString());
+
+          //  editor.commit();
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (et_totalexpense.length()==0){
+                tv_savingtitle.setVisibility(View.GONE);
+                et_eatingsave.setVisibility(View.GONE);
+                et_moviesav.setVisibility(View.GONE);
+                et_shoppingsave.setVisibility(View.GONE);
+                et_creditcardsav.setVisibility(View.GONE);
+                et_anysave.setVisibility(View.GONE);
+                et_totlasav.setVisibility(View.GONE);
+                tv_expensetitle.setText("How much can you save per month?");
+            }else {
+                Double finalValue= 0.00;
+
+
+
+
+
+                if (et_eatingsave.length()==0){
+                    eatingoutsav = finalValue;
+                }else {
+                    eatingoutsav = Double.parseDouble(et_eatingsave.getText().toString());
+                    expense_calculation.setVisibility(View.VISIBLE);
+                }
+
+
+
+                if (et_moviesav.length()==0){
+                    moviesav = finalValue;
+                }else {
+                    moviesav = Double.parseDouble(et_moviesav.getText().toString());
+                    expense_calculation.setVisibility(View.VISIBLE);
+                }
+
+
+                if (et_shoppingsave.length()==0){
+                    shoppingsav = finalValue;
+                }else {
+                    shoppingsav = Double.parseDouble(et_shoppingsave.getText().toString());
+                    expense_calculation.setVisibility(View.VISIBLE);
+                }
+
+                if (et_creditcardsav.length()==0){
+                    creditcardsav = finalValue;
+                }else {
+                    creditcardsav = Double.parseDouble(et_creditcardsav.getText().toString());
+                    expense_calculation.setVisibility(View.VISIBLE);
+                }
+
+                if (et_anysave.length()==0){
+                    anyothersav = finalValue;
+                }else {
+                    anyothersav = Double.parseDouble(et_anysave.getText().toString());
+                    expense_calculation.setVisibility(View.VISIBLE);
+                }
+
+
+
+
+
+
+
+                total_savexp=(eatingoutsav)+(moviesav) + (shoppingsav)+(creditcardsav)+(anyothersav);
+                et_totlasav.setText(new DecimalFormat("##.##").format(total_savexp));
+                tv_savings.setText(new DecimalFormat("##.##").format(total_savexp));
+
+
+
+                Integer percentage = 10;
+
+
+                Double percentage_rate =Double.valueOf(percentage/100.00);
+
+                Integer years =10;
+
+                Double sav = total_savexp;
+
+
+
+
+                Double r_tenure=(percentage_rate/12.00);
+                Double tenure=(years*12.00);
+
+                Integer type=1;
+                Integer pv=0;
+                Double pownew=Math.pow(r_tenure+1,tenure);
+
+
+
+
+                Double fvnew = (-total_savexp* (1 + r_tenure * type) * (1 - pownew) / r_tenure) - pv * pownew;
+
+                if(isNaN(fvnew))
+                {
+                    fvnew=0.00;
+                }
+                if(isNaN(total_amtexp))
+                {
+                    total_amtexp=0.00;
+                }
+
+                if(isNaN(sav))
+                {
+                    sav=0.00;
+                }
+
+
+                tv_futurevalue.setText(new DecimalFormat("##.##").format(fvnew));
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -367,10 +468,15 @@ public class CalcExpense extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-            case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+            case R.id.finstart_c:
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     finish();

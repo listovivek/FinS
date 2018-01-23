@@ -29,7 +29,11 @@ import com.myappilication.xpress.finjan2017.allcalculatorlist.AllCalcListActivit
 import com.myappilication.xpress.finjan2017.feedback.FeedActivity;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.models.login.helpers.StaticConfig;
+import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,8 @@ public class MediaActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     NetConnectionDetector NDC;
     Context context;
+
+    OfflineDatabaseHelper offlineDB;
 
     public static ArrayList<Activity> link_inter_act = new ArrayList<>();
 
@@ -64,6 +70,8 @@ public class MediaActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        offlineDB = new OfflineDatabaseHelper(MediaActivity.this);
+
         ImageButton imageButton = (ImageButton) findViewById(R.id.tb_normal_back);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +83,7 @@ public class MediaActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         web.setWebViewClient(new myWebClient());
         web.getSettings().setJavaScriptEnabled(true);
-        web.loadUrl("http://183.82.33.232:8094/interviews.html");
+        web.loadUrl(StaticConfig.html_Base+"interviews.html");
     }
     public class myWebClient extends WebViewClient
     {
@@ -125,10 +133,15 @@ public class MediaActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-            case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+            case R.id.finstart_c:
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     finish();
@@ -155,14 +168,14 @@ public class MediaActivity extends AppCompatActivity {
                 return true;
 
             case R.id.learning_center:
-                /*startActivity(new Intent(getApplicationContext(), Learning_centre.class));
-                 finish();*/
+                startActivity(new Intent(getApplicationContext(), Learning_centre.class));
+                 finish();
                 return true;
 
-            case R.id.articles:
+         /*   case R.id.articles:
                 startActivity(new Intent(getApplicationContext(), MediaActivity.class));
                 finish();
-                return true;
+                return true;*/
 
             case R.id.ss_selection:
                 startActivity(new Intent(getApplicationContext(), Scheme.class));
@@ -192,7 +205,7 @@ public class MediaActivity extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     finish();
                     return true;
                 }else{
@@ -228,6 +241,13 @@ public class MediaActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                offlineDB.deleteAll();
 
                 finish();
                 return true;

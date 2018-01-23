@@ -1,6 +1,7 @@
 package com.myappilication.xpress.finjan2017.userregistation;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.myappilication.xpress.finjan2017.MainActivity;
 import com.myappilication.xpress.finjan2017.ModuleFinJan;
 import com.myappilication.xpress.finjan2017.ProfileSetting;
 import com.myappilication.xpress.finjan2017.R;
+import com.myappilication.xpress.finjan2017.feedback.UserFeedbackList;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
 import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
 import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
@@ -25,6 +28,7 @@ import com.myappilication.xpress.finjan2017.models.login.otpVerification.OtpRese
 import com.myappilication.xpress.finjan2017.models.login.otpVerification.OtpResendResponse;
 import com.myappilication.xpress.finjan2017.models.login.otpVerification.OtpVerificationReq;
 import com.myappilication.xpress.finjan2017.models.login.otpVerification.OtpVerificationResponse;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import retrofit.Callback;
@@ -39,6 +43,10 @@ public class OtpVerification extends Activity{
     SharedPreferences sharedpreferences;
     SharedPreferences.Editor editor;
     Boolean isSearchtoakenExpired = false;
+
+    ProgressBar progressBar;
+
+    public static Dialog mprProgressDialog;
 
 
     @Override
@@ -62,6 +70,10 @@ public class OtpVerification extends Activity{
         resendOTP.setPaintFlags(resendOTP.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         changeNumber.setPaintFlags(changeNumber.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
+
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
+
         final EditText te = (EditText) findViewById(R.id.otp_verif);
 
         Button submit = (Button) findViewById(R.id.otp_submit);
@@ -69,13 +81,11 @@ public class OtpVerification extends Activity{
             @Override
             public void onClick(View v) {
 
-                if(te.getText().toString().length() != 0){
+                if(te.getText().toString().length()>0){
                     otpSend(te.getText().toString());
                 }else{
-                    Toast.makeText(OtpVerification.this, "Kindly fill your otp code", Toast.LENGTH_LONG);
+                    Toast.makeText(OtpVerification.this, "Kindly fill your OTP code", Toast.LENGTH_LONG).show();
                 }
-
-
             }
         });
 
@@ -97,6 +107,9 @@ public class OtpVerification extends Activity{
 
     private void otpSend(String s) {
             String email = getIntent().getStringExtra("email");
+        //progressBar.setVisibility(View.VISIBLE);
+        mprProgressDialog.show();
+
         RxClient.get(getApplicationContext()).verifOtp(sharedpreferences.getString(SharedPrefUtils.SpRememberToken, ""),
                 new OtpVerificationReq(email, s), new Callback<OtpVerificationResponse>() {
 
@@ -108,18 +121,32 @@ public class OtpVerification extends Activity{
 
                        /* Toast.makeText(OtpVerification.this,
                                 otpVerificationResponse.getMsg(), Toast.LENGTH_LONG).show();*/
-                        Toast.makeText(OtpVerification.this, "Otp Verified Successfully", Toast.LENGTH_SHORT).show();
+                        editor.remove("couponbaseModuleid");
+                        editor.remove("isusergetmoduleid");
+                        editor.remove("isusergetexpdate");
+                        editor.apply();
+                        Toast.makeText(OtpVerification.this, "OTP Verified Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(OtpVerification.this, MainActivity.class);
+                        i.putExtra("coupon_code", getIntent().getStringExtra("coupon_code"));
                         startActivity(i);
                         finish();
+                        UserRegisterActivity.act.finish();
+                        //progressBar.setVisibility(View.INVISIBLE);
+
+                        mprProgressDialog.dismiss();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        OtpVerificationResponse usere = (OtpVerificationResponse)
-                                error.getBodyAs(OtpVerificationResponse.class);
-                       // Toast.makeText(OtpVerification.this, usere.getMsg(), Toast.LENGTH_LONG).show();
-
+                        try{
+                            OtpVerificationResponse usere = (OtpVerificationResponse)
+                                    error.getBodyAs(OtpVerificationResponse.class);
+                            Toast.makeText(OtpVerification.this, usere.getMsg(), Toast.LENGTH_LONG).show();
+                            String email = getIntent().getStringExtra("email");
+                           // progressBar.setVisibility(View.INVISIBLE);
+                            mprProgressDialog.dismiss();
+                        }catch (Exception e){
+                        }
 
                     }
                 });
@@ -128,6 +155,8 @@ public class OtpVerification extends Activity{
     private void resendService() {
         String email = getIntent().getStringExtra("email");
         String number = getIntent().getStringExtra("mobile");
+       // progressBar.setVisibility(View.VISIBLE);
+        mprProgressDialog.show();
             RxClient.get(getApplicationContext()).otpResend(sharedpreferences.getString(SharedPrefUtils.SpRememberToken, ""),
                     new OtpResendReq(email, number), new Callback<OtpResendResponse>() {
                         @Override
@@ -136,12 +165,15 @@ public class OtpVerification extends Activity{
                                     otpResendResponse.getMsg(), Toast.LENGTH_LONG).show();
                             Toast.makeText(OtpVerification.this, "OTP has been sent to registered mobile number",
                                     Toast.LENGTH_SHORT).show();
-
+                            UserRegisterActivity.act.finish();
+                            //progressBar.setVisibility(View.INVISIBLE);
+                            mprProgressDialog.dismiss();
 
                         }
 
                         @Override
                         public void failure(RetrofitError error) {
+                            mprProgressDialog.dismiss();
                             OtpResendResponse usere = (OtpResendResponse)error.getBodyAs(OtpResendResponse.class);
                           //  Toast.makeText(OtpVerification.this, usere.getMsg(), Toast.LENGTH_LONG).show();
                         }
@@ -158,16 +190,14 @@ public class OtpVerification extends Activity{
                 if (loginresp.getStatus().equals("200")){
                     //Toast.makeText(getApplicationContext(),"sucesss"+loginresp.getToken().toString(),Toast.LENGTH_LONG).show();
                     editor.putString(SharedPrefUtils.SpRememberToken,loginresp.getToken().toString());
-
                     editor.commit();
-
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
 
-                Toast.makeText(getApplicationContext(),"Wrong Username And Password",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Wrong username and password",Toast.LENGTH_LONG).show();
 
             }
         });

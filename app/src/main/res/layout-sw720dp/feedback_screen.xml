@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FeedBack"
+        android:text="Feedback"
         android:fontFamily="Open Sans"
         android:textColor="#50c2b4"
         android:textSize="35dp"
@@ -250,17 +250,17 @@
             </RelativeLayout>
 
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/question4"
                 android:text="question1"
                 android:layout_marginLeft="15dp"
                 android:textSize="20dp"
                 android:layout_below="@+id/r3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" />-->
 
 
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:id="@+id/r4"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="25dp"
@@ -307,8 +307,8 @@
 
 
                 </RadioGroup>
-
-            </RelativeLayout>
+            </RelativeLayout>-->
+           <!--
 
             <RelativeLayout
                 android:id="@+id/r5"
@@ -377,35 +377,39 @@
 
             </RelativeLayout>
 
+            -->
+
             <RelativeLayout
                 android:id="@+id/r7"
-                android:layout_below="@+id/r6"
+                android:layout_below="@+id/r3"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/feed_txtnum"
-                    android:text="Phone number"
+                    android:text="Comments"
                     android:layout_marginLeft="25dp"
                     android:textSize="18dp"
+                    android:textColor="#4a285b"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
 
                 <EditText
-                    android:id="@+id/feed_editmun"
-                    android:layout_below="@+id/feed_txtnum"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="5"
+                    android:layout_marginTop="30dp"
+                    android:hint="Please give me your comments"
+                    android:layout_gravity="top"
+                    android:gravity="top"
+                    android:layout_marginRight="15dp"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/feedback_border"
-                    android:singleLine="true"
-                    android:cursorVisible="true"
-                    android:hint="Phone Number"
-                    android:maxLength="12"
-                    android:inputType="phone"
-                    android:textSize="20dp"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/edit_comments"
+                    android:background="@drawable/edittext_border"
+                    android:padding="5dp"
+                    />
 
 
             </RelativeLayout>

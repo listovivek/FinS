@@ -352,8 +352,8 @@ public class ModuleFinJan extends AppCompatActivity {
 
                 if(couponBSResponse.getStatus().equalsIgnoreCase("200")){
                     mtd_module_list();
-                    String message = couponBSResponse.getResult();
-                    Toast.makeText(ModuleFinJan.this, message, Toast.LENGTH_LONG).show();
+                  //  String message = couponBSResponse.getResult();
+                   // Toast.makeText(ModuleFinJan.this, message, Toast.LENGTH_LONG).show();
                     al.dismiss();
                     mBottomSheetDialog.dismiss();
 
@@ -362,8 +362,8 @@ public class ModuleFinJan extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                CouponBSResponse usere = (CouponBSResponse) error.getBodyAs(CouponBSResponse.class);
-                Toast.makeText(ModuleFinJan.this, usere.getResult(), Toast.LENGTH_LONG).show();
+               // CouponBSResponse usere = (CouponBSResponse) error.getBodyAs(CouponBSResponse.class);
+               // Toast.makeText(ModuleFinJan.this, usere.getResult(), Toast.LENGTH_LONG).show();
                 al.dismiss();
                 mBottomSheetDialog.dismiss();
             }

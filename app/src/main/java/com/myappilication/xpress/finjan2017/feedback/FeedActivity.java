@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -41,7 +42,11 @@ import com.myappilication.xpress.finjan2017.models.login.feedbackQAreq.FBQuesRes
 import com.myappilication.xpress.finjan2017.models.login.feedbackquestion.FeedbackResponse;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
+import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
+import com.myappilication.xpress.finjan2017.models.login.modulelist.ListOfModuleResponse;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.text.DateFormat;
@@ -84,7 +89,9 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     ArrayList<String> ques = new ArrayList<>();
 
-    EditText feedback_name, feedback_email, feedback_number;
+    ArrayList<String> id = new ArrayList<>();
+
+    EditText feedback_name, feedback_email, feedback_number, feedback_comments;
 
     OfflineFeedbackDB feedbackDB;
 
@@ -97,12 +104,14 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     ProgressBar progressBar;
 
+    ArrayList<String> tmpansList=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feedback_screen);
 
-            context = FeedActivity.this;
+        context = FeedActivity.this;
 
         sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
@@ -110,7 +119,6 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
         progressBar = (ProgressBar) findViewById(R.id.progressBar_cyclic);
 
         feedbackDB = new OfflineFeedbackDB(FeedActivity.this);
-
         feed_act.add(FeedActivity.this);
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.tb_normal_back);
@@ -124,7 +132,12 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        callWebService();
+        if (NDC.isConnected(context)) {
+            callWebService();
+        }else {
+            Toast.makeText(getApplicationContext(), "Kindly check your network connection",
+                    Toast.LENGTH_LONG).show();
+        }
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -133,12 +146,12 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
         question1 = (TextView) findViewById(R.id.question1);
         question2 = (TextView) findViewById(R.id.question2);
         question3 = (TextView) findViewById(R.id.question3);
-        question4 = (TextView) findViewById(R.id.question4);
+       // question4 = (TextView) findViewById(R.id.question4);
 
         rGroup1 = (RadioGroup) findViewById(R.id.radiobutton_grp1);
         rGroup2 = (RadioGroup) findViewById(R.id.radiobutton_grp2);
         rGroup3 = (RadioGroup) findViewById(R.id.radiobutton_grp3);
-        rGroup4 = (RadioGroup) findViewById(R.id.radiobutton_grp4);
+        //rGroup4 = (RadioGroup) findViewById(R.id.radiobutton_grp4);
 
         r1Button1 = (RadioButton) findViewById(R.id.q1_radio1);
         r1Button2 = (RadioButton) findViewById(R.id.q1_radio2);
@@ -158,22 +171,22 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
         r3Button4 = (RadioButton) findViewById(R.id.q3_radio4);
         r3Button5 = (RadioButton) findViewById(R.id.q3_radio5);
 
-        r4Button1 = (RadioButton) findViewById(R.id.q4_radio1);
+       /* r4Button1 = (RadioButton) findViewById(R.id.q4_radio1);
         r4Button2 = (RadioButton) findViewById(R.id.q4_radio2);
         r4Button3 = (RadioButton) findViewById(R.id.q4_radio3);
         r4Button4 = (RadioButton) findViewById(R.id.q4_radio4);
-        r4Button5 = (RadioButton) findViewById(R.id.q4_radio5);
-
-
+        r4Button5 = (RadioButton) findViewById(R.id.q4_radio5);*/
 
         rGroup1.setOnCheckedChangeListener(this);
         rGroup2.setOnCheckedChangeListener(this);
         rGroup3.setOnCheckedChangeListener(this);
-        rGroup4.setOnCheckedChangeListener(this);
+      //  rGroup4.setOnCheckedChangeListener(this);
 
-        feedback_name = (EditText) findViewById(R.id.feed_editname);
+        feedback_comments = (EditText) findViewById(R.id.edit_comments);
+
+        /*feedback_name = (EditText) findViewById(R.id.feed_editname);
         feedback_email = (EditText) findViewById(R.id.feed_editemail);
-        feedback_number = (EditText) findViewById(R.id.feed_editmun);
+        feedback_number = (EditText) findViewById(R.id.feed_editmun);*/
 
         ScrollView scrollView = (ScrollView) findViewById(R.id.feedback_scroll);
         scrollView.setFocusableInTouchMode(true);
@@ -192,9 +205,9 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                strName = feedback_name.getText().toString();
-                strEmail = feedback_email.getText().toString();
-                strNum = feedback_number.getText().toString();
+                strName = "hello";
+                strEmail = "hello@";
+                strNum = "65498465236";
 
                 String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                 String em = sharedpreferences.getString(SharedPrefUtils.SpEmail, "");
@@ -202,15 +215,21 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
                 int g1 = rGroup1.getCheckedRadioButtonId();
                 int g2 = rGroup2.getCheckedRadioButtonId();
                 int g3 = rGroup3.getCheckedRadioButtonId();
-                int g4 = rGroup4.getCheckedRadioButtonId();
+               // int g4 = rGroup4.getCheckedRadioButtonId();
 
                 if(strName.trim().length()>0 && strName.trim() != null){
-                    if(strEmail.trim().length()>0 && strEmail.trim() != null && Pattern.matches(EMAIL_REGEX, strEmail)){
+                    if(strEmail.trim().length()>0 && strEmail.trim() != null){
                         if(strNum.trim().length()>0 && strNum.trim() != null && strNum.trim().length()>9){
+                            if(feedback_comments.getText().toString().length()>0 &&
+                                    feedback_comments.getText().toString().trim() != null){
+                                if(feedback_comments.getText().toString().trim().length()>40){
+
+
+
                             if(g1!=-1){
                                 if(g2!=-1){
                                     if(g3!=-1){
-                                        if(g4!=-1){
+                                       // if(g4!=-1){
                                             Log.d("final", "suss");
                                             ArrayList<String> temp = new ArrayList<String>();
                                             temp.add(answer1);
@@ -221,26 +240,33 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
                                             feedbackDB.setfeedbackValue(strName.trim(), strEmail, strNum, temp, ques,
                                                     currentDateTimeString, em);
 
-                                            alertt();
+                                            alertt(temp);
 
 
 
-                                        }else{
+                                       /* }else{
                                             Toast.makeText(FeedActivity.this, "click any one option in ques 4",
                                                     Toast.LENGTH_SHORT).show();
-                                        }
+                                        }*/
                                     }else{
-                                        Toast.makeText(FeedActivity.this, "click any one option in ques 3",
+                                        Toast.makeText(FeedActivity.this, "Click any one option in ques 3",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }else{
-                                    Toast.makeText(FeedActivity.this, "click any one option in ques 2",
+                                    Toast.makeText(FeedActivity.this, "Click any one option in ques 2",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }else{
-                                Toast.makeText(FeedActivity.this, "click any one option in ques 1", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FeedActivity.this, "Click any one option in ques 1", Toast.LENGTH_SHORT).show();
 
                             }
+                            }else{
+                                Toast.makeText(FeedActivity.this, "Your comments should be above 40 letters", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }else{
+                            Toast.makeText(FeedActivity.this, "Kindly fill your comments", Toast.LENGTH_SHORT).show();
+                        }
                         }else{
                             Toast.makeText(FeedActivity.this, "Kindly fill your number", Toast.LENGTH_SHORT).show();
                         }
@@ -253,12 +279,9 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
 
             }
         });
-
-
-
     }
 
-    private void alertt() {
+    private void alertt(final ArrayList<String> ans) {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FeedActivity.this);
         View bView = getLayoutInflater().inflate(R.layout.custom_feedback_alert, null);
         dialogBuilder.setView(bView);
@@ -274,54 +297,109 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
             @Override
             public void onClick(View v) {
 
-                wbService();
+                wbService(ans);
+                tmpansList = ans;
                 rGroup1.clearCheck();
                 rGroup2.clearCheck();
                 rGroup3.clearCheck();
-                rGroup4.clearCheck();
+                feedback_comments.setText("");
+//                rGroup4.clearCheck();
 
                 al.dismiss();
 
-                feedback_name.setText("");
+               /* feedback_name.setText("");
                 feedback_email.setText("");
-                feedback_number.setText("");
+                feedback_number.setText("");*/
             }
         });
 
 
     }
 
-    private void wbService() {
-
+    private void wbService(ArrayList<String> ans) {
 
         ArrayList<String> feedbackQuestion = new ArrayList<>();
         ArrayList<String> feedbackAns = new ArrayList<>();
         feedbackQuestion.add("The training met my personal learning objectives");
         feedbackQuestion.add("The content was organized and easy to follow");
         feedbackQuestion.add("The trainer was knowledgeable");
-        feedbackQuestion.add("How do you rate the training overall?");
+        //feedbackQuestion.add("How do you rate the training overall?");
 
-        feedbackAns.add("Strongly Agree");
-        feedbackAns.add("Strongly Agree");
-        feedbackAns.add("Neutral");
-        feedbackAns.add("Good");
+        feedbackAns.add(ans.get(0));
+        feedbackAns.add(ans.get(1));
+        feedbackAns.add(ans.get(2));
+       // feedbackAns.add(ans.get(3));
+
+        String comments = feedback_comments.getText().toString();
 
 
             RxClient.get(getApplicationContext()).getfeedbkQuesAnswer(sharedpreferences.
                     getString(SharedPrefUtils.SpRememberToken, ""), new FBQuesAnsReq(feedbackQuestion,
                     feedbackAns, strName,
-            strEmail, strNum), new Callback<FBQuesResponse>() {
+            strEmail, strNum, comments, id), new Callback<FBQuesResponse>() {
 
                 @Override
                 public void success(FBQuesResponse fbQuesResponse, Response response) {
-                   Toast.makeText(FeedActivity.this, fbQuesResponse.getResult(), Toast.LENGTH_LONG).show();
+                   Toast.makeText(FeedActivity.this, fbQuesResponse.getResult(),
+                           Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                   // Toast.makeText(FeedActivity.this, "Service not response", Toast.LENGTH_LONG).show();
+
+                    try{
+                        FBQuesResponse usere = (FBQuesResponse)
+                                error.getBodyAs(FBQuesResponse.class);
+
+                        if(usere.getStatus().equalsIgnoreCase("402")){
+                            mtd_refresh_token();
+                        }
+                    }catch (Exception e){
+
+                    }
+
+
+                    Toast.makeText(FeedActivity.this, "Service not response", Toast.LENGTH_LONG).show();
                 }
             });
+    }
+
+    private void mtd_refresh_token() {
+       /* Toast.makeText(context, "expired", Toast.LENGTH_SHORT).show();*/
+        RxClient.get(FeedActivity.this).Login(new loginreq(sharedpreferences.
+                getString(SharedPrefUtils.SpEmail, ""),
+                sharedpreferences.getString(SharedPrefUtils.SpPassword, "")), new Callback<loginresp>() {
+            @Override
+            public void success(loginresp loginresp, Response response) {
+
+                if (loginresp.getStatus().equals("200")){
+
+                    editor.putString(SharedPrefUtils.SpRememberToken,loginresp.getToken().toString());
+                    editor.commit();
+
+                    final Handler handler = new Handler();
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            wbService(tmpansList);
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    };
+                    handler.postDelayed(runnable, 500);
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Log.d("refresh token", "refresh token error");
+                Toast.makeText(FeedActivity.this, "Service not response",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+
     }
 
 
@@ -364,7 +442,7 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
             answer3 = r3Button5.getText().toString();
         }
 
-        else if (checkedId == R.id.q4_radio1) {
+       /* else if (checkedId == R.id.q4_radio1) {
             answer4 = r4Button1.getText().toString();
         } else if (checkedId == R.id.q4_radio2) {
             answer4 = r4Button2.getText().toString();
@@ -374,7 +452,7 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
             answer4 = r4Button4.getText().toString();
         }else if (checkedId == R.id.q4_radio5) {
             answer4 = r4Button5.getText().toString();
-        }
+        }*/
 
     }
 
@@ -385,20 +463,26 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
             case android.R.id.home:
                 onBackPressed();
                 return true;
+
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             case R.id.profile_menu:
                 startActivity(new Intent(getApplicationContext(), ProfileSetting.class));
                 finish();
                 return true;
 
             case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
-
-                if(couponcode.equalsIgnoreCase("fst104")){
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
                     ModuleFinJan.courseName = "Finstart";
                     startActivity(i);
+
                 }else{
                     Intent i = new Intent(getApplicationContext(), TryFinStart.class);
                     startActivity(i);
@@ -478,6 +562,7 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
                 if(list.size() > 0){
                     startActivity(new Intent(getApplicationContext(), UserFeedbackList.class));
                     return true;
+
                 }else{
                     Toast.makeText(FeedActivity.this, "No records", Toast.LENGTH_SHORT).show();
                     return false;
@@ -487,9 +572,10 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
                 startActivity(new Intent(getApplicationContext(), ModuleFinJan.class));
                 return true;*/
             case R.id.logout:
-                sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES, Context.MODE_PRIVATE);
-                editor = sharedpreferences.edit();
+                sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES,
+                        Context.MODE_PRIVATE);
 
+                editor = sharedpreferences.edit();
                 editor.putString(SharedPrefUtils.SpEmail, "");
                 editor.putString(SharedPrefUtils.SpPassword, "");
                 editor.putBoolean(SharedPrefUtils.SpIsNewUser, true);
@@ -503,10 +589,8 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
                 startActivity(intent);
 
                 finish();
+
                 return true;
-
-
-
         }
         return false;
     }
@@ -528,14 +612,16 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
                     ans2.add(feedres.getResult().getInfo()[n].getAns2());
                     ans3.add(feedres.getResult().getInfo()[n].getAns3());
                     ans4.add(feedres.getResult().getInfo()[n].getAns4());
-                    ans5.add(feedres.getResult().getInfo()[n].getAns5());
+                   ans5.add(feedres.getResult().getInfo()[n].getAns5());
 
                     ques.add(feedres.getResult().getInfo()[n].getQuestion());
+
+                    id.add(feedres.getResult().getInfo()[n].getId());
                 }
                 question1.setText(ques.get(0));
                 question2.setText(ques.get(1));
                 question3.setText(ques.get(2));
-                question4.setText(ques.get(3));
+//                question4.setText(ques.get(3));
 
                 r1Button1.setText(ans1.get(0));
                 r1Button2.setText(ans2.get(0));
@@ -552,14 +638,15 @@ public class FeedActivity extends AppCompatActivity implements RadioGroup.OnChec
                 r3Button1.setText(ans1.get(2));
                 r3Button2.setText(ans2.get(2));
                 r3Button3.setText(ans3.get(2));
-                r3Button4.setText(ans4.get(2));
+                String p = ans4.get(2).trim();
+                r3Button4.setText(p);
                 r3Button5.setText(ans5.get(2));
 
-                r4Button1.setText(ans1.get(3));
+                /*r4Button1.setText(ans1.get(3));
                 r4Button2.setText(ans2.get(3));
                 r4Button3.setText(ans3.get(3));
                 r4Button4.setText(ans4.get(3));
-                r4Button5.setText(ans5.get(3));
+                r4Button5.setText(ans5.get(3));*/
 
                 progressBar.setVisibility(View.INVISIBLE);
             }

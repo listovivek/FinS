@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <TextView
+   <!-- <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Courses"
@@ -27,7 +27,23 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:id="@+id/tv_dashboard"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"/>-->
+
+    <ImageButton
+        android:layout_width="140dp"
+        android:layout_height="32dp"
+        android:id="@+id/Try_finjan"
+        android:layout_gravity="center_horizontal|center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/finstart"
+        android:textColor="#50c2b4"
+        android:layout_toRightOf="@+id/Try"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="false"
+        android:textSize="0dp"
+
+        />
 
     <TextView
         android:id="@+id/t1"
@@ -37,7 +53,7 @@
         android:fontFamily="Open Sans"
         android:textColor="#50c2b4"
         android:textSize="24dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_gravity="center_horizontal|center"
         android:gravity="center_horizontal"
 
@@ -100,8 +116,8 @@
     <ProgressBar
         android:id="@+id/progress"
         android:indeterminateBehavior="repeat"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:visibility="invisible"
         >
@@ -119,8 +135,10 @@
         <RelativeLayout
             android:id="@+id/relativeLayout1"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="8dp"
+
             >
 
             <Button
@@ -178,6 +196,7 @@
                 android:visibility="invisible"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true">
+
             </ProgressBar>
 
         </RelativeLayout>
@@ -191,7 +210,7 @@
         android:orientation="vertical"
         android:background="#D3D3D3"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="8dp">
@@ -200,7 +219,8 @@
             android:layout_height="wrap_content"
             android:text="Finjan"
             android:textColor="#4e2c5a"
-            android:textSize="25dp"
+            android:gravity="center"
+            android:textSize="23dp"
             android:layout_gravity="center_horizontal|center"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
@@ -236,7 +256,7 @@
             android:text="Check your knowledge"
             android:textColor="#ffffff"
             android:textAllCaps="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:textSize="18dp"

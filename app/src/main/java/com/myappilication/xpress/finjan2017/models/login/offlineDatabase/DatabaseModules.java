@@ -14,6 +14,28 @@ public class DatabaseModules {
 
     String faq_complete_all_modid, faq_complete_all_courseid;
 
+    String video_complete_all_modid, video_complete_all_courseid;
+
+
+
+    public String getVideo_complete_all_modid() {
+        return video_complete_all_modid;
+    }
+
+    public void setVideo_complete_all_modid(String video_complete_all_modid) {
+        this.video_complete_all_modid = video_complete_all_modid;
+    }
+
+    public String getVideo_complete_all_courseid() {
+        return video_complete_all_courseid;
+    }
+
+    public void setVideo_complete_all_courseid(String video_complete_all_courseid) {
+        this.video_complete_all_courseid = video_complete_all_courseid;
+    }
+
+
+
 
 
     public String getFinjan_courses() {

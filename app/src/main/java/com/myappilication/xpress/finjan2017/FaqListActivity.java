@@ -1,11 +1,13 @@
 package com.myappilication.xpress.finjan2017;
 
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +38,7 @@ import com.myappilication.xpress.finjan2017.menulist.Learning_centre;
 import com.myappilication.xpress.finjan2017.menulist.Link_To_Interest;
 import com.myappilication.xpress.finjan2017.menulist.MediaActivity;
 import com.myappilication.xpress.finjan2017.menulist.Scheme;
+import com.myappilication.xpress.finjan2017.models.login.couponbasedcourses.CouponBSResponse;
 import com.myappilication.xpress.finjan2017.models.login.faq.Faqlistdatas;
 import com.myappilication.xpress.finjan2017.models.login.faq.faqresp;
 import com.myappilication.xpress.finjan2017.models.login.faqfulllist.faqfulllistreq;
@@ -46,6 +49,9 @@ import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
 import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
 import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.util.ArrayList;
@@ -89,6 +95,9 @@ public class FaqListActivity extends AppCompatActivity {
     OfflineDatabaseHelper mOfflineDatabaseHelper;
     Button btn;
 
+    ProgressBar progressBar;
+
+    public static Dialog mprProgressDialog;
 
     ImageView iv_searchicon;
     @Override
@@ -115,7 +124,7 @@ public class FaqListActivity extends AppCompatActivity {
         scrollView.setFocusableInTouchMode(true);
         scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_faq);
 
         /*btn = (Button) findViewById(R.id.faq_finished);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +161,7 @@ public class FaqListActivity extends AppCompatActivity {
         // Make sure the toolbar exists in the activity and is not null
 
 
-
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
 
 
         setSupportActionBar(toolbar);
@@ -225,14 +234,16 @@ public class FaqListActivity extends AppCompatActivity {
                             searchviewfaq.clearFocus();
 
                             getSearchData();
+
                         }else {
 
-                            Toast.makeText(context, "Minimum 3 character length Required", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Minimum 3 character length Required",
+                                    Toast.LENGTH_LONG).show();
                         }
 
                     } else {
                         list=db.getContact((Search_query));
-                            adapter = new FaqListAdapter(list);
+                        adapter = new FaqListAdapter(list);
                             recyclerView.setAdapter(adapter);
                         btn.setVisibility(View.VISIBLE);
                         adapter.notifyDataSetChanged();
@@ -254,7 +265,6 @@ public class FaqListActivity extends AppCompatActivity {
                     iv_searchicon.setVisibility(View.VISIBLE);
 
 
-
                    // Toast.makeText(context, "getdata", Toast.LENGTH_SHORT).show();
 
 
@@ -262,8 +272,6 @@ public class FaqListActivity extends AppCompatActivity {
                 // this is your adapter that will be filtered
                 return true;
             }
-
-
         };
 
         searchviewfaq.setOnQueryTextListener(queryTextListener);
@@ -271,6 +279,7 @@ public class FaqListActivity extends AppCompatActivity {
 
 
         if (NDC.isConnected(context)) {
+
             getSearchData();
 
             adapter = new FaqListAdapter(list);
@@ -340,6 +349,10 @@ super.onResume();
                 onBackPressed();
                 return true;
 
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             case R.id.finpedia:
            /* startActivity(new Intent(getApplicationContext(), FaqCategroyLIstActivity.class));
             ModuleFinJan.courseID = "5";*/
@@ -372,9 +385,10 @@ super.onResume();
 
             case R.id.finstart_c:
 
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
@@ -409,7 +423,7 @@ super.onResume();
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Kindly check your network connection",
@@ -534,48 +548,44 @@ super.onResume();
                         adapter = new FaqAdapter(data);
                         recyclerView.setAdapter(adapter);*//*
 
-
                         *//*for (int i=0; i < faqresp.getResult().getInfo().getFaq()[0].getFaq_qus().length(); i++){
 
-
-
                         }
-
-
 */
 
     private void mtd_refresh_token() {
+
        /* Toast.makeText(context, "expired", Toast.LENGTH_SHORT).show();*/
         RxClient.get(FaqListActivity.this).Login(new loginreq(sharedpreferences.
-                getString(SharedPrefUtils.SpEmail, ""),sharedpreferences.getString(SharedPrefUtils.SpPassword, "")), new Callback<loginresp>() {
+                getString(SharedPrefUtils.SpEmail, ""),
+                sharedpreferences.getString(SharedPrefUtils.SpPassword, "")), new Callback<loginresp>() {
             @Override
             public void success(loginresp loginresp, Response response) {
 
-
-
-
                 if (loginresp.getStatus().equals("200")){
                  //   btn.setVisibility(View.VISIBLE);
-
                     //Toast.makeText(getApplicationContext(),"sucesss"+loginresp.getToken().toString(),Toast.LENGTH_LONG).show();
 
                     editor.putString(SharedPrefUtils.SpRememberToken,loginresp.getToken().toString());
-
                     editor.commit();
+
+                    final Handler handler = new Handler();
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+
+                            getSearchData();
+                            // progressBar.setVisibility(View.INVISIBLE);
+                        }
+                    };
+                    handler.postDelayed(runnable, 500);
+
                     /*adapter.notifyDataSetChanged();*/
                    if(isSearchtoakenExpired) {
                        getSearchData();
                    }else {
-
                    }
                 }
-
-
-
-
-
-
-
             }
 
             @Override
@@ -585,15 +595,14 @@ super.onResume();
 
             }
         });
-
     }
 
 
     private void getSearchData() {
        // Search_query="";
 
-
-
+        //progressBar.setVisibility(View.VISIBLE);
+        mprProgressDialog.show();
         list.clear();
 
         RxClient.get(context).getSearchFieldsForQus(sharedpreferences.getString(SharedPrefUtils.SpRememberToken, ""),
@@ -602,22 +611,49 @@ super.onResume();
                     public void success(faqfulllistresp faqfulllistresp, Response response) {
 
                         if (faqfulllistresp.getStatus().equals("200")){
+
                             for (int i = 0; i <faqfulllistresp.getResult().getInfo().getFaq().length ; i++) {
                                 listDatas = new Faqlistdatas(faqfulllistresp.getResult().getInfo().getFaq()[i].getFaq_qus(),
                                         faqfulllistresp.getResult().getInfo().getFaq()[i].getFaq_ans());
                                 list.add(listDatas);
                             }
+
                             adapter = new FaqListAdapter(list);
                             recyclerView.setAdapter(adapter);
                         }
-
+                       // progressBar.setVisibility(View.INVISIBLE);
+                        mprProgressDialog.dismiss();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
 
+                        faqfulllistresp usere = (faqfulllistresp)
+                                error.getBodyAs(faqfulllistresp.class);
+
+                        try{
+                            String message = usere.getStatus();
+
+                            if(message.equalsIgnoreCase("401")){
+
+                                Toast.makeText(FaqListActivity.this, "No records found",
+                                        Toast.LENGTH_LONG).show();
+
+                                mprProgressDialog.dismiss();
+                            }else if(message.equalsIgnoreCase("402")){
+                                mtd_refresh_token();
+                            }
+                        }catch (Exception e){
+                            Toast.makeText(FaqListActivity.this, "No records found",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+
+                      //  progressBar.setVisibility(View.INVISIBLE);
+
                     }
                 });
+
         /*new Callback<faqresp>() {
                     @Override
                     public void success(faqresp faqresp, Response response) {

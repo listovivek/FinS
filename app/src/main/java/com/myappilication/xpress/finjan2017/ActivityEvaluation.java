@@ -1,6 +1,7 @@
 package com.myappilication.xpress.finjan2017;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,6 +44,8 @@ import com.myappilication.xpress.finjan2017.models.login.login.loginreq;
 import com.myappilication.xpress.finjan2017.models.login.login.loginresp;
 import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.progressstyle.ProgressBarStyle;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.util.ArrayList;
@@ -81,6 +84,8 @@ public class ActivityEvaluation extends AppCompatActivity {
     DbHelper mDBHelper;
     OfflineDatabaseHelper mOfflineDatabaseHelper;
 
+    String current_score;
+
     public static ArrayList<Activity> actEval_act = new ArrayList<>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -91,6 +96,8 @@ public class ActivityEvaluation extends AppCompatActivity {
     ImageButton imageButton, btn_nb_nav;
     Button Ok;
 
+    public static Dialog mprProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +105,9 @@ public class ActivityEvaluation extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(SharedPrefUtils.MyPREFERENCES, Context.MODE_PRIVATE);
         editor = sharedpreferences.edit();
+
+        mprProgressDialog = ProgressBarStyle.getInstance().createProgressDialog(this);
+
 
         mDBHelper = new DbHelper(ActivityEvaluation.this);
         mOfflineDatabaseHelper = new OfflineDatabaseHelper(ActivityEvaluation.this);
@@ -116,6 +126,10 @@ public class ActivityEvaluation extends AppCompatActivity {
                                               DashBoard.mDashBoard.finish();
                                           }
 
+                                          /*if(DashBoard.mDashBoard != null){
+                                              DashBoard.mDashBoard.finish();
+                                          }
+
                                           String listOfmoduleid = getIntent().getStringExtra("list_of_mod_id");
 
                                           mDBHelper.setUserSelectedAnswer(listOfmoduleid,
@@ -129,15 +143,14 @@ public class ActivityEvaluation extends AppCompatActivity {
                                           Go = new Intent(ActivityEvaluation.this, DashBoard.class);
                                           Go.putExtra("list_of_module_id", listOfmoduleid);
                                           startActivity(Go);
-                                          finish();
-                                          //callWebService();
+                                         finish();*/
+                                         callWebService();
                                       }else{
                                           Toast.makeText(ActivityEvaluation.this, "Kindly check your network connection",
                                                   Toast.LENGTH_SHORT).show();
                                       }
                                   }
                               });
-
 
             context = getApplicationContext();
 
@@ -186,16 +199,13 @@ public class ActivityEvaluation extends AppCompatActivity {
         });
 
 
-
-
-
         if (NDC.isConnected(context)) {
             getdata();
 
 
         } else {
             EvelouationAdapter.score=0;
-            adapter = new EvelouationAdapter(ActivityEvaluation.this);
+            adapter = new EvelouationAdapter(ActivityEvaluation.this, bar);
             recyclerView.setAdapter(adapter);
             // db.OnDelete();
             // db.addContact(list);
@@ -206,7 +216,7 @@ public class ActivityEvaluation extends AppCompatActivity {
                 public void run()
                 {
                     String score = String.valueOf(EvelouationAdapter.score++);
-
+                    current_score = score;
                     bar.setText("Score " +score+"/"+ McQData.getInstance().getMCQQuestion().size());
                     /*switch (McqTestMainActivity.scrore) {
                         case 1:
@@ -228,6 +238,13 @@ public class ActivityEvaluation extends AppCompatActivity {
             };
             handler.postDelayed(r, 1000);
 
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    // Call smooth scroll
+                    recyclerView.smoothScrollToPosition(adapter.getItemCount());
+                }
+            });
 
         }
 
@@ -241,7 +258,23 @@ public class ActivityEvaluation extends AppCompatActivity {
 
         ArrayList<String> mcqID = new ArrayList<>();
         ArrayList<String> mcqans = new ArrayList<>();
-        mcqans.add("ans1");
+
+        ArrayList<String> mcqID1 = new ArrayList<>();
+        ArrayList<String> mcqans1 = new ArrayList<>();
+
+       ArrayList<String> ans = McQData.getInstance().getUserSelectedData();
+        ArrayList<String> qu = McQData.getInstance().getMcqID_list();
+
+        for(int t=0; t<ans.size(); t++){
+            mcqans1.add(ans.get(t));
+        }
+
+        for(int t=0; t<qu.size(); t++){
+            mcqID1.add(qu.get(t));
+        }
+
+
+      /*  mcqans.add("ans1");
         mcqans.add("ans2");
         mcqans.add("ans3");
         mcqans.add("ans4");
@@ -253,14 +286,18 @@ public class ActivityEvaluation extends AppCompatActivity {
         mcqID.add("7");
         mcqID.add("2");
         mcqID.add("4");
-        mcqID.add("1");
+        mcqID.add("1");*/
 
+        //String id = sharedpreferences.getString("Module_id", "");
+       // String email = sharedpreferences.getString(SharedPrefUtils.SpEmail, "");
+        mprProgressDialog.show();
 
         RxClient.get(ActivityEvaluation.this).submit(sharedpreferences.
                 getString(SharedPrefUtils.SpRememberToken, ""), new McqTestReq(sharedpreferences.
-                getString(SharedPrefUtils.SpEmail, ""), mcqID
-                , mcqans,
-                sharedpreferences.getString(SharedPrefUtils.SpModuleId, ""), "7"),
+                getString(SharedPrefUtils.SpEmail, ""), mcqID1
+                , mcqans1,
+                        sharedpreferences.getString("Module_id", ""),
+                        ModuleFinJan.courseID,current_score),
                 new Callback<McqTestResp>() {
                     @Override
                     public void success(McqTestResp mcqTestResp, Response response) {
@@ -277,12 +314,17 @@ public class ActivityEvaluation extends AppCompatActivity {
 
                             mOfflineDatabaseHelper.setMCQcompleted(listOfmoduleid, "true");
 
-                            Toast.makeText(ActivityEvaluation.this, "Success", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ActivityEvaluation.this, mcqTestResp.getResult(),
+                                    Toast.LENGTH_LONG).show();
+
+                            mprProgressDialog.dismiss();
 
                             Go = new Intent(ActivityEvaluation.this, DashBoard.class);
-                            Go.putExtra("go_to_calc", true);
+                            Go.putExtra("list_of_module_id", listOfmoduleid);
                             startActivity(Go);
                             finish();
+
+
                         }
 
 
@@ -291,6 +333,8 @@ public class ActivityEvaluation extends AppCompatActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Toast.makeText(ActivityEvaluation.this, error.toString(), Toast.LENGTH_LONG).show();
+                        mprProgressDialog.dismiss();
+                        finish();
                     }
                 });
 
@@ -330,9 +374,10 @@ public class ActivityEvaluation extends AppCompatActivity {
                 return true;
 
             case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
@@ -341,8 +386,8 @@ public class ActivityEvaluation extends AppCompatActivity {
                 }else{
                     Intent i = new Intent(getApplicationContext(), TryFinStart.class);
                     startActivity(i);
-
                 }
+
                 return true;
 
             case R.id.changepassword:
@@ -369,6 +414,10 @@ public class ActivityEvaluation extends AppCompatActivity {
             case R.id.ss_selection:
                 startActivity(new Intent(getApplicationContext(), Scheme.class));
                 // finish();
+                return true;
+
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
                 return true;
 
             /*case R.id.li_invest:
@@ -426,6 +475,13 @@ public class ActivityEvaluation extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                mOfflineDatabaseHelper.deleteAll();
 
                 finish();
                 return true;
@@ -514,7 +570,7 @@ public class ActivityEvaluation extends AppCompatActivity {
                             question1.add(ques);
                             Log.d("Questions", String.valueOf(ques));*/
 
-                            adapter = new EvelouationAdapter(ActivityEvaluation.this);
+                            adapter = new EvelouationAdapter(ActivityEvaluation.this, bar);
                             recyclerView.setAdapter(adapter);
                            // db.OnDelete();
                            // db.addContact(list);
@@ -526,6 +582,7 @@ public class ActivityEvaluation extends AppCompatActivity {
             public void run()
             {
                 String score = String.valueOf(EvelouationAdapter.score++);
+                current_score = score;
                 bar.setText("Score " +score+"/"+ McQData.getInstance().getMCQQuestion().size());
                 /*switch (McqTestMainActivity.scrore) {
                     case 1:
@@ -558,10 +615,18 @@ public class ActivityEvaluation extends AppCompatActivity {
                             {
                             }*/
 
-
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                // Call smooth scroll
+                recyclerView.smoothScrollToPosition(adapter.getItemCount());
+            }
+        });
 
 
                     }
+
+
 
                  /*   @Override
                     public void failure(RetrofitError error) {

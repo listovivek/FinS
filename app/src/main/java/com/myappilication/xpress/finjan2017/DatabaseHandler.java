@@ -29,6 +29,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_CONTACTS = "tblFaq";
     private static final String TABLE_USER = "userdatble";
 
+    private static final String TABLE_ISGETCOUPON = "isusrgetcoupon";
+
     private static final String TABLE_FAQ_FINISHED = "faqfinished";
 
     // Contacts Table Columns names
@@ -42,6 +44,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String FAQKEY_ID = "id";
     private static final String COURSEID_FOR_FAQ = "faqcourseid";
     private static final String FAQ_CONDITION = "condition";
+
+    private static final String isusrId = "isuserId";
+    private static final String isusrgetEmail = "isuseremail";
+    private static final String isusrgetModID = "isusergetModid";
+    private static final String isusrgetExpDate = "isusergetExpDate";
+
+
 
 
     public DatabaseHandler(Context context) {
@@ -67,6 +76,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + FAQKEY_ID + " TEXT," + COURSEID_FOR_FAQ + " TEXT,"
                 + FAQ_CONDITION + " TEXT" + ")";
         db.execSQL(CREATE_FAQ_FINISHED_TABLE);
+
+        String CREATE_IS_USRGET_COUPON ="CREATE TABLE IF NOT EXISTS " + TABLE_ISGETCOUPON + "("
+                + isusrId + " TEXT," + isusrgetEmail + " TEXT," + isusrgetExpDate + " TEXT,"
+                + isusrgetModID + " TEXT" + ")";
+        db.execSQL(CREATE_IS_USRGET_COUPON);
     }
 
 
@@ -79,6 +93,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAQ_FINISHED);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ISGETCOUPON);
         // Create tables again
         onCreate(db);
 
@@ -319,6 +334,13 @@ public void OnDelete()
             } while (cursor.moveToNext());
         }
         return false;
+    }
+
+    public void setIsUsrgCoupon(String email, String modID, String exp) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
     }
 }
 

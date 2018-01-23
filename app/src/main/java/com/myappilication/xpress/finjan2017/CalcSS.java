@@ -26,6 +26,7 @@ import com.myappilication.xpress.finjan2017.menulist.Scheme;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -191,10 +192,15 @@ public class CalcSS extends AppCompatActivity {
                 onBackPressed();
                 return true;
 
-            case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+            case R.id.finstart_c:
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";

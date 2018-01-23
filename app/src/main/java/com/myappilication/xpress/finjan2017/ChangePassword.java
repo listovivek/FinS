@@ -28,7 +28,10 @@ import com.myappilication.xpress.finjan2017.models.login.changepassword.ChangePa
 import com.myappilication.xpress.finjan2017.models.login.changepassword.Changepasswordresp;
 import com.myappilication.xpress.finjan2017.models.login.helpers.NetConnectionDetector;
 import com.myappilication.xpress.finjan2017.models.login.helpers.SharedPrefUtils;
+import com.myappilication.xpress.finjan2017.models.login.offlineDatabase.OfflineDatabaseHelper;
 import com.myappilication.xpress.finjan2017.newfaqcategroylist.FaqCategroyLIstActivity;
+import com.myappilication.xpress.finjan2017.newfeedback.NewFeedbackActivity;
+import com.myappilication.xpress.finjan2017.termscondition.Support;
 import com.myappilication.xpress.finjan2017.webservice.RxClient;
 
 import java.util.ArrayList;
@@ -55,6 +58,9 @@ public class ChangePassword extends AppCompatActivity {
 
     public static ArrayList<Activity> changep_act = new ArrayList<>();
 
+
+    OfflineDatabaseHelper offlineDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +80,8 @@ public class ChangePassword extends AppCompatActivity {
 
         context = ChangePassword.this;
         changep_act.add(ChangePassword.this);
+
+        offlineDB = new OfflineDatabaseHelper(ChangePassword.this);
 
         imageButton = (ImageButton) findViewById(R.id.tb_normal_back);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -95,16 +103,23 @@ public class ChangePassword extends AppCompatActivity {
                 if(newPassword.getText().toString().length() > 0){
                     if(oldPassword.getText().toString().length() > 0){
                         if(confirmPassword.getText().toString().length() > 0){
-                            calWebService();
+
+                            if(newPassword.getText().toString().equalsIgnoreCase(
+                                    oldPassword.getText().toString())){
+                                Toast.makeText(ChangePassword.this, "New password and old password " +
+                                        "should not be same", Toast.LENGTH_LONG).show();
+                            }else{
+                                calWebService();
+                            }
                         }else{
                             Toast.makeText(ChangePassword.this, "Please enter confirm password",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     }else{
-                        Toast.makeText(ChangePassword.this, "Please enter old password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePassword.this, "Please enter old password", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    Toast.makeText(ChangePassword.this, "Please enter new password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangePassword.this, "Please enter new password", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -165,6 +180,10 @@ public class ChangePassword extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ProfileSetting.class));
                 return true;
 
+            case R.id.fin_support:
+                startActivity(new Intent(getApplicationContext(), Support.class));
+                return true;
+
             /*case R.id.finstaffcources:
                 startActivity(new Intent(getApplicationContext(), ModuleFinJan.class));
                 return true;*/
@@ -176,9 +195,10 @@ public class ChangePassword extends AppCompatActivity {
                 return true;
 
             case R.id.finstart_c:
-                String couponcode = sharedpreferences.getString("couponvalidation", "");
+                String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
+                //  String isusrgetModid = sharedpreferences.getString("isusergetmoduleid", "");
 
-                if(couponcode.equalsIgnoreCase("fst104")){
+                if(isusrgetModid.equalsIgnoreCase("5")){
                     Intent i = new Intent(getApplicationContext(), ListofModuleFinjan.class);
                     i.putExtra("moduleID", "5");
                     ModuleFinJan.courseID = "5";
@@ -221,7 +241,7 @@ public class ChangePassword extends AppCompatActivity {
 
             case R.id.feedback:
                 if (NDC.isConnected(context)) {
-                    startActivity(new Intent(getApplicationContext(), FeedActivity.class));
+                    startActivity(new Intent(getApplicationContext(), NewFeedbackActivity.class));
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Kindly check your network connection",
@@ -248,6 +268,14 @@ public class ChangePassword extends AppCompatActivity {
 
                 intent.putExtra("EXIT", true);
                 startActivity(intent);
+
+
+                editor.remove("couponbaseModuleid");
+                editor.remove("isusergetmoduleid");
+                editor.remove("isusergetexpdate");
+                editor.apply();
+
+                offlineDB.deleteAll();
 
                 finish();
                 return true;

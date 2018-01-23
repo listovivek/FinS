@@ -8,6 +8,17 @@ public class SchemeListSchemeArray {
     public String schemes_name;
     public String isin_code;
     public String amc_code;
+    public String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
 
     public String getAmc_code() {
         return amc_code;
